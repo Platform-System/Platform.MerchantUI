@@ -7,6 +7,10 @@ import { Icon } from '@iconify/react';
 import { Locale } from '@/i18n/config';
 import { useSearchParams } from 'next/navigation';
 
+/**
+ * LocaleSwitcher: Thành phần cho phép người dùng chuyển đổi ngôn ngữ hiển thị (EN/VI).
+ * Mục đích: Hỗ trợ đa ngôn ngữ và chuyển đổi mượt mà giữa các quốc gia.
+ */
 export default function LocaleSwitcher() {
   const locale = useLocale();
   const router = useRouter();

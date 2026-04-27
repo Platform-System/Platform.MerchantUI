@@ -1,16 +1,15 @@
 'use client';
 
 import React from 'react';
-import { GlobalAtmosphere } from '../components/HomeDesignSystem';
+import { HomeBackground } from '../components/HomeDesign';
 import { ChapterWeb } from '../components/ChapterWeb';
 import { ChapterSocial } from '../components/ChapterSocial';
 import { ChapterStore } from '../components/ChapterStore';
 
 /**
- * HomeView: The main orchestrator for the homepage.
- * Fixed: Exported as default to match page.tsx expectations.
+ * Home: Thành phần chính điều phối toàn bộ nội dung của trang chủ.
  */
-const HomeView = () => {
+const Home = () => {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = React.useState(false);
 
@@ -36,7 +35,7 @@ const HomeView = () => {
     <div className="relative w-full h-full bg-[#0B0F14] selection:bg-[#22D3EE]/30">
 
       {/* 1. Global Atmosphere (Fixed Background) */}
-      <GlobalAtmosphere />
+      <HomeBackground />
 
       {/* 2. Main Content Sections */}
       <div 
@@ -57,4 +56,4 @@ const HomeView = () => {
   );
 };
 
-export default HomeView;
+export default Home;

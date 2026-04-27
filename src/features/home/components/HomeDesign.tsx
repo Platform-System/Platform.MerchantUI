@@ -10,12 +10,11 @@ import { ISourceOptions } from "@tsparticles/engine";
 import { Icon } from '@iconify/react';
 
 /**
- * HomeDesignSystem V39.5: PURE COSMOS.
- * Removed all custom cursor/spotlight elements. 
- * Interaction is strictly within the particle engine for a clean, professional look.
+ * HomeDesign: Các thành phần trang trí chủ đạo cho trang chủ.
+ * Bao gồm hiệu ứng nền (Background) và các khối hình ảnh tiêu điểm (Hero Visual).
  */
 
-export const GlobalAtmosphere = () => {
+export const HomeBackground = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -132,7 +131,7 @@ export const GlobalAtmosphere = () => {
  * A hyper-premium abstract visual replacing literal images.
  * Features a pulsing quantum core, orbital rings, and interactive light nodes.
  */
-export const AbstractRadiance = () => {
+export const HeroVisual = () => {
   const [mounted, setMounted] = useState(false);
   const rotateX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
   const rotateY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });

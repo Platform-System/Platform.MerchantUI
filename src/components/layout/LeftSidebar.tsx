@@ -3,6 +3,10 @@
 import { CURRENT_USER } from '@/data/mockData';
 import SidebarItem from '../common/SidebarItem';
 
+/**
+ * LeftSidebar: Thanh bên trái hiển thị các lối tắt chức năng nhanh (Avatar, Groups, History, v.v.).
+ * Mục đích: Cung cấp các lối tắt truy cập nhanh vào các tính năng phụ của hệ thống.
+ */
 const LeftSidebar = () => {
   /** Danh sách các lối tắt (Icon-only) */
   const LEFT_SIDEBAR_LINKS = [

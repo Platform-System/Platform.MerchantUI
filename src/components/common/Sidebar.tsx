@@ -6,8 +6,8 @@ import { HeaderTabs } from '@/components/layout/HeaderTabs';
 import { HeaderMenu } from '@/components/layout/HeaderMenu';
 
 /**
- * SidebarNav: Global header for navigation.
- * Removed translations to keep it pure and minimalist.
+ * SidebarNav: Thực chất đây chính là thanh Header nằm ngang ở trên cùng màn hình.
+ * Mục đích: Đóng vai trò là thanh điều hướng chính, bọc lấy Logo, các Tabs và Menu chức năng.
  */
 export default function SidebarNav() {
   return (

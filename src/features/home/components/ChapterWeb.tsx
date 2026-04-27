@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AbstractRadiance } from './HomeDesignSystem';
+import { HeroVisual } from './HomeDesign';
 import { useTranslations } from 'next-intl';
 
 /**
@@ -107,7 +107,7 @@ export const ChapterWeb = () => {
             animate={{ y: [0, -15, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <AbstractRadiance />
+            <HeroVisual />
           </motion.div>
         </motion.div>
 

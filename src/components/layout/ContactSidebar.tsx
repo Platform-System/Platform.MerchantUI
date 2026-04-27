@@ -5,6 +5,10 @@ import { CHATS } from '@/data/mockData';
 import { useChatState } from '@/features/chat/state/useChatState';
 import SidebarItem from '../common/SidebarItem';
 
+/**
+ * ContactSidebar: Thanh bên phải hiển thị danh sách bạn bè đang trực tuyến và ô tìm kiếm nhanh.
+ * Mục đích: Giúp người dùng nhanh chóng mở cửa sổ Chat với bạn bè từ bất kỳ đâu.
+ */
 const ContactSidebar = () => {
   const { openChat } = useChatState();
 

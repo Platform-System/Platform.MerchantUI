@@ -14,8 +14,8 @@ import LocaleSwitcher from './LocaleSwitcher';
 const MENU_BTN_STYLE = "w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-[#e4e6eb] hover:bg-white/10 transition-colors relative";
 
 /**
- * HeaderMenu: Global functional shortcuts.
- * Cleaned version - Multi-language support enabled.
+ * HeaderMenu: Nhóm các phím tắt chức năng nằm ở phía bên phải của thanh Header.
+ * Bao gồm: Nút chuyển ngôn ngữ, Tin nhắn (Messenger), Thông báo (Notifications), và Avatar Profile.
  */
 export const HeaderMenu = () => {
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);

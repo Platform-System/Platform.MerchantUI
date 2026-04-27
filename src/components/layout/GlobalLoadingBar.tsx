@@ -3,6 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname } from '@/i18n/navigation';
 
+/**
+ * GlobalLoadingBar: Thanh tiến trình (loading bar) toàn cục chạy trên mép đỉnh màn hình.
+ * Mục đích: Cung cấp phản hồi thị giác khi người dùng chuyển trang hoặc hệ thống đang xử lý dữ liệu ngầm.
+ */
 export const GlobalLoadingBar = ({ isPending }: { isPending?: boolean }) => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);

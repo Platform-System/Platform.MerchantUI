@@ -18,6 +18,10 @@ const SIDEBAR_ITEM_STYLE = "flex items-center gap-3 p-2 hover:bg-white/10 rounde
 const SIDEBAR_ICON_WRAPPER = "w-9 h-9 flex items-center justify-center shrink-0";
 const SIDEBAR_LABEL_STYLE = "font-semibold text-[16px] text-gray-100 truncate";
 
+/**
+ * SidebarItem: Thành phần đại diện cho một mục đơn lẻ trong các thanh bên (Sidebar).
+ * Mục đích: Hiển thị icon hoặc avatar kèm theo nhãn dán, hỗ trợ tương tác click.
+ */
 const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, color, avatar, onClick }) => (
   /* Khung bao ngoài của mục Sidebar */
   <div className={SIDEBAR_ITEM_STYLE} onClick={onClick}>

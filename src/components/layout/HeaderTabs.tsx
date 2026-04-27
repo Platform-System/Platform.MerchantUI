@@ -5,8 +5,8 @@ import { HeaderIcon } from '@/components/common/HeaderIcon';
 import clsx from 'clsx';
 
 /** 
- * HeaderTabs: Global navigation tabs.
- * Clean version - Removed hover tooltips as requested.
+ * HeaderTabs: Nhóm các tab điều hướng chính nằm ở trung tâm của thanh Header.
+ * Mục đích: Cho phép người dùng chuyển đổi nhanh giữa các trang chính (Home, Social, Store, Library).
  */
 export const HeaderTabs = () => {
   const pathname = usePathname();
