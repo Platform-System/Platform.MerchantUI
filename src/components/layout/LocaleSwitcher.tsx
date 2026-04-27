@@ -39,7 +39,7 @@ export default function LocaleSwitcher() {
     <button
       onClick={toggleLocale}
       disabled={isPending}
-      className={`h-9 px-3 flex items-center gap-2 rounded-full bg-slate-100 dark:bg-white/5 text-slate-900 dark:text-[#e4e6eb] hover:bg-slate-200 dark:hover:bg-white/10 transition-all group ${isPending ? 'opacity-50 cursor-wait' : ''}`}
+      className={`h-9 px-3 flex items-center gap-2 rounded-full bg-white/5 text-[#e4e6eb] hover:bg-white/10 transition-all group ${isPending ? 'opacity-50 cursor-wait' : ''}`}
     >
       <Icon 
         icon="solar:global-linear" 
@@ -47,7 +47,7 @@ export default function LocaleSwitcher() {
       />
       
       {/* Thin Vertical Divider */}
-      <div className="w-[1px] h-3 bg-slate-400/20 dark:bg-white/10" />
+      <div className="w-[1px] h-3 bg-white/10" />
 
       <span className={`text-[9px] font-black tracking-widest transition-transform ${isPending ? 'opacity-40' : ''}`}>
         {locale === 'en' ? 'EN' : 'VI'}

@@ -7,7 +7,7 @@ import NewsFeed from '@/features/social/components/NewsFeed';
 
 export default function SocialPage() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0B0F14] pb-12 flex justify-between">
+    <main className="min-h-screen bg-[#0B0F14] pb-12 flex justify-between">
       <LeftSidebar />
       <NewsFeed />
       <ContactSidebar />

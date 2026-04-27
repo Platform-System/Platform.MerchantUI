@@ -11,7 +11,7 @@ import { HeaderIcon } from '@/components/common/HeaderIcon';
 import LocaleSwitcher from './LocaleSwitcher';
 
 /** Style chung cho các nút chức năng hình tròn trên Header */
-const MENU_BTN_STYLE = "w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/5 text-slate-900 dark:text-[#e4e6eb] hover:bg-slate-200 dark:hover:bg-white/10 transition-colors relative";
+const MENU_BTN_STYLE = "w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-[#e4e6eb] hover:bg-white/10 transition-colors relative";
 
 /**
  * HeaderMenu: Global functional shortcuts.

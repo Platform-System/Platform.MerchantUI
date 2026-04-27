@@ -12,7 +12,7 @@ const ContactSidebar = () => {
     <aside className="fixed right-0 top-14 w-20 h-[calc(100vh-56px)] overflow-y-auto px-2 py-4 hidden lg:block no-scrollbar border-l dark:border-white/5 bg-transparent backdrop-blur-xl">
       <div className="flex flex-col items-center gap-4">
         {/* Actions */}
-        <button className="p-2.5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-all text-slate-500 hover:scale-110">
+        <button className="p-2.5 hover:bg-white/10 rounded-full transition-all text-[#b0b3b8] hover:scale-110">
           <Icon icon="solar:magnifer-bold" width="20" />
         </button>
         

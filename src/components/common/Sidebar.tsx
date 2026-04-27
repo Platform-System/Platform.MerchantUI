@@ -16,9 +16,9 @@ export default function SidebarNav() {
       className="sticky top-0 z-[100] w-full h-14 px-4 overflow-visible"
     >
       {/* Solid Base Layer */}
-      <div className="absolute inset-0 bg-white dark:bg-[#111418] -z-10" />
+      <div className="absolute inset-0 bg-[#0a0a0f] -z-10" />
       {/* Translucent Glass Layer */}
-      <div className="absolute inset-0 bg-white/80 dark:bg-[#111418]/80 backdrop-blur-xl border-b border-slate-200/70 dark:border-white/10 -z-10" />
+      <div className="absolute inset-0 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/10 -z-10" />
       
       <div className="max-w-full mx-auto h-full flex items-center justify-between gap-4 relative z-10">
 

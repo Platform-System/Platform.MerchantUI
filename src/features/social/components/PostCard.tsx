@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Post } from '@/types/feed';
 
 // --- Styles ---
-const ACTION_BTN_STYLE = "flex-1 flex items-center justify-center py-2 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-all text-slate-600 dark:text-[#b0b3b8] hover:text-[#1877f2] dark:hover:text-cyan-400 group";
+const ACTION_BTN_STYLE = "flex-1 flex items-center justify-center py-2 hover:bg-white/10 rounded-lg transition-all text-[#b0b3b8] hover:text-cyan-400 group";
 const STAT_TEXT_STYLE = "hover:underline cursor-pointer font-medium";
 
 // --- Sub-components ---
@@ -29,14 +29,14 @@ interface ReactionBadgeProps {
 }
 
 const ReactionBadge = ({ icon, bgColor, zIndex }: ReactionBadgeProps) => (
-  <div className={`w-5 h-5 ${bgColor} rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526] ${zIndex}`}>
+  <div className={`w-5 h-5 ${bgColor} rounded-full flex items-center justify-center border-2 border-[#1c1e21] ${zIndex}`}>
     <Icon icon={icon} className="text-white" width="10" />
   </div>
 );
 
 const PostCard = ({ post }: { post: Post }) => {
   return (
-    <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm mb-3 ring-1 ring-black/5 dark:ring-white/5 overflow-hidden">
+    <div className="bg-card rounded-xl shadow-sm mb-3 ring-1 ring-white/5 overflow-hidden">
       {/* Header bài viết */}
       <div className="p-3 px-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -58,7 +58,7 @@ const PostCard = ({ post }: { post: Post }) => {
             </div>
           </div>
         </div>
-        <button className="w-9 h-9 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/10 rounded-full transition-colors text-slate-500">
+        <button className="w-9 h-9 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors text-slate-500">
           <Icon icon="solar:menu-dots-bold" width="20" />
         </button>
       </div>
@@ -72,7 +72,7 @@ const PostCard = ({ post }: { post: Post }) => {
 
       {/* Media Content */}
       {post.content && (
-        <div className="bg-slate-100 dark:bg-[#18191a] flex items-center justify-center relative min-h-[200px]">
+        <div className="bg-black/20 flex items-center justify-center relative min-h-[200px]">
           <Image
             src={post.content}
             width={800}
@@ -106,7 +106,7 @@ const PostCard = ({ post }: { post: Post }) => {
       </div>
 
       {/* Các nút tương tác (Icon only) */}
-      <div className="mx-4 py-1 border-t dark:border-white/5 flex items-center justify-between">
+      <div className="mx-4 py-1 border-t border-white/5 flex items-center justify-between">
         <PostAction icon="solar:like-broken" />
         <PostAction icon="solar:chat-line-broken" />
         <PostAction icon="solar:share-broken" />

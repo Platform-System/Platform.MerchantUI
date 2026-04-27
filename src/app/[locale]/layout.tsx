@@ -1,5 +1,4 @@
 import QueryProvider from "@/core/providers/QueryProvider";
-import ThemeProvider from "@/core/providers/ThemeProvider";
 import Sidebar from "@/components/common/Sidebar";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -30,25 +29,23 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <ThemeProvider>
-        <QueryProvider>
-          {/* Persistent Visual Shell Background */}
-          <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-600/10 blur-[120px] pointer-events-none dark:opacity-100 opacity-30 z-0"></div>
-          <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none dark:opacity-100 opacity-30 z-0"></div>
+      <QueryProvider>
+        {/* Persistent Visual Shell Background */}
+        <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-600/10 blur-[120px] pointer-events-none opacity-100 z-0"></div>
+        <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none opacity-100 z-0"></div>
 
-          <div className="flex flex-col h-screen w-screen bg-background text-foreground transition-colors duration-300 relative z-10">
-            <GlobalLoadingBar />
-            <Sidebar />
-            <main
-              style={{ viewTransitionName: 'main-content' } as React.CSSProperties}
-              className="flex-1 relative z-10 overflow-hidden"
-            >
-                {children}
-            </main>
-            <ChatWidget />
-          </div>
-        </QueryProvider>
-      </ThemeProvider>
+        <div className="flex flex-col h-screen w-screen bg-background text-foreground transition-colors duration-300 relative z-10">
+          <GlobalLoadingBar />
+          <Sidebar />
+          <main
+            style={{ viewTransitionName: 'main-content' } as React.CSSProperties}
+            className="flex-1 relative z-10 overflow-hidden"
+          >
+              {children}
+          </main>
+          <ChatWidget />
+        </div>
+      </QueryProvider>
     </NextIntlClientProvider>
   );
 }

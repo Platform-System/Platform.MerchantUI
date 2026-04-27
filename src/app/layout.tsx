@@ -40,11 +40,10 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className="dark" suppressHydrationWarning>
       <body
         className={`${plusJakarta.variable} ${geistMono.variable} ${allura.variable} ${playfair.variable} antialiased h-screen overflow-hidden bg-background text-foreground transition-colors duration-300`}
       >
-        <Script id="theme-logic" src="/theme-init.js" strategy="beforeInteractive" />
         {children}
       </body>
     </html>

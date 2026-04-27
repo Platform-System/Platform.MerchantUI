@@ -14,9 +14,9 @@ interface SidebarItemProps {
 }
 
 /* Các hằng số định nghĩa Style (Sử dụng Tailwind CSS) */
-const SIDEBAR_ITEM_STYLE = "flex items-center gap-3 p-2 hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl cursor-pointer transition-colors h-[52px] w-[356px]";
+const SIDEBAR_ITEM_STYLE = "flex items-center gap-3 p-2 hover:bg-white/10 rounded-xl cursor-pointer transition-colors h-[52px] w-[356px]";
 const SIDEBAR_ICON_WRAPPER = "w-9 h-9 flex items-center justify-center shrink-0";
-const SIDEBAR_LABEL_STYLE = "font-semibold text-[16px] dark:text-gray-100 truncate";
+const SIDEBAR_LABEL_STYLE = "font-semibold text-[16px] text-gray-100 truncate";
 
 const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, color, avatar, onClick }) => (
   /* Khung bao ngoài của mục Sidebar */

@@ -23,7 +23,7 @@ interface StoryBarProps {
 }
 
 const StoryCard = ({ story }: { story: Story }) => (
-  <div className="w-[112px] h-[200px] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] border dark:border-white/5 relative group cursor-pointer overflow-hidden shrink-0 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] active:scale-95">
+  <div className="w-[112px] h-[200px] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-white/5 relative group cursor-pointer overflow-hidden shrink-0 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] active:scale-95">
     <Image src={story.image} fill unoptimized className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={story.user} />
     <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40 group-hover:from-black/20 transition-all"></div>
     <div className={`absolute top-3 left-3 w-9 h-9 rounded-full border-[2.5px] ${story.unread ? 'border-[#0084ff]' : 'border-white/40'} p-0.5 overflow-hidden z-10 shadow-lg backdrop-blur-sm`}>
@@ -50,7 +50,7 @@ const StoryBar: React.FC<StoryBarProps> = ({ stories }) => {
       >
         {/* Create Story Slide */}
         <SwiperSlide className="!w-auto">
-          <div className="w-[112px] h-[200px] bg-white dark:bg-[#242526] rounded-xl shadow-md border dark:border-white/5 relative group cursor-pointer overflow-hidden flex flex-col shrink-0 transition-all duration-300 active:scale-95">
+          <div className="w-[112px] h-[200px] bg-card rounded-xl shadow-md border border-white/5 relative group cursor-pointer overflow-hidden flex flex-col shrink-0 transition-all duration-300 active:scale-95">
             <div className="h-full overflow-hidden relative">
               <Image
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=600&fit=crop"
@@ -61,7 +61,7 @@ const StoryBar: React.FC<StoryBarProps> = ({ stories }) => {
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                 <div className="w-10 h-10 bg-[#0084ff] rounded-full border-[3px] border-white dark:border-[#242526] flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
+                 <div className="w-10 h-10 bg-[#0084ff] rounded-full border-[3px] border-[#1c1e21] flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
                    <Icon icon="solar:add-bold" className="text-white" width="22" />
                  </div>
               </div>
@@ -79,13 +79,13 @@ const StoryBar: React.FC<StoryBarProps> = ({ stories }) => {
 
       {/* Navigation Buttons */}
       <button
-        className="story-prev absolute left-[-12px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-white/80 dark:bg-[#4e4f50]/80 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-500 opacity-0 group-hover/bar:opacity-100 pointer-events-none group-hover/bar:pointer-events-auto hover:scale-110 hover:bg-white dark:hover:bg-[#5e5f60] text-slate-800 dark:text-white"
+        className="story-prev absolute left-[-12px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-500 opacity-0 group-hover/bar:opacity-100 pointer-events-none group-hover/bar:pointer-events-auto hover:scale-110 hover:bg-white/20 text-white"
       >
         <Icon icon="solar:alt-arrow-left-bold" width="18" />
       </button>
 
       <button
-        className="story-next absolute right-[-12px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-white/80 dark:bg-[#4e4f50]/80 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-500 opacity-0 group-hover/bar:opacity-100 pointer-events-none group-hover/bar:pointer-events-auto hover:scale-110 hover:bg-white dark:hover:bg-[#5e5f60] text-slate-800 dark:text-white"
+        className="story-next absolute right-[-12px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-white/10 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-500 opacity-0 group-hover/bar:opacity-100 pointer-events-none group-hover/bar:pointer-events-auto hover:scale-110 hover:bg-white/20 text-white"
       >
         <Icon icon="solar:alt-arrow-right-bold" width="18" />
       </button>

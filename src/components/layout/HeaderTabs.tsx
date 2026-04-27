@@ -32,8 +32,8 @@ export const HeaderTabs = () => {
             className={clsx(
               "flex items-center justify-center h-9 w-11 rounded-xl transition-all duration-150 relative group shrink-0",
               isActive
-                ? "bg-white/5 dark:bg-white/10 text-cyan-500 dark:text-cyan-400 shadow-[inset_0_0_1px_rgba(255,255,255,0.1)]"
-                : "text-slate-500 dark:text-[#b0b3b8] hover:bg-white/5 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-white/10 text-cyan-400 shadow-[inset_0_0_1px_rgba(255,255,255,0.1)]"
+                : "text-[#b0b3b8] hover:bg-white/5 hover:text-white"
             )}
           >
             <div className={clsx("flex items-center justify-center transition-transform", isActive ? "scale-105" : "group-hover:scale-110 active:scale-95")}>

@@ -26,7 +26,7 @@ const LeftSidebar = () => {
            />
         </div>
 
-        <div className="w-8 h-px bg-slate-200 dark:bg-white/10" />
+        <div className="w-8 h-px bg-white/10" />
 
         {/* Action Icons */}
         {LEFT_SIDEBAR_LINKS.map((item, i) => (
