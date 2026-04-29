@@ -1,20 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #f5f5f7;
-  --card: #1c1e21;
-  --popover: #111418;
-}
-
-/* THE NUCLEAR OPTION: Hide scrollbars for EVERY single element */
-*::-webkit-scrollbar {
-  display: none !important;
-}
-
-* {
-  -ms-overflow-style: none !important;
-  scrollbar-width: none !important;
+  --background: #18181b;
+  --foreground: #fafafa;
+  --card: #27272a;
+  --popover: #18181b;
 }
 
 @theme {
@@ -30,6 +20,29 @@
   
   --color-primary: #22d3ee;
   --color-secondary: #8b5cf6;
+  --color-star: #D4AF37;
+  --color-charcoal: #121214;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 /* Enable class-based dark mode for Tailwind v4 */
@@ -43,6 +56,24 @@ body {
   color: var(--foreground);
   font-family: var(--font-plus-jakarta), var(--font-playfair), sans-serif;
   overflow-y: auto;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 @layer components {
@@ -90,6 +121,26 @@ body {
 
 .animate-progress-fast {
   animation: progress-fast 0.8s ease-in-out infinite;
+}
+
+.typed-cursor {
+  display: inline-block;
+  margin-left: 0.08em;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  animation: typed-cursor-blink 0.9s ease-in-out infinite;
+}
+
+@keyframes typed-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0.18;
+  }
 }
 
 /* View Transition API - Chuyển cảnh mềm mại nghệ thuật (Chỉ dành cho vùng nội dung chính) */

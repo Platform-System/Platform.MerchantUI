@@ -5,32 +5,38 @@ import { useTranslations } from 'next-intl';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import React from 'react';
-
-import Typewriter from 'typewriter-effect';
+import Typed from 'typed.js';
 
 /**
- * TypewriterText: Using the professional 'typewriter-effect' library.
+ * TypewriterText: Rich typed headline powered by Typed.js.
  */
 const TypewriterText = ({ text }: { text: string }) => {
+  const typedElementRef = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    if (!typedElementRef.current) {
+      return;
+    }
+
+    const typed = new Typed(typedElementRef.current, {
+      strings: [text],
+      typeSpeed: 58,
+      backSpeed: 30,
+      backDelay: 2200,
+      startDelay: 250,
+      loop: true,
+      showCursor: true,
+      cursorChar: '|',
+    });
+
+    return () => {
+      typed.destroy();
+    };
+  }, [text]);
+
   return (
-    <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter uppercase flex items-center min-h-[1.2em]">
-      <Typewriter
-        key={text}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(text)
-            .pauseFor(3000)
-            .deleteAll()
-            .start();
-        }}
-        options={{
-          autoStart: true,
-          loop: true,
-          delay: 50,
-          cursor: '',
-          wrapperClassName: 'inline-block'
-        }}
-      />
+    <h1 className="min-h-[1.2em] whitespace-nowrap text-[clamp(1.95rem,3.45vw,3.3rem)] font-black uppercase leading-[1.02] tracking-[0.028em] text-white">
+      <span ref={typedElementRef} className="inline-block align-middle pr-[0.04em]" />
     </h1>
   );
 };
@@ -71,8 +77,8 @@ export const ChapterStore = () => {
     <section className="relative flex h-[calc(100vh-3.5rem)] w-full snap-start items-center justify-center overflow-hidden bg-transparent py-20">
       {/* 1. Enhanced Dynamic Background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-[10%] top-[20%] h-[600px] w-[600px] rounded-full bg-blue-600/5 blur-[140px] animate-pulse" />
-        <div className="absolute left-[5%] bottom-[10%] h-[500px] w-[500px] rounded-full bg-cyan-400/5 blur-[120px]" />
+        <div className="absolute right-[10%] top-[20%] h-[600px] w-[600px] rounded-full bg-white/[0.05] blur-[140px] animate-pulse" />
+        <div className="absolute left-[5%] bottom-[10%] h-[500px] w-[500px] rounded-full bg-zinc-400/[0.05] blur-[120px]" />
 
         {/* Subtle Ecosystem Mesh */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -93,13 +99,13 @@ export const ChapterStore = () => {
       >
         {/* Left Side: Staggered Text */}
         <div className="lg:col-span-6 space-y-8 flex flex-col justify-center h-full">
-          <div className="space-y-6">
+          <div className="space-y-6 pl-[0.08em]">
             <motion.div
               variants={{
                 hidden: { opacity: 0, x: -20 },
                 show: { opacity: 1, x: 0 },
               }}
-              className="text-[#22D3EE] text-[9px] font-black uppercase tracking-[0.5em]"
+              className="text-zinc-300 text-[9px] font-black uppercase tracking-[0.42em]"
             >
               {t('eyebrow')}
             </motion.div>
@@ -111,7 +117,7 @@ export const ChapterStore = () => {
                 hidden: { opacity: 0, y: 20 },
                 show: { opacity: 1, y: 0 },
               }}
-              className="text-[#94A3B8] text-sm md:text-lg max-w-md font-medium leading-relaxed"
+              className="text-zinc-400 text-sm md:text-lg max-w-md font-medium leading-relaxed"
             >
               {t('description')}
             </motion.p>
@@ -124,13 +130,13 @@ export const ChapterStore = () => {
             }}
           >
             <Link
-              href="/store/all"
+              href="/store/home"
               className="
                 group relative inline-flex items-center gap-3 rounded-full
                 bg-white px-8 py-4 text-[12px] font-black uppercase tracking-[0.2em] text-black
                 shadow-[0_10px_40px_rgba(255,255,255,0.1)]
                 transition-all duration-500
-                hover:-translate-y-1 hover:bg-[#22D3EE] hover:shadow-[0_20px_60px_rgba(34,211,238,0.3)]
+                hover:-translate-y-1 hover:bg-zinc-200 hover:shadow-[0_20px_60px_rgba(255,255,255,0.16)]
               "
             >
               {t('cta')}
@@ -166,20 +172,20 @@ export const ChapterStore = () => {
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              className="w-[420px] h-[420px] rounded-full border border-cyan-400/[0.05] absolute"
+              className="w-[420px] h-[420px] rounded-full border border-white/[0.05] absolute"
             />
           </div>
 
           {/* Floating Artifacts - Outside the card */}
           <motion.div
             style={{ x: useTransform(mouseXSpring, [-0.5, 0.5], [20, -20]), y: useTransform(mouseYSpring, [-0.5, 0.5], [20, -20]) }}
-            className="absolute top-[15%] right-[10%] z-20 text-cyan-400 opacity-40 blur-[1px]"
+            className="absolute top-[15%] right-[10%] z-20 text-zinc-200 opacity-40 blur-[1px]"
           >
             <Icon icon="solar:box-minimalistic-bold-duotone" width="48" />
           </motion.div>
           <motion.div
             style={{ x: useTransform(mouseXSpring, [-0.5, 0.5], [-30, 30]), y: useTransform(mouseYSpring, [-0.5, 0.5], [-30, 30]) }}
-            className="absolute bottom-[20%] left-[5%] z-20 text-blue-500 opacity-30 blur-[1px]"
+            className="absolute bottom-[20%] left-[5%] z-20 text-zinc-500 opacity-30 blur-[1px]"
           >
             <Icon icon="solar:crown-minimalistic-bold-duotone" width="40" />
           </motion.div>
@@ -204,7 +210,7 @@ export const ChapterStore = () => {
               {/* Header */}
               <div className="flex items-start justify-between" style={{ transform: "translateZ(50px)" }}>
                 <div className="flex items-center gap-5">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-cyan-400 shadow-[inset_0_0_20px_rgba(34,211,238,0.1)]">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-zinc-100 shadow-[inset_0_0_20px_rgba(255,255,255,0.08)]">
                     <Icon icon="solar:shop-2-bold-duotone" className="h-8 w-8" />
                   </div>
                   <div>
@@ -212,9 +218,9 @@ export const ChapterStore = () => {
                     <p className="mt-1 text-[10px] font-bold text-zinc-500 uppercase tracking-widest opacity-60">Buy from creators or become one</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1.5">
-                  <div className="h-1 w-1 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)] animate-pulse" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400">Seller Ready</span>
+                <div className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-3 py-1.5">
+                  <div className="h-1 w-1 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)] animate-pulse" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-zinc-100">Seller Ready</span>
                 </div>
               </div>
 
@@ -229,7 +235,7 @@ export const ChapterStore = () => {
                     key={idx}
                     className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-4 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/10 group/row"
                   >
-                    <Icon icon={item.icon} className="h-5 w-5 text-zinc-500 transition-colors group-hover/row:text-cyan-400" />
+                    <Icon icon={item.icon} className="h-5 w-5 text-zinc-500 transition-colors group-hover/row:text-zinc-100" />
                     <span className="text-sm font-bold text-zinc-400 group-hover/row:text-zinc-200 transition-colors">{item.text}</span>
                   </div>
                 ))}
@@ -242,12 +248,12 @@ export const ChapterStore = () => {
                   <p className="text-xs font-medium text-zinc-500">Open your shop today.</p>
                 </div>
                 <Link
-                  href="/store/all"
+                  href="/store/home"
                   className="
-                    rounded-xl border border-cyan-400/30 bg-cyan-400/5
-                    px-5 py-2.5 text-[10px] font-black uppercase tracking-widest text-cyan-300
+                    rounded-xl border border-white/15 bg-white/8
+                    px-5 py-2.5 text-[10px] font-black uppercase tracking-widest text-zinc-100
                     transition-all duration-300
-                    hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]
+                    hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]
                   "
                 >
                   Become Seller
@@ -256,7 +262,7 @@ export const ChapterStore = () => {
             </div>
 
             {/* Glowing Aura Behind Card */}
-            <div className="pointer-events-none absolute inset-10 -z-10 rounded-full bg-cyan-500/10 blur-[120px]" />
+            <div className="pointer-events-none absolute inset-10 -z-10 rounded-full bg-white/[0.08] blur-[120px]" />
           </motion.div>
         </div>
       </motion.div>

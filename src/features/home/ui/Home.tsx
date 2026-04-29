@@ -32,7 +32,7 @@ const Home = () => {
   };
 
   return (
-    <div className="relative w-full h-full bg-[#0B0F14] selection:bg-[#22D3EE]/30">
+    <div className="relative w-full h-full bg-[#111214] selection:bg-white/20">
 
       {/* 1. Global Atmosphere (Fixed Background) */}
       <HomeBackground />
@@ -41,7 +41,7 @@ const Home = () => {
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className={`relative z-10 w-full snap-y snap-mandatory h-[calc(100vh-3.5rem)] overflow-y-auto custom-scrollbar ${isReady ? 'scroll-smooth' : 'scroll-auto'}`}
+        className={`relative z-10 w-full snap-y snap-mandatory h-[calc(100vh-3.5rem)] overflow-y-auto no-scrollbar ${isReady ? 'scroll-smooth' : 'scroll-auto'}`}
       >
         {/* Section 1: Introduction */}
         <ChapterWeb />

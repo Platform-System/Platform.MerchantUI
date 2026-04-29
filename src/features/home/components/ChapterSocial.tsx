@@ -7,32 +7,38 @@ import { Icon } from '@iconify/react';
 import { Link } from '@/i18n/navigation';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-
-import Typewriter from 'typewriter-effect';
+import Typed from 'typed.js';
 
 /**
- * TypewriterText: Using the professional 'typewriter-effect' library.
+ * TypewriterText: Rich typed headline powered by Typed.js.
  */
 const TypewriterText = ({ text }: { text: string }) => {
+  const typedElementRef = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    if (!typedElementRef.current) {
+      return;
+    }
+
+    const typed = new Typed(typedElementRef.current, {
+      strings: [text],
+      typeSpeed: 58,
+      backSpeed: 30,
+      backDelay: 2200,
+      startDelay: 250,
+      loop: true,
+      showCursor: true,
+      cursorChar: '|',
+    });
+
+    return () => {
+      typed.destroy();
+    };
+  }, [text]);
+
   return (
-    <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter uppercase flex items-center min-h-[1.2em]">
-      <Typewriter
-        key={text}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(text)
-            .pauseFor(3000)
-            .deleteAll()
-            .start();
-        }}
-        options={{
-          autoStart: true,
-          loop: true,
-          delay: 50,
-          cursor: '',
-          wrapperClassName: 'inline-block'
-        }}
-      />
+    <h1 className="min-h-[1.2em] whitespace-nowrap text-[clamp(1.95rem,3.45vw,3.3rem)] font-black uppercase leading-[1.02] tracking-[0.028em] text-white">
+      <span ref={typedElementRef} className="inline-block align-middle pr-[0.04em]" />
     </h1>
   );
 };
@@ -81,9 +87,9 @@ export const ChapterSocial = () => {
     fullScreen: { enable: false },
     fpsLimit: 60,
     particles: {
-      color: { value: "#22D3EE" },
+      color: { value: "#E4E4E7" },
       links: {
-        color: "#22D3EE",
+        color: "#E4E4E7",
         distance: 100, // Thu ngắn liên kết để bớt rối
         enable: true,
         opacity: 0.1,
@@ -122,8 +128,8 @@ export const ChapterSocial = () => {
 
       {/* 2. Global Glows */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[15%] top-[10%] h-[600px] w-[600px] rounded-full bg-purple-600/[0.04] blur-[130px]" />
-        <div className="absolute right-[10%] bottom-[20%] h-[500px] w-[500px] rounded-full bg-blue-500/[0.04] blur-[120px]" />
+        <div className="absolute left-[15%] top-[10%] h-[600px] w-[600px] rounded-full bg-white/[0.04] blur-[130px]" />
+        <div className="absolute right-[10%] bottom-[20%] h-[500px] w-[500px] rounded-full bg-zinc-400/[0.04] blur-[120px]" />
       </div>
 
       <motion.div
@@ -138,10 +144,10 @@ export const ChapterSocial = () => {
       >
         {/* Left Side: Staggered Text */}
         <div className="lg:col-span-6 space-y-8 flex flex-col justify-center h-full">
-          <div className="space-y-6">
+          <div className="space-y-6 pl-[0.08em]">
             <motion.div
               variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}
-              className="text-[#22D3EE] text-[9px] font-black uppercase tracking-[0.5em]"
+              className="text-zinc-300 text-[9px] font-black uppercase tracking-[0.42em]"
             >
               {t('eyebrow')}
             </motion.div>
@@ -150,7 +156,7 @@ export const ChapterSocial = () => {
 
             <motion.p
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-              className="text-[#94A3B8] text-sm md:text-lg max-w-md font-medium leading-relaxed"
+              className="text-zinc-400 text-sm md:text-lg max-w-md font-medium leading-relaxed"
             >
               {t('description')}
             </motion.p>
@@ -167,7 +173,7 @@ export const ChapterSocial = () => {
                 bg-white px-8 py-4 text-[12px] font-black uppercase tracking-[0.2em] text-black
                 shadow-[0_10px_40px_rgba(255,255,255,0.1)]
                 transition-all duration-500
-                hover:-translate-y-1 hover:bg-[#22D3EE] hover:shadow-[0_15px_50px_rgba(34,211,238,0.3)]
+                hover:-translate-y-1 hover:bg-zinc-200 hover:shadow-[0_15px_50px_rgba(255,255,255,0.18)]
               "
             >
               {t('cta')}
@@ -201,18 +207,18 @@ export const ChapterSocial = () => {
                   scale: [1, 1.05, 1]
                 }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -inset-10 bg-cyan-400/10 blur-[50px] rounded-full" 
+                className="absolute -inset-10 bg-white/10 blur-[50px] rounded-full" 
               />
 
-              <div className="relative w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-500 shadow-[0_0_40px_rgba(34,211,238,0.2)]">
+              <div className="relative w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-white via-zinc-300 to-zinc-700 shadow-[0_0_40px_rgba(255,255,255,0.12)]">
                 <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
-                  <Icon icon="solar:user-circle-bold-duotone" className="w-16 h-16 text-cyan-400" />
+                  <Icon icon="solar:user-circle-bold-duotone" className="w-16 h-16 text-zinc-100" />
                 </div>
               </div>
               
-              <div className="absolute -bottom-1 right-2 flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-black/80 px-3 py-1 backdrop-blur-xl">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-cyan-400">Online</span>
+              <div className="absolute -bottom-1 right-2 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/80 px-3 py-1 backdrop-blur-xl">
+                <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
+                <span className="text-[8px] font-black uppercase tracking-widest text-zinc-200">Online</span>
               </div>
             </div>
 
@@ -227,7 +233,7 @@ export const ChapterSocial = () => {
 
             {/* Action Shards */}
             <div className="mt-10 flex gap-3" style={{ transform: "translateZ(60px)" }}>
-              <button className="px-8 py-3.5 rounded-2xl border border-cyan-400/30 bg-cyan-400/10 text-cyan-300 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-cyan-400 hover:text-black transition-all shadow-[0_15px_30px_rgba(34,211,238,0.1)]">
+              <button className="px-8 py-3.5 rounded-2xl border border-white/15 bg-white/8 text-zinc-100 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all shadow-[0_15px_30px_rgba(255,255,255,0.08)]">
                 Follow
               </button>
               <button className="px-6 py-3.5 rounded-2xl border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all">
@@ -245,7 +251,7 @@ export const ChapterSocial = () => {
             className="absolute top-20 right-4 z-10 w-52 rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-3xl shadow-2xl"
           >
             <div className="flex gap-3 items-center">
-              <Icon icon="solar:stars-bold" className="text-cyan-400" width="16" />
+              <Icon icon="solar:stars-bold" className="text-zinc-200" width="16" />
               <p className="text-[11px] text-zinc-300 font-medium">{t('profileShard')}</p>
             </div>
           </motion.div>

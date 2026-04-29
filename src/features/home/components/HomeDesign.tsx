@@ -29,7 +29,7 @@ export const HomeBackground = () => {
 
   const options = useMemo(() => ({
     fullScreen: { enable: true, zIndex: 0 },
-    background: { color: "#0B0F14" },
+    background: { color: "#0B0C0F" },
     fpsLimit: 120,
     interactivity: {
       events: {
@@ -56,13 +56,13 @@ export const HomeBackground = () => {
           distance: 180,
           links: {
             opacity: 0.35,
-            color: "#22D3EE"
+            color: "rgba(255,255,255,0.28)"
           }
         }
       },
     },
     particles: {
-      color: { value: ["#22D3EE", "#3B82F6", "#8B5CF6", "#F8FAFC"] },
+      color: { value: ["#F8FAFC", "#D4D4D8", "#A1A1AA", "#71717A"] },
       links: {
         enable: true,
         distance: 85,
@@ -103,7 +103,7 @@ export const HomeBackground = () => {
           collisions: { enable: false },
           size: { value: 2 },
           opacity: { value: 1 },
-          color: { value: "#22D3EE" }
+          color: { value: "#E4E4E7" }
         }
       }
     ],
@@ -113,11 +113,11 @@ export const HomeBackground = () => {
   if (!init) return <div className="fixed inset-0 bg-transparent" />;
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-[#0B0F14]">
+    <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-[#0B0C0F]">
       {/* BACKGROUND AMBIANCE - Static nebulae only */}
       <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-1/4 left-1/4 w-[60%] h-[60%] bg-[#22D3EE]/5 blur-[180px] rounded-full animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[60%] h-[60%] bg-[#8B5CF6]/5 blur-[180px] rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[60%] h-[60%] bg-white/[0.045] blur-[180px] rounded-full animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[60%] h-[60%] bg-zinc-400/[0.045] blur-[180px] rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
       </div>
 
       <Particles id="tsparticles" options={options as ISourceOptions} />
@@ -162,13 +162,13 @@ export const HeroVisual = () => {
           animate={{
             scale: [1, 1.1, 1],
             boxShadow: [
-              "0 0 50px rgba(34, 211, 238, 0.2)",
-              "0 0 100px rgba(34, 211, 238, 0.4)",
-              "0 0 50px rgba(34, 211, 238, 0.2)"
+              "0 0 50px rgba(255, 255, 255, 0.16)",
+              "0 0 100px rgba(255, 255, 255, 0.26)",
+              "0 0 50px rgba(255, 255, 255, 0.16)"
             ]
           }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute w-32 h-32 bg-gradient-to-br from-[#22D3EE] to-[#3B82F6] rounded-full blur-[2px] z-10"
+          className="absolute w-32 h-32 bg-gradient-to-br from-white via-zinc-300 to-zinc-600 rounded-full blur-[2px] z-10"
         >
           <div className="absolute inset-0 bg-white/20 rounded-full blur-sm animate-pulse" />
         </motion.div>
@@ -187,7 +187,7 @@ export const HeroVisual = () => {
               rotateZ: i * 45
             }}
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#22D3EE] rounded-full shadow-[0_0_10px_#22D3EE]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.9)]" />
           </motion.div>
         ))}
 
@@ -226,11 +226,11 @@ export const HeroVisual = () => {
         ))}
 
         {/* 4. DEPTH LAYERS */}
-        <div className="absolute inset-[-100px] bg-[#22D3EE]/5 blur-[100px] rounded-full -z-10 animate-pulse" />
+        <div className="absolute inset-[-100px] bg-white/[0.05] blur-[100px] rounded-full -z-10 animate-pulse" />
       </motion.div>
 
       {/* 5. AMBIENT ATMOSPHERE */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)]" />
     </div>
   );
 };
@@ -246,20 +246,20 @@ interface ProductCardProps {
 export const ProductCard = ({ name, price, rating, seller, category }: ProductCardProps) => (
   <motion.div 
     whileHover={{ y: -12, scale: 1.02 }} 
-    className="group relative bg-[#1A1D23]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 space-y-5 cursor-pointer hover:border-cyan-500/30 transition-all duration-500 overflow-hidden shadow-2xl"
+    className="group relative bg-[#1A1D23]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 space-y-5 cursor-pointer hover:border-white/20 transition-all duration-500 overflow-hidden shadow-2xl"
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     
     <div className="aspect-square bg-[#0B0F14] rounded-2xl flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-      <Icon icon="solar:box-minimalistic-bold-duotone" width="56" className="text-zinc-700 group-hover:text-cyan-400 transition-all duration-500 group-hover:scale-110" />
+      <Icon icon="solar:box-minimalistic-bold-duotone" width="56" className="text-zinc-700 group-hover:text-white transition-all duration-500 group-hover:scale-110" />
     </div>
 
     <div className="space-y-2 relative z-10">
-      <h4 className="text-white font-bold text-base tracking-tight line-clamp-1 group-hover:text-cyan-100 transition-colors">{name}</h4>
+      <h4 className="text-white font-bold text-base tracking-tight line-clamp-1 group-hover:text-zinc-200 transition-colors">{name}</h4>
       <div className="flex justify-between items-end">
         <div className="space-y-0.5">
-          <span className="text-cyan-400 font-black text-lg tracking-tight">{price}</span>
+          <span className="text-zinc-100 font-black text-lg tracking-tight">{price}</span>
           <div className="flex items-center gap-1 text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
             <Icon icon="solar:star-bold" className="text-yellow-500/80" />
             {rating}
@@ -289,14 +289,14 @@ interface SocialPostProps {
 export const SocialPost = ({ user, handle, content, likes, comments }: SocialPostProps) => (
   <motion.div 
     whileHover={{ scale: 1.01 }}
-    className="group relative bg-[#1A1D23]/60 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-blue-500/30 transition-all duration-500 shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+    className="group relative bg-[#1A1D23]/60 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-white/20 transition-all duration-500 shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
   >
     {/* Inner Aura */}
-    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[2.5rem]" />
+    <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[2.5rem]" />
 
     <div className="flex items-center gap-4 relative z-10">
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 p-[2px] shadow-lg">
-        <div className="w-full h-full rounded-full bg-[#0B0F14] flex items-center justify-center overflow-hidden">
+      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white via-zinc-300 to-zinc-700 p-[2px] shadow-lg">
+        <div className="w-full h-full rounded-full bg-[#0B0C0F] flex items-center justify-center overflow-hidden">
           <span className="text-white font-black text-sm">{user.charAt(0)}</span>
         </div>
       </div>
@@ -312,13 +312,13 @@ export const SocialPost = ({ user, handle, content, likes, comments }: SocialPos
 
     <div className="flex items-center gap-8 pt-6 border-t border-white/5 relative z-10">
       <div className="flex items-center gap-2.5 group/stat cursor-pointer">
-        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover/stat:bg-pink-500/20 group-hover/stat:text-pink-500 transition-all">
+        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover/stat:bg-white/10 group-hover/stat:text-white transition-all">
           <Icon icon="solar:heart-bold" width="20" />
         </div>
         <span className="text-zinc-500 text-xs font-black group-hover/stat:text-white transition-colors">{likes}</span>
       </div>
       <div className="flex items-center gap-2.5 group/stat cursor-pointer">
-        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover/stat:bg-cyan-500/20 group-hover/stat:text-cyan-500 transition-all">
+        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover/stat:bg-white/10 group-hover/stat:text-white transition-all">
           <Icon icon="solar:chat-round-dots-bold" width="20" />
         </div>
         <span className="text-zinc-500 text-xs font-black group-hover/stat:text-white transition-colors">{comments}</span>

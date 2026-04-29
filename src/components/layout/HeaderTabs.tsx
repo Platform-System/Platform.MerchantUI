@@ -14,7 +14,7 @@ export const HeaderTabs = () => {
   const navItems = [
     { path: '/', icon: 'home-linear', activeIcon: 'home-bold' },
     { path: '/social', icon: 'users-linear', activeIcon: 'users-bold' },
-    { path: '/store/all', icon: 'cart-linear', activeIcon: 'cart-bold' },
+    { path: '/store/home', icon: 'cart-linear', activeIcon: 'cart-bold' },
     { path: '/library', icon: 'library-linear', activeIcon: 'library-bold' },
   ];
 
@@ -23,7 +23,9 @@ export const HeaderTabs = () => {
       {navItems.map((item) => {
         const isActive = item.path === '/'
           ? pathname === '/'
-          : pathname.startsWith(item.path);
+          : item.path === '/store/home'
+            ? pathname.startsWith('/store')
+            : pathname.startsWith(item.path);
 
         return (
           <Link
@@ -32,14 +34,14 @@ export const HeaderTabs = () => {
             className={clsx(
               "flex items-center justify-center h-9 w-11 rounded-xl transition-all duration-150 relative group shrink-0",
               isActive
-                ? "bg-white/10 text-cyan-400 shadow-[inset_0_0_1px_rgba(255,255,255,0.1)]"
+                ? "bg-white/10 text-white shadow-[inset_0_0_1px_rgba(255,255,255,0.14)]"
                 : "text-[#b0b3b8] hover:bg-white/5 hover:text-white"
             )}
           >
             <div className={clsx("flex items-center justify-center transition-transform", isActive ? "scale-105" : "group-hover:scale-110 active:scale-95")}>
               <HeaderIcon icon={isActive ? item.activeIcon : item.icon} className="w-6 h-6" />
             </div>
-            {isActive && <div className="absolute bottom-0 inset-x-3 h-[2.5px] bg-cyan-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>}
+            {isActive && <div className="absolute bottom-0 inset-x-3 h-[2.5px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.35)]"></div>}
           </Link>
         );
       })}

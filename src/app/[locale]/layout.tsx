@@ -5,7 +5,6 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, Locale } from '@/i18n/config';
 import ChatWidget from '@/features/chat/ui/ChatWidget';
-import { cookies } from 'next/headers';
 import { GlobalLoadingBar } from "@/components/layout/GlobalLoadingBar";
 import "./globals.css";
 
@@ -31,8 +30,8 @@ export default async function LocaleLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <QueryProvider>
         {/* Persistent Visual Shell Background */}
-        <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-600/10 blur-[120px] pointer-events-none opacity-100 z-0"></div>
-        <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none opacity-100 z-0"></div>
+        <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-white/8 blur-[120px] pointer-events-none opacity-100 z-0"></div>
+        <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-zinc-400/8 blur-[120px] pointer-events-none opacity-100 z-0"></div>
 
         <div className="flex flex-col h-screen w-screen bg-background text-foreground transition-colors duration-300 relative z-10">
           <GlobalLoadingBar />
