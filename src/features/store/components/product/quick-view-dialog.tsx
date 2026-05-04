@@ -35,12 +35,12 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
     images: product.images ?? [product.image],
     variants: 
       product.category?.toLowerCase() === "fashion"
-        ? { colors: [{ name: "Den", value: "#1a1a1a" }, { name: "Nau", value: "#8B4513" }, { name: "Be", value: "#D2B48C" }, { name: "Xanh navy", value: "#000080" }], sizes: ["Nho", "Vua", "Lon"] }
+        ? { colors: [{ name: "Đen", value: "#1a1a1a" }, { name: "Nâu", value: "#8B4513" }, { name: "Vàng đồng", value: "#D2B48C" }, { name: "Xanh Navy", value: "#000080" }], sizes: ["Nhỏ", "Vừa", "Lớn"] }
         : product.category?.toLowerCase() === "beauty"
-          ? { colors: [{ name: "Ban goc", value: "#ffffff" }], sizes: ["50ml", "100ml", "200ml"] }
+          ? { colors: [{ name: "Bản gốc", value: "#ffffff" }], sizes: ["50ml", "100ml", "200ml"] }
           : product.category?.toLowerCase() === "electronics"
-            ? { colors: [{ name: "Den", value: "#1a1a1a" }, { name: "Bac", value: "#c0c0c0" }], sizes: ["Thuong", "Lon"] }
-            : { colors: [{ name: "Den", value: "#1a1a1a" }, { name: "Xam", value: "#808080" }], sizes: ["Thuong", "Lon"] }
+            ? { colors: [{ name: "Đen", value: "#1a1a1a" }, { name: "Bạc", value: "#c0c0c0" }], sizes: ["Thường", "Lớn"] }
+            : { colors: [{ name: "Đen", value: "#1a1a1a" }, { name: "Xám", value: "#808080" }], sizes: ["Thường", "Lớn"] }
   }
 
   const [selectedColor, setSelectedColor] = useState(fullProduct.variants.colors[0])
@@ -193,7 +193,7 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
                         setSelectedColor(color)
                       }}
                       className={cn(
-                        "relative flex h-8 w-8 items-center justify-center rounded-full transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                        "relative flex h-8 w-8 items-center justify-center rounded-full transition-all",
                         selectedColor?.name === color.name
                           ? "store-accent-glow scale-105"
                           : "hover:scale-105"
@@ -204,7 +204,7 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
                         <Check
                           className={cn(
                             "h-4 w-4",
-                            color.name === "Den" || color.name === "Xanh navy"
+                            color.value === "#1a1a1a" || color.value === "#000080"
                               ? "text-white"
                               : "text-charcoal"
                           )}
@@ -227,7 +227,7 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
                         setSelectedSize(size)
                       }}
                       className={cn(
-                        "rounded-lg px-3 py-1.5 text-xs font-medium transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                        "rounded-lg px-3 py-1.5 text-xs font-medium transition-all",
                         selectedSize === size
                           ? "store-accent-soft store-accent-text"
                           : "store-surface-soft store-muted-text hover:bg-[rgb(var(--store-accent-rgb)/0.1)]"
@@ -296,6 +296,7 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
                     image: fullProduct.images[0],
                     color: selectedColor?.name,
                     size: selectedSize,
+                    quantity,
                   })
                   onOpenChange(false)
                 }}
@@ -315,6 +316,7 @@ export function QuickViewDialog({ product, isOpen, onOpenChange }: QuickViewDial
                     image: fullProduct.images[0],
                     color: selectedColor?.name,
                     size: selectedSize,
+                    quantity,
                   })
                   onOpenChange(false)
                 }}

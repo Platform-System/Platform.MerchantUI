@@ -22,7 +22,7 @@ interface CartContextType {
   cartItems: CartItem[]
   isOpen: boolean
   setIsOpen: (open: boolean) => void
-  addToCart: (item: Omit<CartItem, "quantity">) => void
+  addToCart: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void
   removeFromCart: (id: number, color?: string, size?: string) => void
   updateQuantity: (id: number, quantity: number, color?: string, size?: string) => void
   updateItemVariant: (
@@ -62,10 +62,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("nyx_cart", JSON.stringify(cartItems))
   }, [cartItems])
 
-  const addToCart = (item: Omit<CartItem, "quantity">) => {
+  const addToCart = (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
+    const nextQuantity = Math.max(1, item.quantity ?? 1)
+
     toast({
       title: "Giỏ hàng",
-      description: `Đã thêm ${item.name} vào giỏ hàng!`,
+      description:
+        nextQuantity > 1
+          ? `Đã thêm ${nextQuantity} sản phẩm ${item.name} vào giỏ hàng!`
+          : `Đã thêm ${item.name} vào giỏ hàng!`,
     })
 
     setCartItems((prevItems) => {
@@ -73,11 +78,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existingItem) {
         return prevItems.map((i) =>
           i.id === item.id && i.color === item.color && i.size === item.size
-            ? { ...i, quantity: i.quantity + 1 }
+            ? { ...i, quantity: i.quantity + nextQuantity }
             : i
         )
       }
-      return [...prevItems, { ...item, quantity: 1 }]
+      return [...prevItems, { ...item, quantity: nextQuantity }]
     })
   }
 

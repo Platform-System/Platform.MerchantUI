@@ -23,6 +23,9 @@ import {
 import { Link } from "@/i18n/navigation"
 import { ProductCard } from "@/features/store/components/product/product-card"
 import { Button } from "@/features/store/components/ui/button"
+import { useCart } from "@/features/store/context/CartContext"
+import { useWishlist } from "@/features/store/context/WishlistContext"
+import { toast } from "@/features/store/hooks/use-toast"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/features/store/components/ui/tabs"
 import { Calendar } from "@/features/store/components/ui/calendar"
 import { RatingStars } from "@/features/store/components/ui/rating-stars"
@@ -42,10 +45,10 @@ const reviews = [
     author: "Sarah M.",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
     rating: 5,
-    date: "2 weeks ago",
-    title: "Absolutely stunning!",
+    date: "2 tuần trước",
+    title: "Tuyệt đối hoàn mỹ!",
     content:
-      "The quality of this bag exceeded my expectations. The leather is buttery soft and the craftsmanship is impeccable. Worth every penny!",
+      "Chất lượng của chiếc túi này vượt quá mong đợi của tôi. Da mềm như bơ và tay nghề thủ công thật hoàn hảo. Đáng từng xu!",
     helpful: 24,
     images: ["https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200&h=200&fit=crop"],
   },
@@ -54,10 +57,10 @@ const reviews = [
     author: "Michael R.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     rating: 5,
-    date: "1 month ago",
-    title: "Perfect for daily use",
+    date: "1 tháng trước",
+    title: "Hoàn hảo cho nhu cầu hàng ngày",
     content:
-      "I bought this for my wife and she loves it. The bag is spacious enough for all her essentials and looks incredibly elegant.",
+      "Tôi mua chiếc túi này tặng vợ và cô ấy cực kỳ thích. Túi đủ rộng để đựng mọi thứ cần thiết và trông rất sang trọng.",
     helpful: 18,
   },
   {
@@ -65,21 +68,21 @@ const reviews = [
     author: "Emma L.",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
     rating: 4,
-    date: "1 month ago",
-    title: "Great quality, slightly smaller than expected",
+    date: "1 tháng trước",
+    title: "Chất lượng tuyệt vời, hơi nhỏ hơn mong đợi",
     content:
-      "Beautiful bag with excellent craftsmanship. The only reason for 4 stars is that it is slightly smaller than I anticipated. Still love it!",
+      "Túi đẹp với tay nghề thủ công xuất sắc. Lý do duy nhất tôi tặng 4 sao là nó nhỏ hơn một chút so với tôi tưởng tượng. Tuy nhiên vẫn rất thích!",
     helpful: 12,
   },
 ]
 
 const priceHistory = [
-  { month: "Jan", price: 399 },
-  { month: "Feb", price: 379 },
-  { month: "Mar", price: 359 },
-  { month: "Apr", price: 339 },
-  { month: "May", price: 319 },
-  { month: "Now", price: 299 },
+  { month: "Th1", price: 399 },
+  { month: "Th2", price: 385 },
+  { month: "Th3", price: 399 },
+  { month: "Th4", price: 350 },
+  { month: "Th5", price: 320 },
+  { month: "Hiện tại", price: 299 },
 ]
 
 const priceChartConfig = {
@@ -99,7 +102,7 @@ export default function ProductDetailPage() {
   const product = {
     ...baseProduct,
     description:
-      "Crafted from the finest Italian leather, this premium tote bag combines timeless elegance with modern functionality. Perfect for the discerning professional who values both style and substance.",
+      "Được chế tác từ loại da Ý tốt nhất, chiếc túi tote cao cấp này kết hợp vẻ đẹp sang trọng vượt thời gian với tính năng hiện đại. Hoàn hảo cho những chuyên gia tinh tế, những người coi trọng cả phong cách và chất lượng.",
     images:
       baseProduct.images && baseProduct.images.length > 0
         ? [baseProduct.image, ...baseProduct.images]
@@ -112,50 +115,61 @@ export default function ProductDetailPage() {
     seller: {
       ...baseProduct.seller,
       slug: baseProduct.seller.name.toLowerCase().replace(/\s+/g, "-"),
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
-      rating: 4.9,
-      productCount: 156,
-      location: "Milan, Italy",
-      responseTime: "Usually responds within 2 hours",
+      avatar: baseProduct.seller.avatar || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+      rating: baseProduct.seller.rating || 4.9,
+      productCount: baseProduct.seller.productCount || 156,
+      location: baseProduct.seller.location || "Milan, Ý",
+      responseTime: "Thường phản hồi trong vòng 2 giờ",
     },
     variants: {
       colors: [
-        { name: "Black", value: "#1a1a1a" },
-        { name: "Brown", value: "#8B4513" },
-        { name: "Tan", value: "#D2B48C" },
-        { name: "Navy", value: "#000080" },
+        { name: "Đen", value: "#1a1a1a" },
+        { name: "Nâu", value: "#8B4513" },
+        { name: "Vàng đồng", value: "#D2B48C" },
+        { name: "Xanh Navy", value: "#000080" },
       ],
-      sizes: ["Small", "Medium", "Large"],
+      sizes: ["Nhỏ", "Vừa", "Lớn"],
     },
     features: [
-      "100% Italian leather",
-      "Hand-stitched details",
-      'Interior laptop sleeve (fits 15")',
-      "Multiple compartments",
-      "Gold-tone hardware",
-      "Detachable shoulder strap",
+      "100% Da Ý cao cấp",
+      "Chi tiết khâu tay tỉ mỉ",
+      'Ngăn đựng laptop (vừa 15")',
+      "Nhiều ngăn tiện dụng",
+      "Phụ kiện kim loại mạ vàng",
+      "Quai đeo vai tháo rời",
     ],
     stock: 12,
     category:
       baseProduct.category === "fashion"
-        ? "Bags"
+        ? "Túi xách"
         : baseProduct.category === "home"
-          ? "Home Decor"
+          ? "Trang trí"
           : baseProduct.category === "electronics"
-            ? "Gadgets"
-            : "Accessories",
+            ? "Điện tử"
+            : "Phụ kiện",
   }
+
+  const careInstructions = {
+    fashion: "Để duy trì vẻ đẹp cho sản phẩm da, hãy bảo quản trong túi chống bụi khi không sử dụng. Làm sạch bằng vải mềm và khô. Tránh tiếp xúc với nước và ánh nắng trực tiếp quá lâu.",
+    home: "Vệ sinh nhẹ nhàng bằng khăn ẩm hoặc máy hút bụi cầm tay. Tránh sử dụng hóa chất tẩy rửa mạnh để bảo vệ bề mặt và màu sắc sản phẩm.",
+    electronics: "Bảo quản nơi khô ráo, thoáng mát. Sử dụng bộ vệ sinh chuyên dụng cho thiết bị điện tử. Tránh va đập mạnh và tiếp xúc với chất lỏng.",
+    accessories: "Bảo quản trong hộp trang sức hoặc túi mềm để tránh trầy xước. Tránh tiếp xúc với nước hoa, mỹ phẩm và hóa chất để giữ độ sáng bóng.",
+  }
+
+  const currentCare = careInstructions[baseProduct.category as keyof typeof careInstructions] || careInstructions.fashion
 
   const [currentImage, setCurrentImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState(product.variants.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.variants.sizes[1])
-  const [isWishlisted, setIsWishlisted] = useState(false)
   const [selectedDeliveryDate, setSelectedDeliveryDate] = useState<Date | undefined>(() => {
     const defaultDate = new Date()
     defaultDate.setDate(defaultDate.getDate() + 4)
     return defaultDate
   })
+  const { addToCart, setIsOpen: setIsCartOpen } = useCart()
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
+  const isWishlisted = isInWishlist(Number(product.id))
 
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -167,6 +181,57 @@ export default function ProductDetailPage() {
 
   const prevImage = () => {
     setCurrentImage((prev) => (prev - 1 + product.images.length) % product.images.length)
+  }
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: Number(product.id),
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      color: selectedColor.name,
+      size: selectedSize,
+      quantity,
+    })
+  }
+
+  const handleBuyNow = () => {
+    handleAddToCart()
+    setIsCartOpen(true)
+  }
+
+  const handleWishlistToggle = () => {
+    if (isWishlisted) {
+      removeFromWishlist(Number(product.id))
+      return
+    }
+
+    addToWishlist({
+      id: Number(product.id),
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      rating: product.rating,
+      reviews: product.reviewCount,
+      category: baseProduct.category,
+    })
+  }
+
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/store/product/${product.id}`
+
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      toast({
+        title: "Đã sao chép liên kết",
+        description: "Liên kết sản phẩm đã được sao chép vào bộ nhớ tạm.",
+      })
+    } catch {
+      toast({
+        title: "Chưa thể sao chép",
+        description: "Trình duyệt hiện không cho phép sao chép liên kết.",
+      })
+    }
   }
 
   return (
@@ -333,7 +398,7 @@ export default function ProductDetailPage() {
                         <Check
                           className={cn(
                             "absolute inset-0 m-auto h-5 w-5",
-                            color.name === "Black" || color.name === "Navy" ? "text-white" : "text-charcoal"
+                            color.value === "#1a1a1a" || color.value === "#000080" ? "text-[var(--color-primary-foreground)]" : "text-[var(--color-charcoal)]"
                           )}
                         />
                       )}
@@ -385,7 +450,11 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="mb-8 grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto] gap-3">
-                <Button size="lg" className="store-accent-button store-accent-button-strong h-14 w-full">
+                <Button
+                  size="lg"
+                  className="store-accent-button store-accent-button-strong h-14 w-full"
+                  onClick={handleAddToCart}
+                >
                   <ShoppingBag className="mr-2 h-5 w-5" />
                   Thêm vào giỏ
                 </Button>
@@ -393,6 +462,7 @@ export default function ProductDetailPage() {
                   size="lg"
                   variant="outline"
                   className="h-14 w-full"
+                  onClick={handleBuyNow}
                 >
                   Mua ngay
                 </Button>
@@ -400,11 +470,11 @@ export default function ProductDetailPage() {
                   size="icon"
                   variant="outline"
                   className="h-14 w-14"
-                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  onClick={handleWishlistToggle}
                 >
                   <Heart className={cn("h-5 w-5", isWishlisted && "fill-destructive text-destructive")} />
                 </Button>
-                <Button size="icon" variant="outline" className="h-14 w-14">
+                <Button size="icon" variant="outline" className="h-14 w-14" onClick={handleShare}>
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
@@ -480,7 +550,7 @@ export default function ProductDetailPage() {
                 value="features"
                 className="store-muted-text h-12 w-full rounded-[18px] border-none bg-transparent px-5 data-[state=active]:bg-[rgb(var(--store-accent-rgb)/0.12)] data-[state=active]:text-foreground"
               >
-                Tinh nang
+                Tính năng
               </TabsTrigger>
               <TabsTrigger
                 value="delivery"
@@ -498,13 +568,13 @@ export default function ProductDetailPage() {
                 value="reviews"
                 className="store-muted-text h-12 w-full rounded-[18px] border-none bg-transparent px-5 data-[state=active]:bg-[rgb(var(--store-accent-rgb)/0.12)] data-[state=active]:text-foreground"
               >
-                Danh gia ({reviews.length})
+                Đánh giá ({reviews.length})
               </TabsTrigger>
               <TabsTrigger
                 value="pricing"
                 className="store-muted-text h-12 w-full rounded-[18px] border-none bg-transparent px-5 data-[state=active]:bg-[rgb(var(--store-accent-rgb)/0.12)] data-[state=active]:text-foreground"
               >
-                Bien dong gia
+                Biến động giá
               </TabsTrigger>
             </TabsList>
 
@@ -527,9 +597,7 @@ export default function ProductDetailPage() {
                   <div>
                     <h3 className="mb-4 text-lg font-semibold">Hướng dẫn bảo quản</h3>
                     <p className="leading-relaxed text-muted-foreground">
-                      To maintain the beauty of your leather bag, store it in a dust bag when not in use.
-                      Clean with a soft, dry cloth. Avoid exposure to water and direct sunlight for extended
-                      periods. For deeper cleaning, use a leather-specific conditioner.
+                      {currentCare}
                     </p>
                   </div>
                 </div>
@@ -543,7 +611,7 @@ export default function ProductDetailPage() {
                       <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Khung giao dự kiến</p>
                     <h3 className="mt-3 text-2xl font-semibold">
                       {selectedDeliveryDate
-                        ? selectedDeliveryDate.toLocaleDateString("en-US", {
+                        ? selectedDeliveryDate.toLocaleDateString("vi-VN", {
                             weekday: "long",
                             month: "long",
                             day: "numeric",
@@ -551,40 +619,44 @@ export default function ProductDetailPage() {
                         : "Chọn ngày giao hàng"}
                     </h3>
                     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                      Orders are packed within 24 hours and dispatched with premium tracking.
+                      Đơn hàng được đóng gói trong vòng 24 giờ và vận chuyển với mã theo dõi cao cấp.
                     </p>
                   </div>
                   <div className="store-muted-text flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                     <span>Dự kiến nhận: 5-7 ngày</span>
                     <span>Khung ưu tiên: 2-4 ngày</span>
-                    <span className="store-accent-text">Priority eligible</span>
+                    <span className="store-accent-text">Ưu tiên vận chuyển</span>
                   </div>
                 </div>
 
                 <div className="grid gap-8 pt-6 lg:grid-cols-[320px_minmax(0,1fr)]">
                   <div>
-                    <h4 className="mb-2 text-base font-semibold">Delivery Calendar</h4>
+                    <h4 className="mb-2 text-base font-semibold">Lịch giao hàng</h4>
                     <p className="mb-4 text-sm text-muted-foreground">
-                      Pick a preferred delivery date. Premium slots are highlighted automatically.
+                      Chọn ngày giao hàng mong muốn. Các khung giờ cao cấp được tự động làm nổi bật.
                     </p>
                     <Calendar
                       mode="single"
                       selected={selectedDeliveryDate}
                       onSelect={setSelectedDeliveryDate}
-                      className="rounded-xl bg-transparent p-0"
+                      className="mx-auto w-full max-w-[300px] rounded-xl bg-transparent p-0"
                       classNames={{
                         root: "w-full",
                         months: "w-full",
-                        month: "w-full gap-4",
-                        nav: "relative inset-auto mb-3 flex w-full items-center justify-between",
-                        button_previous: "store-surface-soft h-8 w-8 rounded-full hover:bg-[rgb(var(--store-accent-rgb)/0.1)]",
-                        button_next: "store-surface-soft h-8 w-8 rounded-full hover:bg-[rgb(var(--store-accent-rgb)/0.1)]",
-                        month_caption: "mb-2 flex h-auto w-full items-center justify-center px-0",
+                        month: "w-full flex flex-col gap-4",
+                        nav: "relative flex w-full items-center justify-between mb-4",
+                        button_previous: "store-surface-soft h-8 w-8 rounded-full flex items-center justify-center hover:bg-[rgb(var(--store-accent-rgb)/0.1)] transition-colors",
+                        button_next: "store-surface-soft h-8 w-8 rounded-full flex items-center justify-center hover:bg-[rgb(var(--store-accent-rgb)/0.1)] transition-colors",
+                        month_caption: "flex h-8 items-center justify-center px-8",
                         caption_label: "text-sm font-semibold text-foreground",
-                        weekdays: "mb-2 flex",
-                        weekday: "store-muted-text flex-1 text-center text-[11px] uppercase tracking-[0.14em]",
-                        week: "mt-1.5 flex w-full",
-                        day: "text-sm",
+                        table: "w-full border-collapse table-fixed",
+                        weekdays: "flex w-full mb-2",
+                        weekday: "store-muted-text flex-1 text-center text-[10px] font-medium uppercase tracking-[0.14em]",
+                        week: "flex w-full mt-1.5",
+                        day: "flex-1 text-center p-0",
+                        day_button: "mx-auto flex aspect-square h-8 w-8 items-center justify-center rounded-lg text-xs transition-all hover:bg-[rgb(var(--store-accent-rgb)/0.1)] hover:text-foreground",
+                        selected: "store-accent-button !text-white font-bold",
+                        today: "store-accent-soft store-accent-text font-bold",
                       }}
                     />
                   </div>
@@ -595,14 +667,14 @@ export default function ProductDetailPage() {
                         <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Cam kết đóng gói</p>
                         <p className="mt-3 text-base font-medium text-foreground">Đóng gói bảo vệ cao cấp</p>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                          Each order is prepared with dust bag, structure support, and reinforced boxing to protect shape and finish.
+                          Mỗi đơn hàng đều được chuẩn bị với túi chống bụi, khung hỗ trợ và hộp gia cố để bảo vệ hình dáng và bề mặt sản phẩm.
                         </p>
                       </div>
                       <div>
                         <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Ghi chú vận chuyển</p>
                         <p className="mt-3 text-base font-medium text-foreground">Theo dõi xuyên suốt hành trình</p>
                         <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                          Delivery timing may shift slightly during public holidays or in remote service zones, but tracking updates remain live throughout transit.
+                          Thời gian giao hàng có thể thay đổi nhẹ trong các ngày lễ hoặc ở các khu vực vùng sâu vùng xa, nhưng cập nhật theo dõi vẫn sẽ hiển thị trực tiếp trong suốt quá trình vận chuyển.
                         </p>
                       </div>
                     </div>
@@ -610,9 +682,9 @@ export default function ProductDetailPage() {
                     <div className="pt-5">
                       <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Lưu ý giao hàng</p>
                       <ul className="mt-3 space-y-3 text-sm text-muted-foreground">
-                        <li>Luxury items are packed with dust bag and reinforced protective wrapping.</li>
-                        <li>Signature confirmation may be required for high-value orders.</li>
-                        <li>Weekend slots depend on local courier availability.</li>
+                        <li>Các mặt hàng xa xỉ được đóng gói với túi chống bụi và lớp bọc bảo vệ gia cố.</li>
+                        <li>Cần xác nhận chữ ký đối với các đơn hàng có giá trị cao.</li>
+                        <li>Lịch giao hàng cuối tuần tùy thuộc vào sự sẵn có của đơn vị vận chuyển địa phương.</li>
                       </ul>
                     </div>
                   </div>
@@ -625,19 +697,19 @@ export default function ProductDetailPage() {
                 <div className="px-1 py-2">
                     <h3 className="mb-4 text-lg font-semibold">Thông tin vận chuyển</h3>
                   <div className="space-y-4 text-muted-foreground">
-                    <p>Free standard shipping on orders over $100.</p>
-                    <p>Express shipping available at checkout.</p>
-                    <p>Estimated delivery: 5-7 business days (standard)</p>
-                    <p>International shipping available to select countries.</p>
+                    <p>Miễn phí vận chuyển tiêu chuẩn cho đơn hàng trên $100.</p>
+                    <p>Có tùy chọn vận chuyển hỏa tốc khi thanh toán.</p>
+                    <p>Dự kiến giao hàng: 5-7 ngày làm việc (tiêu chuẩn)</p>
+                    <p>Hỗ trợ vận chuyển quốc tế đến một số quốc gia.</p>
                   </div>
                 </div>
                 <div className="px-1 py-2">
                     <h3 className="mb-4 text-lg font-semibold">Chính sách đổi trả</h3>
                   <div className="space-y-4 text-muted-foreground">
-                    <p>30-day return policy for unused items in original packaging.</p>
-                    <p>Free returns on all orders within the US.</p>
-                    <p>Refunds processed within 5-7 business days.</p>
-                    <p>Contact seller directly for any product-specific questions.</p>
+                    <p>Chính sách đổi trả trong 30 ngày cho các mặt hàng chưa qua sử dụng, còn nguyên bao bì.</p>
+                    <p>Miễn phí đổi trả cho tất cả đơn hàng.</p>
+                    <p>Hoàn tiền được xử lý trong vòng 5-7 ngày làm việc.</p>
+                    <p>Liên hệ trực tiếp với người bán nếu có bất kỳ câu hỏi nào về sản phẩm.</p>
                   </div>
                 </div>
               </div>
@@ -700,10 +772,10 @@ export default function ProductDetailPage() {
 
                         <div className="mt-4 flex flex-wrap items-center gap-2">
                           <button className="store-surface-soft store-muted-text rounded-full px-3.5 py-2 text-sm transition-colors hover:bg-[rgb(var(--store-accent-rgb)/0.1)] hover:text-foreground">
-                            Helpful ({review.helpful})
+                            Hữu ích ({review.helpful})
                           </button>
                           <button className="store-muted-text rounded-full px-3.5 py-2 text-sm transition-colors hover:bg-[rgb(var(--store-accent-rgb)/0.08)] hover:text-foreground">
-                            Reply
+                            Trả lời
                           </button>
                         </div>
                       </div>
@@ -724,7 +796,7 @@ export default function ProductDetailPage() {
                     <span className="store-muted-text">Hiện tại: ${product.price}</span>
                     <span className="store-muted-text">Giá gốc: ${product.originalPrice ?? product.price}</span>
                     <span className="store-accent-text">
-                      {discount > 0 ? `Save ${product.originalPrice ? product.originalPrice - product.price : 0}` : "Stable pricing"}
+                      {discount > 0 ? `Tiết kiệm $${product.originalPrice ? product.originalPrice - product.price : 0}` : "Giá ổn định"}
                     </span>
                   </div>
                 </div>
@@ -732,23 +804,33 @@ export default function ProductDetailPage() {
                 <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_300px]">
                   <div>
                     <ChartContainer config={priceChartConfig} className="h-[240px] w-full">
-                      <AreaChart data={priceHistory} margin={{ left: 8, right: 8, top: 10, bottom: 0 }}>
-                        <CartesianGrid vertical={false} stroke="rgb(var(--store-border-rgb) / 0.55)" />
+                      <AreaChart data={priceHistory} margin={{ left: 8, right: 8, top: 20, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid vertical={false} stroke="rgb(var(--store-border-rgb) / 0.45)" strokeDasharray="3 3" />
                         <XAxis
                           dataKey="month"
                           tickLine={false}
                           axisLine={false}
                           tickMargin={12}
-                          tick={{ fill: "rgb(var(--store-muted-rgb))", fontSize: 12 }}
+                          tick={{ fill: "rgb(var(--store-muted-rgb))", fontSize: 11, fontWeight: 500 }}
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+                        <ChartTooltip 
+                          cursor={{ stroke: 'rgb(var(--store-accent-rgb) / 0.2)', strokeWidth: 1 }} 
+                          content={<ChartTooltipContent indicator="dot" />} 
+                        />
                         <Area
                           dataKey="price"
                           type="monotone"
-                          fill="var(--color-price)"
-                          fillOpacity={0.14}
+                          fill="url(#fillPrice)"
                           stroke="var(--color-price)"
-                          strokeWidth={2.5}
+                          strokeWidth={3}
+                          activeDot={{ r: 6, strokeWidth: 0, fill: "var(--color-price)" }}
+                          animationDuration={1500}
                         />
                       </AreaChart>
                     </ChartContainer>
@@ -759,16 +841,16 @@ export default function ProductDetailPage() {
                       <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Thời điểm mua</p>
                       <h4 className="mt-3 text-lg font-semibold">Đang là lúc mua khá tốt</h4>
                       <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                        The price has been stepping down steadily, and the current listing is already near the lowest point in this cycle.
+                        Giá đã giảm dần đều đặn và hiện tại đang ở gần mức thấp nhất trong chu kỳ này.
                       </p>
                     </div>
 
                     <div className="pt-5">
                       <p className="store-muted-text text-[11px] uppercase tracking-[0.18em]">Ghi chú giá</p>
                       <ul className="mt-3 space-y-3 text-sm text-muted-foreground">
-                        <li>Premium collections usually hold price longer after markdown.</li>
-                        <li>Selected variants may return to full price when stock gets low.</li>
-                        <li>Best value is typically during current campaign timing.</li>
+                        <li>Các bộ sưu tập cao cấp thường giữ giá lâu hơn sau khi giảm giá.</li>
+                        <li>Một số phiên bản có thể trở lại giá gốc khi số lượng hàng còn ít.</li>
+                        <li>Giá tốt nhất thường rơi vào thời điểm các chiến dịch khuyến mãi hiện tại.</li>
                       </ul>
                     </div>
                   </div>

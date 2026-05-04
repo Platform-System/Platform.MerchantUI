@@ -27,8 +27,8 @@ import {
   AlertDialogTrigger,
 } from "@/features/store/components/ui/alert-dialog"
 
-const cartColorOptions = ["Den", "Nau", "Be", "Xanh navy"]
-const cartSizeOptions = ["Nho", "Vua", "Lon"]
+const cartColorOptions = ["Đen", "Nâu", "Vàng đồng", "Xanh Navy"]
+const cartSizeOptions = ["Nhỏ", "Vừa", "Lớn"]
 
 export function CartDrawer() {
   const { isOpen, setIsOpen, cartItems, removeFromCart, updateQuantity, updateItemVariant, cartTotal, cartCount, clearCart } = useCart()
@@ -152,7 +152,7 @@ export function CartDrawer() {
                         <h3 className="line-clamp-1 text-sm font-medium tracking-wide text-foreground">{item.name}</h3>
                         <div className="mt-1 flex gap-2">
                           <Select
-                            value={item.color ?? "Den"}
+                            value={item.color ?? "Đen"}
                             onValueChange={(value) =>
                               updateItemVariant(item.id, item.color, item.size, { color: value })
                             }
@@ -173,7 +173,7 @@ export function CartDrawer() {
                           </Select>
 
                           <Select
-                            value={item.size ?? "Vua"}
+                            value={item.size ?? "Vừa"}
                             onValueChange={(value) =>
                               updateItemVariant(item.id, item.color, item.size, { size: value })
                             }
@@ -239,11 +239,11 @@ export function CartDrawer() {
                 <p className="store-muted-text mb-3 text-xs leading-relaxed">Phí vận chuyển và thuế sẽ được tính toán khi hoàn tất thanh toán.</p>
                 <div className="flex gap-2">
                   <Link
-                    href="/cart"
+                    href="/store/cart"
                     onClick={() => setIsOpen(false)}
                     className="store-accent-button flex h-10 flex-1 items-center justify-center rounded-full text-xs font-semibold"
                   >
-                    Thanh toán ngay
+                    Xem giỏ hàng
                   </Link>
                   <Button
                     variant="outline"

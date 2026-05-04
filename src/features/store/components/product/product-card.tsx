@@ -25,6 +25,10 @@ export interface Product {
   seller: {
     name: string
     verified: boolean
+    avatar?: string
+    rating?: number
+    productCount?: number
+    location?: string
   }
   badge?: "new" | "sale" | "bestseller"
   category?: string
@@ -90,7 +94,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 product.badge === "bestseller" && "bg-[rgb(var(--store-ink-rgb)/0.9)] text-white hover:bg-[rgb(var(--store-ink-rgb)/0.9)]"
               )}
             >
-              {product.badge.toUpperCase()}
+              {product.badge === "new" ? "MỚI" : product.badge === "sale" ? "GIẢM GIÁ" : "BÁN CHẠY"}
             </Badge>
           )}
 
@@ -155,8 +159,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
                   name: product.name,
                   price: product.price,
                   image: product.image,
-                  color: "Den",
-                  size: "Nho"
+                  color: "Đen",
+                  size: "Nhỏ"
                 })
               }}
             >
