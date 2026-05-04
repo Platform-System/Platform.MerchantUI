@@ -16,21 +16,21 @@ export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
       <div
         ref={ref}
         className={cn(
-          "flex items-center justify-between gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] transition-all duration-200",
+      "store-surface-soft flex items-center justify-between gap-4 rounded-xl p-4 transition-all duration-200 hover:bg-[rgb(var(--store-accent-rgb)/0.08)]",
           className
         )}
         {...props}
       >
         <div className="flex items-center gap-4">
           {media && (
-            <div className="flex-shrink-0 size-12 rounded-lg overflow-hidden bg-muted flex items-center justify-center text-white">
+            <div className="store-surface-panel flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg text-foreground">
               {media}
             </div>
           )}
           
           <div className="flex flex-col gap-1">
             {title && (
-              <h4 className="text-sm font-medium text-white leading-none">
+              <h4 className="text-sm font-medium leading-none text-foreground">
                 {title}
               </h4>
             )}

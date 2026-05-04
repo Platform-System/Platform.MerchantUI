@@ -39,7 +39,7 @@ export function SectionHeader({
       {...props}
     >
       {subtitle && (
-        <span className="text-sm font-medium text-gold uppercase tracking-widest">
+        <span className="store-accent-subtitle text-sm font-medium uppercase tracking-widest">
           {subtitle}
         </span>
       )}

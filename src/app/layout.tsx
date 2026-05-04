@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono, Allura, Playfair_Display } from "next/font/google";
-import { getLocale } from 'next-intl/server';
+import QueryProvider from "@/core/providers/QueryProvider";
+import { GlobalLoadingBar } from "@/components/layout/GlobalLoadingBar";
+import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -36,14 +38,25 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const locale = await getLocale();
-
   return (
-    <html lang={locale} className="dark" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${plusJakarta.variable} ${geistMono.variable} ${allura.variable} ${playfair.variable} antialiased h-screen overflow-hidden bg-background text-foreground transition-colors duration-300`}
       >
-        {children}
+        <QueryProvider>
+          <div className="fixed top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-white/8 blur-[120px] pointer-events-none opacity-100 z-0" />
+          <div className="fixed bottom-[-10%] right-[-10%] h-[40%] w-[40%] rounded-full bg-zinc-400/8 blur-[120px] pointer-events-none opacity-100 z-0" />
+
+          <div className="relative z-10 flex h-screen w-screen flex-col bg-background text-foreground transition-colors duration-300">
+            <GlobalLoadingBar />
+            <main
+              style={{ viewTransitionName: 'main-content' } as React.CSSProperties}
+              className="relative z-10 flex-1 overflow-hidden"
+            >
+              {children}
+            </main>
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );

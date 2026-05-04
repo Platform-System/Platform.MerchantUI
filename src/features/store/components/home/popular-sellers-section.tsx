@@ -1,9 +1,5 @@
 "use client"
 
-import { Link } from "@/i18n/navigation"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/features/store/components/ui/button"
 import { SellerCard } from "@/features/store/components/seller/seller-card"
 import { popularSellers } from "@/features/store/lib/data"
 
@@ -15,9 +11,9 @@ export function PopularSellersSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <SectionHeader
-          subtitle="Trusted Partners"
-          title="Popular Sellers"
-          description="Discover top-rated sellers with exceptional products and outstanding customer service. Each verified seller meets our quality standards."
+          subtitle="Đối tác tin cậy"
+          title="Nhà bán hàng nổi bật"
+          description="Khám phá những nhà bán hàng được đánh giá cao với sản phẩm chất lượng và dịch vụ tận tâm. Mỗi gian hàng đều được xác thực theo tiêu chuẩn của chúng tôi."
         />
 
         {/* Sellers Grid */}
@@ -28,7 +24,7 @@ export function PopularSellersSection() {
         </div>
 
         {/* View All */}
-        <SectionFooter href="/store/sellers" label="Browse All Sellers" />
+        <SectionFooter href="/store/sellers" label="Xem tất cả nhà bán hàng" />
       </div>
     </section>
   )

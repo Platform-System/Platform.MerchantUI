@@ -35,8 +35,8 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(
       activeCategory,
       setActiveCategory,
       categories,
-      searchPlaceholder = "Search...",
-      allCategoryLabel = "All",
+      searchPlaceholder = "Tìm kiếm...",
+      allCategoryLabel = "Tất cả",
       includeAllOption = false,
       variant = "panel",
       ...props
@@ -50,21 +50,21 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(
 
     const isInline = variant === "inline"
     const searchInputClassName = cn(
-      "h-12 !border-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.028))] pl-12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] focus-visible:ring-gold/50 focus-visible:ring-offset-0",
+      "store-surface-panel h-12 border-0 pl-12 text-foreground focus-visible:ring-primary/50 focus-visible:ring-offset-0",
       isInline ? "rounded-2xl" : "rounded-xl"
     )
     const filterWrapperClassName = cn(
-      "flex h-12 w-full items-center gap-2 !border-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.028))] pl-3 pr-2 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:w-56",
+      "store-surface-panel flex h-12 w-full items-center gap-2 border-0 pl-3 pr-2 text-foreground sm:w-56",
       isInline ? "rounded-2xl" : "justify-center rounded-xl py-2 sm:justify-start"
     )
     const filterTriggerClassName = cn(
-      "flex-grow justify-between border-none bg-white/[0.045] text-white shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:opacity-60",
+      "store-surface-soft flex-grow justify-between border-none text-foreground shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&_svg]:opacity-60",
       isInline
         ? "h-9 rounded-xl px-3"
         : "h-8 rounded-lg px-3"
     )
     const clearButtonClassName = cn(
-      "flex h-12 w-full items-center justify-center gap-2 border-none bg-white/[0.02] px-4 text-sm text-muted-foreground transition-all duration-200 hover:bg-white/[0.05] hover:text-white sm:w-auto",
+      "store-surface-soft flex h-12 w-full items-center justify-center gap-2 border-none px-4 text-sm text-muted-foreground transition-all duration-200 hover:bg-[rgb(var(--store-accent-rgb)/0.1)] hover:text-foreground sm:w-auto",
       isInline ? "rounded-2xl" : "rounded-xl"
     )
 
@@ -74,7 +74,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(
         className={cn(
           isInline
             ? "flex w-full flex-col gap-3 xl:max-w-[620px] xl:flex-row xl:items-center"
-            : "flex w-full flex-col items-center justify-between gap-6 rounded-2xl bg-card p-6 shadow-lg md:flex-row",
+            : "store-surface-panel flex w-full flex-col items-center justify-between gap-6 rounded-2xl p-6 shadow-xl md:flex-row",
           className
         )}
         {...props}
@@ -101,18 +101,18 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(
           {/* Dropdown Filter with Icon */}
           <div className={filterWrapperClassName}>
             <SlidersHorizontal className="h-4 w-4 text-muted-foreground shrink-0" />
-            <span className="text-sm font-medium text-muted-foreground hidden sm:inline">Filter:</span>
+            <span className="text-sm font-medium text-muted-foreground hidden sm:inline">Lọc:</span>
             <Select value={activeCategory} onValueChange={setActiveCategory}>
               <SelectTrigger className={filterTriggerClassName}>
-                <SelectValue placeholder="All Categories" />
+                <SelectValue placeholder="Tất cả danh mục" />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-white rounded-xl">
+              <SelectContent className="rounded-xl shadow-xl">
                 <SelectGroup>
                   {resolvedCategories.map((category) => (
                     <SelectItem
                       key={category}
                       value={category}
-                      className="focus:bg-muted focus:text-white cursor-pointer py-2.5 rounded-lg"
+                      className="cursor-pointer rounded-lg py-2.5 focus:bg-[rgb(var(--store-accent-rgb)/0.1)] focus:text-foreground"
                     >
                       {category}
                     </SelectItem>
@@ -133,7 +133,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(
               className={clearButtonClassName}
             >
               <X className="h-4 w-4" />
-              Clear All
+              Xóa bộ lọc
             </Button>
           )}
         </div>

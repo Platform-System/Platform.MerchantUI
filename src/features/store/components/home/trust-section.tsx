@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star, Quote } from "lucide-react"
+import { Quote } from "lucide-react"
 import Image from "next/image"
 import { RatingStars } from "@/features/store/components/ui/rating-stars"
 
@@ -9,35 +9,27 @@ const testimonials = [
   {
     id: 1,
     name: "Sarah Mitchell",
-    role: "Fashion Buyer",
+    role: "Khách hàng thời trang",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    content: "Nyxoris has completely changed how I shop. The quality of products and the seller verification gives me confidence in every purchase.",
+    content: "Nyxoris đã thay đổi cách tôi mua sắm. Chất lượng sản phẩm và quy trình xác minh nhà bán hàng giúp tôi yên tâm hơn trong mọi đơn hàng.",
     rating: 5,
   },
   {
     id: 2,
     name: "David Chen",
-    role: "Home Decor Enthusiast",
+    role: "Người yêu thích trang trí nhà cửa",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    content: "The curated selection and premium quality make this marketplace stand out. I have found unique pieces I could not find anywhere else.",
+    content: "Sự chọn lọc kỹ càng cùng chất lượng tốt làm cho khu chợ này rất khác biệt. Tôi tìm thấy nhiều món đồ rất riêng mà khó thấy ở nơi khác.",
     rating: 5,
   },
   {
     id: 3,
     name: "Emma Rodriguez",
-    role: "Art Collector",
+    role: "Người sưu tầm nghệ thuật",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    content: "As an art collector, I appreciate the authentication and quality assurance Nyxoris provides. It is my go-to for unique finds.",
+    content: "Là người sưu tầm nghệ thuật, tôi rất đánh giá quy trình xác thực và đảm bảo chất lượng mà Nyxoris mang lại. Đây là nơi tôi ưu tiên khi tìm món đồ độc đáo.",
     rating: 5,
   },
-]
-
-const logos = [
-  { name: "Forbes", width: 80 },
-  { name: "Vogue", width: 70 },
-  { name: "TechCrunch", width: 100 },
-  { name: "Business Insider", width: 90 },
-  { name: "Elle", width: 50 },
 ]
 
 export function TrustSection() {
@@ -54,11 +46,11 @@ export function TrustSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-sm font-medium text-gold uppercase tracking-widest">
-            Testimonials
+          <span className="store-muted-text text-sm font-medium uppercase tracking-widest">
+            Cảm nhận khách hàng
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mt-3 mb-4 text-balance">
-            What Our Customers Say
+            Khách hàng nói gì về Nyxoris
           </h2>
         </motion.div>
 
@@ -70,10 +62,10 @@ export function TrustSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-card rounded-2xl p-6 sm:p-8 border border-border"
+              className="store-surface-panel rounded-2xl p-6 shadow-[0_18px_32px_rgb(15_23_42/0.1)] sm:p-8"
             >
               {/* Quote Icon */}
-              <Quote className="h-8 w-8 text-gold/30 mb-4" />
+              <Quote className="store-muted-text mb-4 h-8 w-8" />
 
               {/* Content */}
               <p className="text-foreground mb-6 leading-relaxed">
@@ -111,10 +103,10 @@ export function TrustSection() {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
         >
           {[
-            { value: "4.9/5", label: "Customer Rating" },
-            { value: "98%", label: "Satisfaction Rate" },
-            { value: "24/7", label: "Customer Support" },
-            { value: "100%", label: "Secure Checkout" },
+            { value: "4.9/5", label: "Đánh giá trung bình" },
+            { value: "98%", label: "Mức độ hài lòng" },
+            { value: "24/7", label: "Hỗ trợ khách hàng" },
+            { value: "100%", label: "Thanh toán an toàn" },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

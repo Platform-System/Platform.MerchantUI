@@ -41,16 +41,16 @@ export function SellerCard({ seller }: SellerCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="group relative bg-card rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer flex flex-col"
+      className="store-surface-panel group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-lg"
     >
       {/* Link Overlay */}
-      <Link href={`/store/seller/${seller.slug}`} scroll={false} className="absolute inset-0 z-20" aria-label={`Visit ${seller.name}`} />
+      <Link href={`/store/seller/${seller.slug}`} scroll={false} className="absolute inset-0 z-20" aria-label={`Xem gian hàng ${seller.name}`} />
 
       {/* Cover Image */}
       <div className="relative h-24 overflow-hidden">
         <Image
           src={seller.coverImage}
-          alt={`${seller.name} cover`}
+          alt={`Anh bia ${seller.name}`}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
@@ -59,13 +59,13 @@ export function SellerCard({ seller }: SellerCardProps) {
 
       {/* Avatar */}
       <div className="relative -mt-8 flex justify-center">
-        <Avatar className="h-16 w-16 border-4 border-card bg-muted">
+        <Avatar className="store-surface-soft h-16 w-16 shadow-[0_10px_24px_rgb(15_23_42/0.1)]">
           <AvatarImage src={seller.avatar} alt={seller.name} className="object-cover" />
           <AvatarFallback>{seller.name.substring(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
         {seller.verified && (
-          <div className="absolute bottom-0 right-1/2 translate-x-8 bg-gold rounded-full p-1 flex items-center justify-center">
-            <Check className="h-3 w-3 text-charcoal" strokeWidth={3} />
+          <div className="store-accent-soft absolute bottom-0 right-1/2 flex translate-x-8 items-center justify-center rounded-full p-1">
+            <Check className="store-accent-text h-3 w-3" strokeWidth={3} />
           </div>
         )}
       </div>
@@ -73,7 +73,7 @@ export function SellerCard({ seller }: SellerCardProps) {
       {/* Content */}
       <div className="p-5 pt-3 text-center flex flex-col flex-grow">
         <Link href={`/store/seller/${seller.slug}`} scroll={false}>
-          <h3 className="font-semibold hover:text-gold transition-colors">{seller.name}</h3>
+          <h3 className="font-semibold transition-colors hover:store-accent-text">{seller.name}</h3>
         </Link>
 
         <div className="flex items-center justify-center gap-1 mt-1.5 text-muted-foreground text-sm">
@@ -90,7 +90,7 @@ export function SellerCard({ seller }: SellerCardProps) {
           </div>
           <div className="flex items-center gap-1 text-muted-foreground">
             <Package className="h-4 w-4" />
-            {seller.productCount} products
+            {seller.productCount} sản phẩm
           </div>
         </div>
 
@@ -99,16 +99,14 @@ export function SellerCard({ seller }: SellerCardProps) {
           {seller.categories.slice(0, 4).map((category) => (
             <Badge
               key={category}
-              variant="secondary"
-              className="px-2.5 py-1 rounded-full text-xs text-muted-foreground border-none hover:bg-muted/80"
+              className="rounded-full px-2.5 py-1 text-xs"
             >
               {category}
             </Badge>
           ))}
           {seller.categories.length > 4 && (
             <Badge
-              variant="secondary"
-              className="px-2.5 py-1 rounded-full text-xs text-muted-foreground border-none hover:bg-muted/80"
+              className="rounded-full px-2.5 py-1 text-xs"
             >
               ...
             </Badge>
@@ -116,11 +114,10 @@ export function SellerCard({ seller }: SellerCardProps) {
         </div>
 
         {/* CTA */}
-        <Button asChild variant="outline" className="w-full mt-5 border-white/20 text-warm-white hover:!bg-white hover:!text-black hover:!border-white group-hover:!bg-white group-hover:!text-black group-hover:!border-white transition-all duration-300 relative z-30">
-          <Link href={`/store/seller/${seller.slug}`} scroll={false}>Visit Store</Link>
+        <Button asChild variant="outline" className="relative z-30 mt-5 w-full transition-all duration-300 group-hover:bg-[rgb(var(--store-accent-rgb)/0.1)]">
+          <Link href={`/store/seller/${seller.slug}`} scroll={false}>Xem gian hàng</Link>
         </Button>
       </div>
     </motion.div>
   )
 }
-

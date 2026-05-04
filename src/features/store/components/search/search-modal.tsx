@@ -84,10 +84,10 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-[5%] left-1/2 -translate-x-1/2 w-full max-w-2xl bg-background rounded-2xl shadow-2xl z-50 overflow-hidden"
+            className="fixed top-[5%] left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 overflow-hidden rounded-2xl bg-background shadow-2xl"
           >
             {/* Search Input */}
-            <div className="p-4 border-b border-border">
+            <div className="p-4">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
@@ -145,7 +145,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                           onClick={() => setQuery(search)}
                           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted transition-colors text-left"
                         >
-                          <span className="text-sm font-medium text-gold">
+                          <span className="store-accent-text text-sm font-medium">
                             {String(index + 1).padStart(2, "0")}
                           </span>
                           <span>{search}</span>
@@ -188,11 +188,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   </div>
 
                   {/* View All Results */}
-                  <div className="mt-4 pt-4 border-t border-border">
+                  <div className="mt-4 pt-2">
                     <Link
                       href={`/store/marketplace?search=${encodeURIComponent(query)}`}
                       onClick={onClose}
-                      className="flex items-center justify-center gap-2 py-3 text-gold hover:text-gold/80 transition-colors"
+                      className="store-accent-text flex items-center justify-center gap-2 py-3 transition-colors hover:opacity-80"
                     >
                       View all results for &quot;{query}&quot;
                       <ArrowRight className="h-4 w-4" />

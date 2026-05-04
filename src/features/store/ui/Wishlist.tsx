@@ -13,11 +13,6 @@ import { Empty, EmptyMedia, EmptyTitle, EmptyDescription } from "@/features/stor
 export function Wishlist() {
   const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
   const { addToCart, setIsOpen: setIsCartOpen } = useCart()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
 
   React.useLayoutEffect(() => {
     const container = document.getElementById('store-scroll-container')
@@ -26,7 +21,7 @@ export function Wishlist() {
     }
   }, [])
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: (typeof wishlistItems)[number]) => {
     addToCart({
       id: item.id,
       name: item.name,
@@ -36,38 +31,21 @@ export function Wishlist() {
     setIsCartOpen(true)
   }
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-transparent pt-24 pb-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-6 mb-10">
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-white tracking-wide flex items-center gap-3">
-                <Heart className="h-8 w-8 text-gold fill-gold/20" />
-                Danh Sách Yêu Thích
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
+        {/* Phần đầu trang */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-6 mb-10">
           <div>
-            <Link href="/store/marketplace" className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-gold transition-colors mb-4">
+            <Link href="/store/marketplace" className="store-muted-text mb-4 inline-flex items-center gap-2 text-sm transition-colors hover:text-foreground">
               <ArrowLeft className="h-4 w-4" />
               Quay lại cửa hàng
             </Link>
-            <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-white tracking-wide flex items-center gap-3">
-              <Heart className="h-8 w-8 text-gold fill-gold/20" />
+            <h1 className="flex items-center gap-3 text-3xl font-serif font-semibold tracking-wide text-foreground sm:text-4xl">
+              <Heart className="store-accent-text store-accent-fill-soft h-8 w-8" />
               Danh Sách Yêu Thích
             </h1>
-            <p className="text-white/40 text-sm mt-2">
+            <p className="store-muted-text mt-2 text-sm">
               Lưu trữ những sản phẩm bạn yêu thích và muốn sở hữu nhất.
             </p>
           </div>
@@ -76,7 +54,7 @@ export function Wishlist() {
             <Button
               variant="outline"
               onClick={clearWishlist}
-              className="border-none text-white/60 hover:text-destructive hover:bg-white/5 rounded-full transition-all self-start md:self-center"
+              className="store-surface-soft self-start rounded-full border-none transition-all hover:bg-destructive/10 hover:text-destructive md:self-center"
             >
               <Trash2 className="h-4 w-4 mr-2" />
               Xóa tất cả
@@ -84,25 +62,25 @@ export function Wishlist() {
           )}
         </div>
 
-        {/* Wishlist Items Grid */}
+        {/* Lưới sản phẩm yêu thích */}
         <AnimatePresence mode="popLayout">
           {wishlistItems.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="flex flex-col items-center justify-center text-center py-20 bg-[#121214]/50 backdrop-blur-md rounded-3xl p-8 shadow-[0_16px_48px_rgba(0,0,0,0.2)] max-w-2xl mx-auto"
+              className="store-surface-panel mx-auto flex max-w-2xl flex-col items-center justify-center rounded-3xl p-8 py-20 text-center shadow-[0_16px_48px_rgb(15_23_42/0.1)]"
             >
               <Empty className="bg-transparent border-none p-0 md:p-0 gap-4 flex flex-col items-center">
-                <EmptyMedia variant="icon" className="bg-white/5 text-white/40 shadow-[0_8px_24px_rgba(0,0,0,0.2)] h-20 w-20 rounded-full flex items-center justify-center">
+                <EmptyMedia variant="icon" className="store-surface-soft store-muted-text flex h-20 w-20 items-center justify-center rounded-full shadow-[0_8px_24px_rgb(15_23_42/0.08)]">
                   <Heart className="h-10 w-10" />
                 </EmptyMedia>
-                <EmptyTitle className="text-xl font-semibold text-white">Danh sách đang trống</EmptyTitle>
-                <EmptyDescription className="text-white/40 max-w-sm mb-4">
+                <EmptyTitle className="text-xl font-semibold text-foreground">Danh sách đang trống</EmptyTitle>
+                <EmptyDescription className="store-muted-text mb-4 max-w-sm">
                   Khám phá hàng ngàn sản phẩm cao cấp và thêm chúng vào danh sách yêu thích của bạn.
                 </EmptyDescription>
               </Empty>
-              <Button asChild className="bg-gold text-charcoal hover:bg-gold/90 font-semibold rounded-full px-8 h-12 shadow-[0_10px_20px_rgba(212,175,55,0.2)] transition-all">
+              <Button asChild className="store-accent-button store-accent-button-strong h-12 rounded-full px-8 font-semibold">
                 <Link href="/store/marketplace">Khám phá ngay</Link>
               </Button>
             </motion.div>
@@ -119,10 +97,10 @@ export function Wishlist() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative bg-[#121214]/80 backdrop-blur-lg rounded-2xl overflow-hidden hover:shadow-[0_12px_32px_rgba(0,0,0,0.3)] transition-all flex flex-col"
+                  className="store-surface-panel group relative flex flex-col overflow-hidden rounded-2xl transition-all hover:shadow-[0_12px_32px_rgb(15_23_42/0.12)]"
                 >
-                  {/* Image Wrapper */}
-                  <div className="relative aspect-square w-full overflow-hidden bg-white/5">
+                  {/* Khung ảnh */}
+                  <div className="store-surface-soft relative aspect-square w-full overflow-hidden">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -131,35 +109,35 @@ export function Wishlist() {
                     />
                     <button
                       onClick={() => removeFromWishlist(item.id)}
-                      className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md text-white/70 hover:text-destructive hover:bg-black/80 transition-all flex items-center justify-center shadow-md z-10"
+                      className="store-surface-panel absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full transition-all hover:text-destructive hover:bg-destructive/10"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
 
-                  {/* Content Wrapper */}
+                  {/* Khung nội dung */}
                   <div className="p-5 flex-1 flex flex-col justify-between gap-4">
                     <div>
                       {item.category && (
-                        <span className="text-[10px] font-semibold text-gold uppercase tracking-widest block mb-1">
+                        <span className="store-accent-subtitle block mb-1 text-[10px] font-semibold uppercase tracking-widest">
                           {item.category}
                         </span>
                       )}
-                      <h3 className="text-base font-medium text-white line-clamp-2 group-hover:text-gold transition-colors">
+                      <h3 className="line-clamp-2 text-base font-medium text-foreground transition-colors group-hover:store-accent-text">
                         {item.name}
                       </h3>
                     </div>
 
                     <div className="flex flex-col gap-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-white">
+                        <span className="text-lg font-bold text-foreground">
                           ${item.price.toLocaleString()}
                         </span>
                       </div>
 
                       <Button
                         onClick={() => handleAddToCart(item)}
-                        className="w-full bg-white hover:bg-gold text-charcoal hover:text-charcoal font-semibold rounded-full transition-all h-10 shadow-sm flex items-center justify-center gap-2 group/btn"
+                        className="store-accent-button store-accent-button-strong group/btn flex h-10 w-full items-center justify-center gap-2 rounded-full font-semibold transition-all"
                       >
                         <ShoppingBag className="h-4 w-4 group-hover/btn:scale-110 transition-transform" />
                         Thêm vào giỏ

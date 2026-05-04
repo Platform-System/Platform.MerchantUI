@@ -1,18 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "@/i18n/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/features/store/components/ui/button"
 import { ProductCard } from "@/features/store/components/product/product-card"
 import { featuredProducts, trendingProducts, newArrivals } from "@/features/store/lib/data"
 import { cn } from "@/features/store/lib/utils"
 
 const tabs = [
-  { id: "featured", label: "Featured", products: featuredProducts },
-  { id: "trending", label: "Trending", products: trendingProducts },
-  { id: "new", label: "New Arrivals", products: newArrivals },
+  { id: "featured", label: "Nổi bật", products: featuredProducts },
+  { id: "trending", label: "Xu hướng", products: trendingProducts },
+  { id: "new", label: "Mới về", products: newArrivals },
 ]
 
 import { SectionFooter } from "./section-header"
@@ -24,7 +21,7 @@ export function FeaturedProductsSection() {
   return (
     <section className="py-24 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Tiêu đề section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -33,11 +30,11 @@ export function FeaturedProductsSection() {
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12"
         >
           <div>
-            <span className="text-sm font-medium text-gold uppercase tracking-widest">
-              Curated Selection
+            <span className="store-accent-subtitle text-sm font-medium uppercase tracking-widest">
+              Chọn lọc dành riêng
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mt-3 text-balance">
-              Explore Our Products
+              Sản phẩm được yêu thích
             </h2>
           </div>
 
@@ -67,7 +64,7 @@ export function FeaturedProductsSection() {
           </div>
         </motion.div>
 
-        {/* Products Grid */}
+        {/* Lưới sản phẩm */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -83,8 +80,8 @@ export function FeaturedProductsSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* View All */}
-        <SectionFooter href="/store/marketplace" label="View All Products" />
+        {/* Nút xem tất cả */}
+        <SectionFooter href="/store/marketplace" label="Xem tất cả sản phẩm" />
       </div>
     </section>
   )

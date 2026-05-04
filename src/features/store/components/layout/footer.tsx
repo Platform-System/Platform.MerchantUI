@@ -36,54 +36,65 @@ import { Link } from "@/i18n/navigation"
 
 const footerLinks = {
   marketplace: [
-    { name: "Browse All", href: "/marketplace" },
-    { name: "Categories", href: "/marketplace#categories" },
-    { name: "New Arrivals", href: "/marketplace?sort=newest" },
-    { name: "Best Sellers", href: "/marketplace?sort=popular" },
-    { name: "Deals", href: "/marketplace?filter=deals" },
+    { name: "Xem tất cả", href: "/store/marketplace" },
+    { name: "Danh mục", href: "/store/marketplace" },
+    { name: "Hàng mới về", href: "/store/marketplace?sort=newest" },
+    { name: "Bán chạy", href: "/store/marketplace?sort=popular" },
+    { name: "Ưu đãi", href: "/store/marketplace?filter=deals" },
   ],
   sellers: [
-    { name: "Become a Seller", href: "/store/become-seller" },
-    { name: "Seller Dashboard", href: "/seller/dashboard" },
-    { name: "Seller Guidelines", href: "/seller-guidelines" },
-    { name: "Success Stories", href: "/seller-stories" },
-    { name: "Seller Support", href: "/seller-support" },
+    { name: "Trở thành nhà bán hàng", href: "/store/become-seller" },
+    { name: "Xem nhà bán hàng", href: "/store/sellers" },
+    { name: "Gian hàng nổi bật", href: "/store/sellers" },
+    { name: "Trang chủ cửa hàng", href: "/store/home" },
+    { name: "Danh sách yêu thích", href: "/store/wishlist" },
   ],
   support: [
-    { name: "Help Center", href: "/help" },
-    { name: "Contact Us", href: "/contact" },
-    { name: "FAQs", href: "/faq" },
-    { name: "Shipping Info", href: "/shipping" },
-    { name: "Returns", href: "/returns" },
+    { name: "Trung tâm hỗ trợ", href: "/store/home" },
+    { name: "Liên hệ", href: "/store/home" },
+    { name: "Câu hỏi thường gặp", href: "/store/home" },
+    { name: "Thông tin vận chuyển", href: "/store/home" },
+    { name: "Đổi trả", href: "/store/home" },
   ],
   company: [
-    { name: "About Us", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Press", href: "/press" },
-    { name: "Blog", href: "/blog" },
-    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Về cửa hàng", href: "/store/home" },
+    { name: "Sản phẩm nổi bật", href: "/store/marketplace" },
+    { name: "Nhà bán hàng hàng đầu", href: "/store/sellers" },
+    { name: "Bán hàng cùng chúng tôi", href: "/store/become-seller" },
+    { name: "Chính sách riêng tư", href: "/store/home" },
   ],
 }
 
 const trustBadges = [
-  { icon: CreditCard, label: "Secure Payment" },
-  { icon: ShieldCheck, label: "Buyer Protection" },
-  { icon: Truck, label: "Fast Delivery" },
-  { icon: Headphones, label: "24/7 Support" },
+  { icon: CreditCard, label: "Thanh toán an toàn" },
+  { icon: ShieldCheck, label: "Bảo vệ người mua" },
+  { icon: Truck, label: "Giao hàng nhanh" },
+  { icon: Headphones, label: "Hỗ trợ 24/7" },
 ]
 
 const socialLinks = [
   { icon: InstagramIcon, href: "#", label: "Instagram" },
-  { icon: TwitterIcon, href: "#", label: "Twitter" },
+  { icon: TwitterIcon, href: "#", label: "X" },
   { icon: FacebookIcon, href: "#", label: "Facebook" },
   { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
 ]
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/8 bg-transparent text-foreground">
-      {/* Trust Badges */}
-      <div className="border-b border-white/8">
+    <footer className="relative text-foreground">
+      {/* Vùng chuyển tiếp: Kết thúc Body bằng màu đậm */}
+      <div className="h-24 w-full bg-gradient-to-b from-transparent to-[rgb(var(--store-surface-rgb)/0.95)]" />
+
+      <div className="relative bg-[rgb(var(--store-surface-rgb)/0.96)]">
+        {/* Lớp ngắt nhẹ và dải sáng (Glow) rực rỡ bắt đầu Footer */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <div className="h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-[rgb(var(--store-accent-rgb)/0.28)] to-transparent" />
+          </div>
+          <div className="pointer-events-none mx-auto -mt-20 h-48 w-full max-w-6xl rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--store-accent-rgb),0.14),transparent_70%)] blur-[110px] opacity-80" />
+        </div>
+
+        {/* Các điểm tin cậy */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {trustBadges.map((badge, index) => (
@@ -93,165 +104,161 @@ export function Footer() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/5 px-4 py-3 shadow-[0_10px_24px_rgba(0,0,0,0.18)]"
+                className="store-surface-panel flex items-center gap-4 rounded-2xl px-5 py-4 transition-all duration-300 hover:border-[rgb(var(--store-accent-rgb)/0.3)] hover:bg-[rgb(var(--store-surface-strong-rgb)/0.98)]"
               >
-                <div className="p-3 rounded-full bg-gold/16">
-                  <badge.icon className="h-5 w-5 text-gold" />
+                <div className="store-accent-soft rounded-full p-3 shadow-inner">
+                  <badge.icon className="store-accent-text h-5 w-5" />
                 </div>
-                <span className="text-sm font-medium">{badge.label}</span>
+                <span className="text-sm font-semibold tracking-wide text-foreground">{badge.label}</span>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Newsletter */}
-      <div className="border-b border-white/8">
+        {/* Khối đăng ký nhận tin */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div>
               <h3 className="font-serif text-2xl font-semibold mb-2">
-                Join the Nyxoris Community
+                Gia nhập cộng đồng Nyxoris
               </h3>
               <p className="text-muted-foreground">
-                Get exclusive offers, new arrivals, and seller updates delivered to your inbox.
+                Nhận ưu đãi độc quyền, sản phẩm mới và cập nhật từ nhà bán hàng qua email.
               </p>
             </div>
             <div className="flex w-full lg:w-auto gap-3">
               <Input
                 type="email"
-                placeholder="Enter your email"
-                className="w-full border-white/10 bg-white/6 placeholder:text-muted-foreground/70 lg:w-80"
+                placeholder="Nhập email của bạn"
+                className="lg:w-80"
               />
-              <Button className="bg-gold hover:bg-gold/90 text-charcoal shrink-0 shadow-[0_12px_24px_rgba(214,185,138,0.2)]">
-                Subscribe
+              <Button className="store-accent-button store-accent-button-strong shrink-0">
+                Đăng ký
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Links */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0">
-            <Link href="/" className="inline-block mb-4">
-              <span className="font-serif text-2xl font-semibold gradient-text">Nyxoris</span>
-            </Link>
-            <p className="text-muted-foreground text-sm mb-6 max-w-xs">
-              The premium multi-vendor marketplace where quality meets discovery. Shop unique
-              products from curated sellers worldwide.
-            </p>
-            <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.label}
-                  href={social.href}
-                  className="rounded-full border border-white/10 bg-white/6 p-2 hover:bg-gold/20 transition-colors"
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-4 w-4 text-warm-white" />
-                </Link>
-              ))}
+        {/* Cụm liên kết */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            {/* Thương hiệu */}
+            <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0">
+              <Link href="/" className="inline-block mb-4">
+                <span className="font-serif text-2xl font-semibold gradient-text">Nyxoris</span>
+              </Link>
+              <p className="text-muted-foreground text-sm mb-6 max-w-xs">
+                Nơi mua sắm đa nhà bán hàng cao cấp, nơi chất lượng gặp gỡ sự chọn lọc tinh tế.
+                Khám phá những sản phẩm độc đáo từ các gian hàng được tuyển chọn.
+              </p>
+              <div className="flex gap-4">
+                {socialLinks.map((social) => (
+                  <Link
+                    key={social.label}
+                    href={social.href}
+                    className="store-surface-soft rounded-full p-2 transition-colors hover:bg-[rgb(var(--store-accent-rgb)/0.1)]"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="h-4 w-4 text-foreground" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Marketplace */}
+            <div>
+              <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
+                Cửa hàng
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.marketplace.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:store-accent-text"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Dành cho seller */}
+            <div>
+              <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
+                Dành cho nhà bán hàng
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.sellers.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:store-accent-text"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Hỗ trợ */}
+            <div>
+              <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
+                Hỗ trợ
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.support.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:store-accent-text"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Công ty */}
+            <div>
+              <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
+                Thông tin
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:store-accent-text"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-
-          {/* Marketplace */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
-              Marketplace
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.marketplace.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* For Sellers */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
-              For Sellers
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.sellers.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
-              Support
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.support.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-foreground">
-              Company
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/8">
+        {/* Thanh cuối footer */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
               &copy; {new Date().getFullYear()} Nyxoris. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
-                Terms of Service
+              <Link href="/store/home" className="text-sm text-muted-foreground hover:text-foreground">
+                Điều khoản sử dụng
               </Link>
-              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
-                Privacy Policy
+              <Link href="/store/home" className="text-sm text-muted-foreground hover:text-foreground">
+                Chính sách riêng tư
               </Link>
-              <Link href="/cookies" className="text-sm text-muted-foreground hover:text-foreground">
-                Cookies
+              <Link href="/store/home" className="text-sm text-muted-foreground hover:text-foreground">
+                Cookie
               </Link>
             </div>
           </div>

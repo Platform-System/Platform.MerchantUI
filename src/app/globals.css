@@ -1,0 +1,339 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f5f2;
+  --foreground: #1f2a37;
+  --card: #fffcf8;
+  --popover: #fffdf9;
+
+  /* Nguồn chỉnh màu chính của store:
+     Đổi các giá trị bên dưới nếu muốn đổi accent, độ glow và độ đậm của shadow trên toàn bộ store. */
+  --store-accent-rgb: 15 118 110;
+  --store-star-rgb: 192 139 92;
+  --store-accent-soft-alpha: 0.12;
+  --store-accent-soft-hover-alpha: 0.18;
+  --store-accent-glow-alpha: 0.16;
+  --store-accent-glow-subtle-alpha: 0.1;
+  --store-accent-shadow-alpha: 0.22;
+  --store-accent-shadow-strong-alpha: 0.28;
+  --store-surface-rgb: 255 252 248;
+  --store-surface-strong-rgb: 255 255 252;
+  --store-border-rgb: 217 222 229;
+  --store-muted-rgb: 91 102 115;
+  --store-ink-rgb: 31 42 55;
+}
+
+@theme {
+  --font-sans: var(--font-plus-jakarta);
+  --font-mono: var(--font-geist-mono);
+  --font-allura: var(--font-allura);
+  --font-serif: var(--font-playfair);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  
+  --color-primary: #0f766e;
+  --color-secondary: #dff3f1;
+  --color-gold: #c08b5c;
+  --color-star: #c08b5c;
+  --color-charcoal: #1f2a37;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* Enable class-based dark mode for Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+/* Permanent Dark Mode Configuration */
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-plus-jakarta), var(--font-playfair), sans-serif;
+  overflow-y: auto;
+}
+
+.store-theme {
+  /* Token riêng cho khu vực /store:
+     Các UI dùng chung như Button, Badge, Input, Calendar... trong store sẽ ăn theo bảng màu này. */
+  --color-primary: rgb(var(--store-accent-rgb));
+  --color-primary-foreground: #fffaf2;
+  --color-secondary: rgb(var(--store-surface-rgb));
+  --color-secondary-foreground: rgb(var(--store-ink-rgb));
+  --color-ring: rgb(var(--store-accent-rgb));
+  --color-gold: rgb(var(--store-star-rgb));
+  --color-star: rgb(var(--store-star-rgb));
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .glass-panel {
+    @apply backdrop-blur-2xl;
+    background-color: rgb(var(--store-surface-rgb) / 0.9);
+    border-color: rgb(var(--store-border-rgb) / 0.8);
+  }
+
+  /* Helper semantic cho store:
+     Ưu tiên dùng các class bên dưới thay vì lặp lại màu/shadow bằng tay trong từng component. */
+  .store-accent-text {
+    color: rgb(var(--store-accent-rgb));
+  }
+
+  .store-accent-subtitle {
+    color: rgb(var(--store-accent-rgb));
+  }
+
+  .store-accent-soft {
+    background-color: rgb(var(--store-accent-rgb) / var(--store-accent-soft-alpha));
+    color: rgb(var(--store-accent-rgb));
+  }
+
+  .store-accent-soft-hover {
+    background-color: rgb(var(--store-accent-rgb) / var(--store-accent-soft-alpha));
+    color: rgb(var(--store-accent-rgb));
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .store-accent-soft-hover:hover {
+    background-color: rgb(var(--store-accent-rgb) / var(--store-accent-soft-hover-alpha));
+  }
+
+  .store-accent-glow {
+    background-color: rgb(var(--store-accent-rgb) / var(--store-accent-glow-alpha));
+  }
+
+  .store-accent-glow-subtle {
+    background-color: rgb(var(--store-accent-rgb) / var(--store-accent-glow-subtle-alpha));
+  }
+
+  .store-accent-border {
+    border-color: rgb(var(--store-accent-rgb));
+  }
+
+  .store-accent-fill-soft {
+    fill: rgb(var(--store-accent-rgb) / 0.2);
+  }
+
+  .store-accent-button {
+    background-color: rgb(var(--store-accent-rgb));
+    color: #fffaf2;
+    box-shadow: 0 10px 20px rgb(var(--store-accent-rgb) / var(--store-accent-shadow-alpha));
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease;
+  }
+
+  .store-accent-button:hover {
+    background-color: rgb(var(--store-accent-rgb) / 0.9);
+  }
+
+  .store-total-value {
+    color: rgb(var(--store-accent-rgb));
+    font-weight: 700;
+  }
+
+  .store-accent-button-strong {
+    box-shadow: 0 10px 20px rgb(var(--store-accent-rgb) / var(--store-accent-shadow-strong-alpha));
+  }
+
+  .store-accent-hover-bg:hover {
+    background-color: rgb(var(--store-accent-rgb));
+    color: #fffaf2;
+  }
+
+  .store-surface-panel {
+    background-color: rgb(var(--store-surface-rgb) / 0.88);
+    border: 1px solid rgb(var(--store-border-rgb) / 0.9);
+    box-shadow: 0 18px 40px rgb(15 23 42 / 0.08);
+    backdrop-filter: blur(18px);
+  }
+
+  .store-surface-panel-strong {
+    background-color: rgb(var(--store-surface-strong-rgb) / 0.94);
+    border: 1px solid rgb(var(--store-border-rgb) / 0.95);
+    box-shadow: 0 20px 44px rgb(15 23 42 / 0.1);
+    backdrop-filter: blur(20px);
+  }
+
+  .store-surface-soft {
+    background-color: rgb(var(--store-surface-rgb) / 0.7);
+    border: 1px solid rgb(var(--store-border-rgb) / 0.75);
+  }
+
+  .store-surface-tint {
+    background-color: rgb(var(--store-accent-rgb) / 0.08);
+    border: 1px solid rgb(var(--store-accent-rgb) / 0.14);
+  }
+
+  .store-surface-tint-strong {
+    background-color: rgb(var(--store-accent-rgb) / 0.14);
+    border: 1px solid rgb(var(--store-accent-rgb) / 0.2);
+  }
+
+  .store-muted-text {
+    color: rgb(var(--store-muted-rgb));
+  }
+
+  .store-strong-text {
+    color: rgb(var(--store-ink-rgb));
+  }
+
+  .store-icon-button {
+    background-color: rgb(var(--store-surface-rgb) / 0.82);
+    border: 1px solid rgb(var(--store-border-rgb) / 0.8);
+    color: rgb(var(--store-ink-rgb));
+    box-shadow: 0 12px 28px rgb(15 23 42 / 0.08);
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .store-icon-button:hover {
+    background-color: rgb(var(--store-accent-rgb) / 0.1);
+    border-color: rgb(var(--store-accent-rgb) / 0.18);
+    color: rgb(var(--store-ink-rgb));
+  }
+}
+
+
+@keyframes typing {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  animation: typing 1s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes progress-fast {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-progress-fast {
+  animation: progress-fast 0.8s ease-in-out infinite;
+}
+
+.typed-cursor {
+  display: inline-block;
+  margin-left: 0.08em;
+  color: rgba(31, 42, 55, 0.8);
+  font-weight: 300;
+  animation: typed-cursor-blink 0.9s ease-in-out infinite;
+}
+
+@keyframes typed-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0.18;
+  }
+}
+
+/* View Transition API - Chuyển cảnh mềm mại nghệ thuật (Chỉ dành cho vùng nội dung chính) */
+::view-transition-old(main-content) {
+  animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+}
+
+::view-transition-new(main-content) {
+  animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+}
+
+/* Giữ Header đứng yên, không bị hiệu ứng blur khi đổi ngôn ngữ */
+::view-transition-group(global-header) {
+  animation-duration: 0s;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}

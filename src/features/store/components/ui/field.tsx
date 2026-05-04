@@ -16,7 +16,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
     return (
       <div ref={ref} className={cn("flex flex-col gap-2", className)} {...props}>
         {label && (
-          <Label className="text-sm font-medium text-white flex items-center gap-1">
+          <Label className="flex items-center gap-1 text-sm font-medium text-foreground">
             {label}
             {required && <span className="text-destructive">*</span>}
           </Label>

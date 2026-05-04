@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useLayoutEffect } from "react"
+import { useState, useLayoutEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, SlidersHorizontal, Grid3X3, LayoutGrid, ChevronDown } from "lucide-react"
@@ -19,7 +19,6 @@ import { cn } from "@/features/store/lib/utils"
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -29,12 +28,12 @@ import {
 const allProducts = [...featuredProducts, ...trendingProducts, ...newArrivals]
 
 const sortOptions = [
-  { value: "featured", label: "Featured" },
-  { value: "newest", label: "Newest" },
-  { value: "price-low", label: "Price: Low to High" },
-  { value: "price-high", label: "Price: High to Low" },
-  { value: "rating", label: "Highest Rated" },
-  { value: "popular", label: "Most Popular" },
+  { value: "featured", label: "Nổi bật" },
+  { value: "newest", label: "Mới nhất" },
+  { value: "price-low", label: "Giá: Thấp đến cao" },
+  { value: "price-high", label: "Giá: Cao đến thấp" },
+  { value: "rating", label: "Đánh giá cao nhất" },
+  { value: "popular", label: "Phổ biến nhất" },
 ]
 
 export function Marketplace() {
@@ -42,24 +41,6 @@ export function Marketplace() {
   const categoryParam = searchParams.get("category")
   const searchParam = searchParams.get("search") ?? ""
 
-  useEffect(() => {
-    if (categoryParam) {
-      setSelectedCategories([categoryParam])
-    }
-  }, [categoryParam])
-
-  useEffect(() => {
-    if (searchParam) {
-      setSearchQuery(searchParam)
-    }
-  }, [searchParam])
-
-  useLayoutEffect(() => {
-    const container = document.getElementById('store-scroll-container')
-    if (container) {
-      container.scrollTo({ top: 0, behavior: 'instant' })
-    }
-  }, [])
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [gridCols, setGridCols] = useState<2 | 3 | 4 | 5 | 6>(4)
   const [sortBy, setSortBy] = useState("featured")
@@ -74,9 +55,12 @@ export function Marketplace() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = gridCols === 6 ? 24 : 16
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [searchQuery, selectedCategories, priceRange, selectedRating, selectedSellers, verifiedOnly, sortBy, gridCols])
+  useLayoutEffect(() => {
+    const container = document.getElementById("store-scroll-container")
+    if (container) {
+      container.scrollTo({ top: 0, behavior: "instant" })
+    }
+  }, [])
 
   const clearAllFilters = () => {
     setSearchQuery("")
@@ -85,6 +69,47 @@ export function Marketplace() {
     setSelectedRating(null)
     setSelectedSellers([])
     setVerifiedOnly(false)
+    setCurrentPage(1)
+  }
+
+  const handleSearchQueryChange = (value: string) => {
+    setSearchQuery(value)
+    setCurrentPage(1)
+  }
+
+  const handleSelectedCategoriesChange = (value: string[]) => {
+    setSelectedCategories(value)
+    setCurrentPage(1)
+  }
+
+  const handlePriceRangeChange = (value: [number, number]) => {
+    setPriceRange(value)
+    setCurrentPage(1)
+  }
+
+  const handleSelectedRatingChange = (value: number | null) => {
+    setSelectedRating(value)
+    setCurrentPage(1)
+  }
+
+  const handleSelectedSellersChange = (value: string[]) => {
+    setSelectedSellers(value)
+    setCurrentPage(1)
+  }
+
+  const handleVerifiedOnlyChange = (value: boolean) => {
+    setVerifiedOnly(value)
+    setCurrentPage(1)
+  }
+
+  const handleGridColsChange = (value: 2 | 3 | 4 | 5 | 6) => {
+    setGridCols(value)
+    setCurrentPage(1)
+  }
+
+  const handleSortChange = (value: string) => {
+    setSortBy(value)
+    setCurrentPage(1)
   }
 
   const filteredProducts = allProducts.filter((product) => {
@@ -115,7 +140,7 @@ export function Marketplace() {
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case "newest":
-        return 0 // In real app, sort by date
+        return 0
       case "price-low":
         return a.price - b.price
       case "price-high":
@@ -135,108 +160,97 @@ export function Marketplace() {
 
   return (
     <div className="min-h-screen bg-transparent">
-
-      {/* Hero Banner */}
-      <section className="pt-20 pb-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/12 pointer-events-none" />
+      <section className="relative overflow-hidden pt-32 pb-8">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center py-12"
+            className="py-12 text-center"
           >
-            <h1 className="font-serif text-4xl sm:text-5xl font-semibold mb-4 text-white tracking-[0.18em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
-              MARKETPLACE
+            <h1 className="mb-4 font-serif text-4xl font-semibold tracking-[0.18em] text-foreground sm:text-5xl">
+              CỬA HÀNG
             </h1>
-            <p className="text-white/55 max-w-2xl mx-auto">
-              Discover thousands of unique products from verified sellers worldwide.
-              Quality guaranteed, satisfaction promised.
+            <p className="store-muted-text mx-auto max-w-2xl">
+              Khám phá hàng nghìn sản phẩm chọn lọc từ các nhà bán hàng đã xác minh.
+              Mua sắm an tâm, chất lượng được ưu tiên.
             </p>
           </motion.div>
 
-          {/* Search Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="max-w-2xl mx-auto"
+            className="mx-auto max-w-2xl"
           >
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/45" />
+              <Search className="store-muted-text absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
               <Input
                 type="text"
-                placeholder="Search for products..."
+                placeholder="Tìm sản phẩm..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 rounded-full !border-0 bg-white/6 text-base text-white placeholder:text-white/40 shadow-[0_12px_32px_rgba(0,0,0,0.16)]"
+                onChange={(e) => handleSearchQueryChange(e.target.value)}
+                className="store-surface-panel h-14 rounded-full pl-12 text-base text-foreground placeholder:text-[rgb(var(--store-muted-rgb))]"
               />
             </div>
           </motion.div>
-
-
         </div>
       </section>
 
-      {/* Main Content */}
       <section className="py-8">
         <div className="mx-auto max-w-[1600px] px-4">
           <div className="flex gap-10">
-            {/* Filter Sidebar (Desktop) */}
-            <div className="hidden lg:block w-64 shrink-0 sticky top-18 h-fit">
+            <div className="sticky top-18 hidden h-fit w-64 shrink-0 lg:block">
               <FilterSidebar
-                isOpen={true}
-                onClose={() => { }}
+                isOpen
+                onClose={() => {}}
                 priceRange={priceRange}
-                onPriceRangeChange={setPriceRange}
+                onPriceRangeChange={handlePriceRangeChange}
                 selectedCategories={selectedCategories}
-                onSelectedCategoriesChange={setSelectedCategories}
+                onSelectedCategoriesChange={handleSelectedCategoriesChange}
                 selectedRating={selectedRating}
-                onSelectedRatingChange={setSelectedRating}
+                onSelectedRatingChange={handleSelectedRatingChange}
                 selectedSellers={selectedSellers}
-                onSelectedSellersChange={setSelectedSellers}
+                onSelectedSellersChange={handleSelectedSellersChange}
                 verifiedOnly={verifiedOnly}
-                onVerifiedOnlyChange={setVerifiedOnly}
+                onVerifiedOnlyChange={handleVerifiedOnlyChange}
                 onClearAll={clearAllFilters}
               />
             </div>
 
-            {/* Products Section */}
             <div className="flex-1">
-              {/* Toolbar */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="mb-6 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  {/* Mobile Filter Button */}
                   <Button
                     variant="outline"
                     onClick={() => setIsFilterOpen(true)}
                     className="lg:hidden"
                   >
-                    <SlidersHorizontal className="h-4 w-4 mr-2" />
-                    Filters
+                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                    Bộ lọc
                   </Button>
 
                   <p className="text-sm text-muted-foreground">
-                    Showing <span className="font-medium text-foreground">{sortedProducts.length}</span> products
+                    Hiện có <span className="font-medium text-foreground">{sortedProducts.length}</span> sản phẩm
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  {/* Grid Toggle (Desktop) */}
-                  <div className="hidden md:flex items-center gap-1 p-1 bg-muted rounded-lg">
+                  <div className="hidden items-center gap-1 rounded-lg bg-muted p-1 md:flex">
                     <button
-                      onClick={() => setGridCols(6)}
+                      onClick={() => handleGridColsChange(6)}
                       className={cn(
-                        "p-2 rounded-md transition-colors",
+                        "rounded-md p-2 transition-colors",
                         gridCols === 6 ? "bg-background shadow-sm" : "hover:bg-background/50"
                       )}
                     >
                       <Grid3X3 className="h-4 w-4" />
                     </button>
                     <button
-                      onClick={() => setGridCols(4)}
+                      onClick={() => handleGridColsChange(4)}
                       className={cn(
-                        "p-2 rounded-md transition-colors",
+                        "rounded-md p-2 transition-colors",
                         gridCols === 4 ? "bg-background shadow-sm" : "hover:bg-background/50"
                       )}
                     >
@@ -244,19 +258,18 @@ export function Marketplace() {
                     </button>
                   </div>
 
-                  {/* Sort Dropdown */}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" className="min-w-[160px] justify-between">
-                        {sortOptions.find((o) => o.value === sortBy)?.label}
-                        <ChevronDown className="h-4 w-4 ml-2" />
+                        {sortOptions.find((option) => option.value === sortBy)?.label}
+                        <ChevronDown className="ml-2 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[160px]">
                       {sortOptions.map((option) => (
                         <DropdownMenuItem
                           key={option.value}
-                          onClick={() => setSortBy(option.value)}
+                          onClick={() => handleSortChange(option.value)}
                           className={cn(sortBy === option.value && "bg-muted")}
                         >
                           {option.label}
@@ -267,7 +280,6 @@ export function Marketplace() {
                 </div>
               </div>
 
-              {/* Products Grid */}
               {paginatedProducts.length > 0 ? (
                 <div
                   className={cn(
@@ -292,27 +304,22 @@ export function Marketplace() {
                   </AnimatePresence>
                 </div>
               ) : (
-                <div className="text-center py-20">
-                  <p className="text-muted-foreground">No products found matching your criteria.</p>
-                  <Button
-                    variant="outline"
-                    className="mt-4"
-                    onClick={clearAllFilters}
-                  >
-                    Clear Filters
+                <div className="py-20 text-center">
+                  <p className="text-muted-foreground">Không tìm thấy sản phẩm phù hợp với bộ lọc hiện tại.</p>
+                  <Button variant="outline" className="mt-4" onClick={clearAllFilters}>
+                    Xóa bộ lọc
                   </Button>
                 </div>
               )}
 
-              {/* Pagination */}
               {paginatedProducts.length > 0 && totalPages > 1 && (
                 <Pagination className="mt-12 select-none">
                   <PaginationContent>
                     <PaginationItem>
-                      <PaginationPrevious 
+                    <PaginationPrevious
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                         className={cn(
-                          "cursor-pointer border-white/5 text-white hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200",
+                          "store-surface-soft store-strong-text cursor-pointer rounded-xl transition-all duration-200 hover:bg-[rgb(var(--store-surface-rgb))] hover:text-foreground",
                           currentPage === 1 && "pointer-events-none opacity-30"
                         )}
                       />
@@ -327,9 +334,9 @@ export function Marketplace() {
                             isActive={currentPage === page}
                             className={cn(
                               "cursor-pointer rounded-xl transition-all duration-200",
-                              currentPage === page 
-                                ? "bg-gold text-charcoal hover:bg-gold/90 border-none font-semibold" 
-                                : "border-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                              currentPage === page
+                                ? "store-accent-button border-none font-semibold"
+                                : "store-surface-soft store-muted-text hover:bg-[rgb(var(--store-surface-rgb))] hover:text-foreground"
                             )}
                           >
                             {page}
@@ -339,10 +346,10 @@ export function Marketplace() {
                     })}
 
                     <PaginationItem>
-                      <PaginationNext 
+                      <PaginationNext
                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                         className={cn(
-                          "cursor-pointer border-white/5 text-white hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200",
+                          "store-surface-soft store-strong-text cursor-pointer rounded-xl transition-all duration-200 hover:bg-[rgb(var(--store-surface-rgb))] hover:text-foreground",
                           currentPage === totalPages && "pointer-events-none opacity-30"
                         )}
                       />
@@ -355,24 +362,22 @@ export function Marketplace() {
         </div>
       </section>
 
-      {/* Mobile Filter Drawer */}
       <FilterSidebar
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         isMobile
         priceRange={priceRange}
-        onPriceRangeChange={setPriceRange}
+        onPriceRangeChange={handlePriceRangeChange}
         selectedCategories={selectedCategories}
-        onSelectedCategoriesChange={setSelectedCategories}
+        onSelectedCategoriesChange={handleSelectedCategoriesChange}
         selectedRating={selectedRating}
-        onSelectedRatingChange={setSelectedRating}
+        onSelectedRatingChange={handleSelectedRatingChange}
         selectedSellers={selectedSellers}
-        onSelectedSellersChange={setSelectedSellers}
+        onSelectedSellersChange={handleSelectedSellersChange}
         verifiedOnly={verifiedOnly}
-        onVerifiedOnlyChange={setVerifiedOnly}
+        onVerifiedOnlyChange={handleVerifiedOnlyChange}
         onClearAll={clearAllFilters}
       />
-
     </div>
   )
 }

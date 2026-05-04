@@ -142,9 +142,9 @@ export const floating = {
 export const pulseGlow = {
   animate: {
     boxShadow: [
-      "0 0 20px rgba(200, 170, 110, 0.3)",
-      "0 0 40px rgba(200, 170, 110, 0.5)",
-      "0 0 20px rgba(200, 170, 110, 0.3)",
+      "0 0 20px rgb(var(--store-accent-rgb) / 0.22)",
+      "0 0 40px rgb(var(--store-accent-rgb) / 0.36)",
+      "0 0 20px rgb(var(--store-accent-rgb) / 0.22)",
     ],
     transition: {
       duration: 2,

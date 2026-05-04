@@ -17,6 +17,9 @@ export function RatingStars({
   className,
   ...props
 }: RatingStarsProps) {
+  const starColor = "var(--color-star)"
+  const emptyStarFill = "rgb(var(--store-border-rgb) / 0.45)"
+  const emptyStarStroke = "rgb(var(--store-border-rgb) / 0.8)"
   const sizeClasses = {
     sm: "h-3.5 w-3.5",
     md: "h-4 w-4",
@@ -37,15 +40,15 @@ export function RatingStars({
             <Star
               className={cn(sizeClasses[size])}
               style={{
-                fill: isFilled ? 'var(--color-star)' : 'rgba(161, 161, 170, 0.15)',
-                color: isFilled ? 'var(--color-star)' : 'rgba(161, 161, 170, 0.3)'
+                fill: isFilled ? starColor : emptyStarFill,
+                color: isFilled ? starColor : emptyStarStroke,
               }}
             />
             {isHalf && (
               <div className="absolute inset-0 overflow-hidden w-1/2">
                 <Star 
                   className={cn(sizeClasses[size])} 
-                  style={{ fill: 'var(--color-star)', color: 'var(--color-star)' }} 
+                  style={{ fill: starColor, color: starColor }} 
                 />
               </div>
             )}

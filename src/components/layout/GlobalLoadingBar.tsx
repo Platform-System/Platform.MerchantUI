@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { usePathname } from '@/i18n/navigation';
+import { usePathname } from 'next/navigation';
 
 /**
  * GlobalLoadingBar: Thanh tiến trình (loading bar) toàn cục chạy trên mép đỉnh màn hình.

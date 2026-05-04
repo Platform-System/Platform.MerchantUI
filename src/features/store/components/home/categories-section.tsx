@@ -12,14 +12,14 @@ export function CategoriesSection() {
   return (
     <section className="py-24 bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Tiêu đề section */}
         <SectionHeader
-          subtitle="Explore"
-          title="Shop by Category"
-          description="Browse through our diverse collection of categories, each featuring handpicked products from verified sellers around the world."
+          subtitle="Danh mục"
+          title="Mua sắm theo ngành hàng"
+          description="Khám phá các nhóm sản phẩm được chọn lọc kỹ càng, quy tụ từ những nhà bán hàng đã xác minh trên khắp nơi."
         />
 
-        {/* Categories Grid */}
+        {/* Lưới danh mục */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {categories.map((category, index) => (
             <motion.div
@@ -39,23 +39,23 @@ export function CategoriesSection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
                   
-                  {/* Content */}
+                  {/* Nội dung */}
                   <div className="absolute inset-x-0 bottom-0 p-4">
-                    <h3 className="font-semibold text-warm-white text-lg group-hover:text-gold transition-colors">
+                    <h3 className="text-lg font-semibold text-white transition-colors group-hover:store-accent-text">
                       {category.name}
                     </h3>
-                    <p className="text-xs text-white/60 mt-1">
-                      {category.productCount.toLocaleString('en-US')} products
+                    <p className="mt-1 text-xs text-white/72">
+                      {category.productCount.toLocaleString('vi-VN')} sản phẩm
                     </p>
                   </div>
 
-                  {/* Hover Arrow */}
+                  {/* Mũi tên khi hover */}
                   <motion.div
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 0 }}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-white/10 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="store-surface-panel absolute right-4 top-4 rounded-full p-2 opacity-0 transition-opacity group-hover:opacity-100"
                   >
-                    <ArrowRight className="h-4 w-4 text-warm-white" />
+                    <ArrowRight className="h-4 w-4 text-foreground" />
                   </motion.div>
                 </div>
               </Link>
@@ -63,8 +63,8 @@ export function CategoriesSection() {
           ))}
         </div>
 
-        {/* View All Link */}
-        <SectionFooter href="/store/marketplace" label="View All Categories" />
+        {/* Link xem tất cả */}
+        <SectionFooter href="/store/marketplace" label="Xem tất cả danh mục" />
       </div>
     </section>
   )
