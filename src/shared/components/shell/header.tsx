@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -15,9 +14,22 @@ import {
   X,
   ChevronDown,
   User,
+  LogOut,
+  LogIn,
+  Settings
 } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { Badge } from "@/shared/components/ui/badge"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"
+import { useAuth } from "@/core/providers/AuthProvider"
 import { SearchModal } from "@/features/search/components/search-modal"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/shared/components/ui/accordion"
 import { useCart } from "@/features/cart"
@@ -37,6 +49,7 @@ export function Header() {
   const pathname = usePathname()
   const { setIsOpen: setIsCartOpen, cartCount } = useCart()
   const { wishlistCount } = useWishlist()
+  const { isAuthenticated, login, logout, keycloak } = useAuth()
 
   const isActive = (path: string) => {
     const fullPath = pathname.startsWith("/") ? pathname : `/${pathname}`
@@ -200,12 +213,66 @@ export function Header() {
                   )}
                 </motion.div>
                 <span className="sr-only">Giỏ hàng</span>
-              </Button>              <Button variant="ghost" size="icon" asChild className="hidden sm:flex text-foreground hover:store-accent-text">
-                <Link href="/store/account">
-                  <User className="h-5 w-5" />
-                  <span className="sr-only">Tài khoản</span>
-                </Link>
-              </Button>
+              </Button>              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 ml-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0">
+                      <Avatar className="h-9 w-9 transition-transform hover:scale-110 active:scale-95">
+                        <AvatarImage src="" alt="User" />
+                        <AvatarFallback className="bg-[rgb(var(--store-accent-rgb))] text-white">
+                          <User className="h-5 w-5" />
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {keycloak?.idTokenParsed?.name || "Người dùng"}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {keycloak?.idTokenParsed?.preferred_username || "Chào mừng bạn quay lại"}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/store/account" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Hồ sơ cá nhân</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/store/account/orders" className="cursor-pointer">
+                        <ShoppingBag className="mr-2 h-4 w-4" />
+                        <span>Đơn hàng</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/store/account/settings" className="cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Cài đặt</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive cursor-pointer">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Đăng xuất</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={login} 
+                  className="hidden sm:flex items-center gap-2 ml-2 text-foreground hover:store-accent-text font-medium"
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>Đăng nhập</span>
+                </Button>
+              )}
 
               {/* Nút mở menu mobile */}
               <Button
@@ -296,14 +363,39 @@ export function Header() {
                   >
                     Mở gian hàng
                   </Link>
-                  <Link
-                    href="/store/account"
-                    className="block px-4 py-3 rounded-lg hover:bg-muted transition-colors font-medium text-sm flex items-center"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <User className="h-4 w-4 mr-2" />
-                    Tài khoản của tôi
-                  </Link>
+                  {isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/store/account"
+                        className="block px-4 py-3 rounded-lg hover:bg-muted transition-colors font-medium text-sm flex items-center"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <User className="h-4 w-4 mr-2" />
+                        Tài khoản của tôi
+                      </Link>
+                      <button
+                        className="w-full px-4 py-3 text-left rounded-lg hover:bg-muted transition-colors font-medium text-sm flex items-center text-destructive"
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          logout();
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Đăng xuất
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="w-full px-4 py-3 text-left rounded-lg hover:bg-muted transition-colors font-medium text-sm flex items-center"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        login();
+                      }}
+                    >
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Đăng nhập
+                    </button>
+                  )}
                 </nav>
               </div>
             </motion.div>
