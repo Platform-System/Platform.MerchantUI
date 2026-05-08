@@ -11,17 +11,31 @@
 import { popularSellers, sellerStats } from "@/shared/lib/data"
 import { Seller } from "@/types/store"
 
-/** Trả về tất cả sellers (mock). Swap với GET /api/sellers khi có backend. */
+import { apiClient } from "@/shared/api/api-client"
+
+/** Trả về tất cả sellers. Gọi GET /api/sellers, fallback sang mock nếu lỗi. */
 export async function fetchAllSellers(): Promise<Seller[]> {
-  return popularSellers
+  try {
+    const response = await apiClient.get<Seller[]>("/api/store/stores");
+    return response.data;
+  } catch (error) {
+    console.warn("Lỗi gọi API Sellers, fallback dùng mock data:", error);
+    return popularSellers
+  }
 }
 
-/** Tìm seller theo slug (mock). Swap với GET /api/sellers/:slug khi có backend. */
+/** Tìm seller theo slug. Gọi GET /api/sellers/:slug, fallback sang mock nếu lỗi. */
 export async function fetchSellerBySlug(slug: string): Promise<Seller | undefined> {
-  return popularSellers.find((s) => s.slug === slug)
+  try {
+    const response = await apiClient.get<Seller>(`/api/store/stores/${slug}`);
+    return response.data;
+  } catch (error) {
+    console.warn(`Lỗi gọi API cho seller ${slug}, fallback dùng mock data:`, error);
+    return popularSellers.find((s) => s.slug === slug)
+  }
 }
 
-/** Trả về seller stats cho trang CTA (mock). Swap với GET /api/stats/sellers khi có backend. */
+/** Trả về seller stats cho trang CTA (mock). Giữ nguyên mock hoặc gọi API nếu có. */
 export async function fetchSellerStats(): Promise<{ label: string; value: string }[]> {
   return sellerStats
 }

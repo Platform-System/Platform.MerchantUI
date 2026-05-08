@@ -34,14 +34,9 @@ import { SearchModal } from "@/features/search/components/search-modal"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/shared/components/ui/accordion"
 import { useCart } from "@/features/cart"
 import { useWishlist } from "@/features/wishlist"
+import { useCategories } from "@/shared/lib/category-queries"
 
-const categories = [
-  { name: "Thời trang", href: "/store/marketplace?category=fashion" },
-  { name: "Nhà cửa & Đời sống", href: "/store/marketplace?category=home" },
-  { name: "Điện tử", href: "/store/marketplace?category=electronics" },
-  { name: "Làm đẹp", href: "/store/marketplace?category=beauty" },
-  { name: "Nghệ thuật & Sưu tầm", href: "/store/marketplace?category=art" },
-]
+
 
 export function Header() {
   const t = useTranslations("Common")
@@ -50,6 +45,7 @@ export function Header() {
   const { setIsOpen: setIsCartOpen, cartCount } = useCart()
   const { wishlistCount } = useWishlist()
   const { isAuthenticated, login, logout, keycloak } = useAuth()
+  const { data: categories = [] } = useCategories()
 
   const isActive = (path: string) => {
     const fullPath = pathname.startsWith("/") ? pathname : `/${pathname}`
@@ -139,8 +135,8 @@ export function Header() {
                   <div className="absolute -top-3 left-0 right-0 h-3 bg-transparent" />
                   {categories.map((category) => (
                     <Link
-                      key={category.name}
-                      href={category.href}
+                      key={category.id}
+                      href={`/store/marketplace?category=${category.slug}`}
                       onClick={() => setIsCategoryOpen(false)}
                       className="store-muted-text block w-full rounded-lg px-3 py-2 text-sm transition-colors hover:bg-[rgb(var(--store-accent-rgb)/0.1)] hover:text-foreground"
                     >
@@ -326,8 +322,8 @@ export function Header() {
                       <AccordionContent className="pt-1 pb-2 px-4 space-y-1">
                         {categories.map((category) => (
                           <Link
-                            key={category.name}
-                            href={category.href}
+                            key={category.id}
+                            href={`/store/marketplace?category=${category.slug}`}
                             className="store-muted-text block rounded-xl px-4 py-2 text-sm transition-colors hover:bg-[rgb(var(--store-accent-rgb)/0.1)] hover:text-foreground"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >

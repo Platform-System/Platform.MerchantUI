@@ -51,7 +51,7 @@ export function CategoriesSection() {
                       {category.name}
                     </h3>
                     <p className="mt-1 text-xs text-white/72">
-                      {category.productCount.toLocaleString('vi-VN')} sản phẩm
+                      {(category.productCount ?? 0).toLocaleString('vi-VN')} sản phẩm
                     </p>
                   </div>
 
