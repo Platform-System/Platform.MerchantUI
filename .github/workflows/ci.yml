@@ -23,8 +23,8 @@ jobs:
       image_name: 'platform-store-ui'
       push_image: true
       build_args: |
-        NEXT_PUBLIC_API_URL=http://23.98.73.227:8080
-        NEXT_PUBLIC_KEYCLOAK_URL=http://23.98.73.227:8081
-        NEXT_PUBLIC_KEYCLOAK_REALM=platform
-        NEXT_PUBLIC_KEYCLOAK_CLIENT_ID=platform-web
+        NEXT_PUBLIC_API_URL=${{ vars.PUBLIC_API_URL }}
+        NEXT_PUBLIC_KEYCLOAK_URL=${{ vars.PUBLIC_AUTH_URL }}
+        NEXT_PUBLIC_KEYCLOAK_REALM=${{ vars.KEYCLOAK_REALM }}
+        NEXT_PUBLIC_KEYCLOAK_CLIENT_ID=${{ vars.KEYCLOAK_CLIENT_ID }}
 

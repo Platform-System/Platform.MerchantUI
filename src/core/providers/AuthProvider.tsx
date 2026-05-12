@@ -40,6 +40,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       onLoad: 'check-sso',
       silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
       pkceMethod: 'S256',
+      checkLoginIframe: false,
     })
       .then((authenticated) => {
         setIsAuthenticated(authenticated);
