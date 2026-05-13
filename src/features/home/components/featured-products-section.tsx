@@ -17,9 +17,9 @@ export function FeaturedProductsSection() {
   })
 
   const tabs = useMemo(() => [
-    { id: "featured", label: "Nổi bật", products: allProducts.slice(0, 8) },
-    { id: "trending", label: "Xu hướng", products: allProducts.slice(8, 12) },
-    { id: "new", label: "Mới về", products: allProducts.slice(12) },
+    { id: "featured", label: "Nổi bật", products: (allProducts || []).slice?.(0, 8) || [] },
+    { id: "trending", label: "Xu hướng", products: (allProducts || []).slice?.(8, 12) || [] },
+    { id: "new", label: "Mới về", products: (allProducts || []).slice?.(12) || [] },
   ], [allProducts])
 
   const currentProducts = tabs.find((t) => t.id === activeTab)?.products ?? []

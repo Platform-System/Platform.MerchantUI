@@ -152,7 +152,7 @@ function MarketplaceScreenContent() {
   })
 
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage)
-  const paginatedProducts = sortedProducts.slice(
+  const paginatedProducts = (sortedProducts || []).slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
