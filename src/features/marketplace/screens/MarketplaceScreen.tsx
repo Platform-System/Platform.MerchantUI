@@ -232,65 +232,81 @@ function MarketplaceScreenContent() {
             </div>
 
             <div className="flex-1">
-              <div className="mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-4">
+              {sortedProducts.length > 0 && (
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsFilterOpen(true)}
+                      className="lg:hidden"
+                    >
+                      <SlidersHorizontal className="mr-2 h-4 w-4" />
+                      Bộ lọc
+                    </Button>
+
+                    <p className="text-sm text-muted-foreground">
+                      Hiện có <span className="font-medium text-foreground">{sortedProducts.length}</span> sản phẩm
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="hidden items-center gap-1 rounded-lg bg-muted p-1 md:flex">
+                      <button
+                        onClick={() => handleGridColsChange(6)}
+                        className={cn(
+                          "rounded-md p-2 transition-colors",
+                          gridCols === 6 ? "bg-background shadow-sm" : "hover:bg-background/50"
+                        )}
+                      >
+                        <Grid3X3 className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleGridColsChange(4)}
+                        className={cn(
+                          "rounded-md p-2 transition-colors",
+                          gridCols === 4 ? "bg-background shadow-sm" : "hover:bg-background/50"
+                        )}
+                      >
+                        <LayoutGrid className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="min-w-[160px] justify-between">
+                          {sortOptions.find((option) => option.value === sortBy)?.label}
+                          <ChevronDown className="ml-2 h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-[160px]">
+                        {sortOptions.map((option) => (
+                          <DropdownMenuItem
+                            key={option.value}
+                            onClick={() => handleSortChange(option.value)}
+                            className={cn(sortBy === option.value && "bg-muted")}
+                          >
+                            {option.label}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              )}
+              
+              {/* Nút lọc cho Mobile khi không có sản phẩm */}
+              {sortedProducts.length === 0 && (
+                <div className="mb-6 lg:hidden">
                   <Button
                     variant="outline"
                     onClick={() => setIsFilterOpen(true)}
-                    className="lg:hidden"
+                    className="w-full"
                   >
                     <SlidersHorizontal className="mr-2 h-4 w-4" />
-                    Bộ lọc
+                    Thay đổi bộ lọc
                   </Button>
-
-                  <p className="text-sm text-muted-foreground">
-                    Hiện có <span className="font-medium text-foreground">{sortedProducts.length}</span> sản phẩm
-                  </p>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="hidden items-center gap-1 rounded-lg bg-muted p-1 md:flex">
-                    <button
-                      onClick={() => handleGridColsChange(6)}
-                      className={cn(
-                        "rounded-md p-2 transition-colors",
-                        gridCols === 6 ? "bg-background shadow-sm" : "hover:bg-background/50"
-                      )}
-                    >
-                      <Grid3X3 className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => handleGridColsChange(4)}
-                      className={cn(
-                        "rounded-md p-2 transition-colors",
-                        gridCols === 4 ? "bg-background shadow-sm" : "hover:bg-background/50"
-                      )}
-                    >
-                      <LayoutGrid className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="min-w-[160px] justify-between">
-                        {sortOptions.find((option) => option.value === sortBy)?.label}
-                        <ChevronDown className="ml-2 h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[160px]">
-                      {sortOptions.map((option) => (
-                        <DropdownMenuItem
-                          key={option.value}
-                          onClick={() => handleSortChange(option.value)}
-                          className={cn(sortBy === option.value && "bg-muted")}
-                        >
-                          {option.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
+              )}
 
               {paginatedProducts.length > 0 ? (
                 <div
@@ -316,10 +332,17 @@ function MarketplaceScreenContent() {
                   </AnimatePresence>
                 </div>
               ) : (
-                <div className="py-20 text-center">
-                  <p className="text-muted-foreground">Không tìm thấy sản phẩm phù hợp với bộ lọc hiện tại.</p>
-                  <Button variant="outline" className="mt-4" onClick={clearAllFilters}>
-                    Xóa bộ lọc
+                <div className="flex min-h-[400px] flex-col items-center justify-center rounded-3xl border border-dashed border-[rgb(var(--store-border-rgb))] bg-[rgb(var(--store-surface-strong-rgb)/0.3)] p-12 text-center animate-in fade-in zoom-in duration-500">
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[rgb(var(--store-accent-rgb)/0.1)]">
+                    <Search className="h-8 w-8 text-[rgb(var(--store-accent-rgb))]" />
+                  </div>
+                  <h3 className="mb-2 text-xl font-semibold text-charcoal">Không có sản phẩm nào</h3>
+                  <Button 
+                    variant="outline" 
+                    className="mt-8 rounded-xl border-[rgb(var(--store-border-rgb))] hover:bg-[rgb(var(--store-accent-rgb)/0.05)] hover:text-foreground" 
+                    onClick={clearAllFilters}
+                  >
+                    Xóa tất cả bộ lọc
                   </Button>
                 </div>
               )}

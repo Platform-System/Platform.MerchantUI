@@ -45,23 +45,23 @@ export function FeaturedProductsSection() {
           </div>
 
           {/* Tabs */}
-          <div className="flex items-center gap-1 p-1 bg-muted rounded-full">
+          <div className="flex items-center gap-1 p-1.5 bg-[rgb(var(--store-surface-strong-rgb))] border border-[rgb(var(--store-border-rgb)/0.5)] rounded-full shadow-sm">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "relative px-5 py-2.5 text-sm font-medium rounded-full transition-colors",
+                  "relative px-6 py-2 text-sm font-medium rounded-full transition-all duration-300",
                   activeTab === tab.id
-                    ? "text-charcoal font-semibold"
+                    ? "text-white"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="activeProductTab"
-                    className="absolute inset-0 bg-white rounded-full shadow-sm"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    className="absolute inset-0 bg-primary rounded-full shadow-md"
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                   />
                 )}
                 <span className="relative z-10">{tab.label}</span>
