@@ -75,7 +75,7 @@ export function SellerCard({ seller }: SellerCardProps) {
 
         {/* Categories */}
         <div className="flex flex-wrap justify-center content-start gap-2 mt-3 h-[60px] overflow-hidden">
-          {seller.categories.slice(0, 4).map((category) => (
+          {(seller.categories || []).slice(0, 4).map((category) => (
             <Badge
               key={category}
               className="rounded-full px-2.5 py-1 text-xs"
@@ -83,7 +83,7 @@ export function SellerCard({ seller }: SellerCardProps) {
               {category}
             </Badge>
           ))}
-          {seller.categories.length > 4 && (
+          {(seller.categories || []).length > 4 && (
             <Badge
               className="rounded-full px-2.5 py-1 text-xs"
             >

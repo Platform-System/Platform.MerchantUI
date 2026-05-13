@@ -28,7 +28,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     staleTime: 5 * 60 * 1000,
   })
 
-  const trendingProducts = useMemo(() => allProductsData.slice(8, 12), [allProductsData])
+  const trendingProducts = useMemo(() => (Array.isArray(allProductsData) ? allProductsData.slice(8, 12) : []), [allProductsData])
   const popularSearches = t.raw("suggestions") as string[]
  
   const handleDeleteRecent = (e: React.MouseEvent, item: string) => {
@@ -45,7 +45,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         .toLowerCase()
         .includes(normalizedQuery)
     })
-    .slice(0, 4)
+    .slice(0, 4) || []
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -121,7 +121,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       {t("top")}
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {popularSearches.slice(0, 4).map((search) => (
+                      {(popularSearches || []).slice(0, 4).map((search) => (
                         <button
                           key={search}
                           onClick={() => setQuery(search)}
