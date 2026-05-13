@@ -8,12 +8,11 @@ const nextConfig: NextConfig = {
     viewTransition: true
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
       },
     ],
   },
