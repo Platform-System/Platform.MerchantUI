@@ -20,7 +20,7 @@ jobs:
   build:
     uses: Platform-System/Platform.CI-CD/.github/workflows/build-nextjs.yml@main
     with:
-      image_name: 'platform-store-ui'
+      image_name: 'platform-merchant-ui'
       push_image: true
       build_args: |
         NEXT_PUBLIC_API_URL=${{ vars.PUBLIC_API_URL }}
