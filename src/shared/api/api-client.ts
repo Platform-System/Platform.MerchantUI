@@ -11,6 +11,14 @@ export const apiClient = axios.create({
   timeout: 10000,
 });
 
+export const publicApiClient = axios.create({
+  baseURL: ENV.API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000,
+});
+
 // Request interceptor để đính kèm token tự động
 apiClient.interceptors.request.use(
   async (config) => {

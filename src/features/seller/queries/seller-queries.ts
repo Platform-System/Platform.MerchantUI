@@ -9,13 +9,18 @@
  */
 
 import { Seller } from "@/types/store"
-import { apiClient } from "@/shared/api/api-client"
+import { apiClient, publicApiClient } from "@/shared/api/api-client"
 import { Result, PagedResult } from "@/types/api"
 
 /** Trả về tất cả sellers. Gọi GET /api/sellers. */
 export async function fetchAllSellers(): Promise<Seller[]> {
   try {
-    const response = await apiClient.get<Result<PagedResult<Seller>>>("/api/store/stores");
+    const response = await publicApiClient.get<Result<PagedResult<Seller>>>("/api/store/stores", {
+      params: {
+        page: 1,
+        pageSize: 50,
+      },
+    });
     
     // Xử lý cấu trúc Result từ Backend
     if (response.data && response.data.success && response.data.data) {
@@ -32,7 +37,7 @@ export async function fetchAllSellers(): Promise<Seller[]> {
 /** Tìm seller theo slug. Gọi GET /api/sellers/:slug. */
 export async function fetchSellerBySlug(slug: string): Promise<Seller | undefined> {
   try {
-    const response = await apiClient.get<Result<Seller>>(`/api/store/stores/${slug}`);
+    const response = await publicApiClient.get<Result<Seller>>(`/api/store/stores/${slug}`);
     
     // Xử lý cấu trúc Result từ Backend
     if (response.data && response.data.success && response.data.data) {
@@ -72,8 +77,8 @@ export interface CreateStoreRequest {
 }
 
 /** Tạo store mới (Become Seller). Gọi POST /api/store/manage/stores. */
-export async function createStore(request: CreateStoreRequest): Promise<Result<any>> {
-  const response = await apiClient.post<Result<any>>("/api/store/manage/stores", request);
+export async function createStore(request: CreateStoreRequest): Promise<Result<unknown>> {
+  const response = await apiClient.post<Result<unknown>>("/api/store/manage/stores", request);
   return response.data;
 }
 
