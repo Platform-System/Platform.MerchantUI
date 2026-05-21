@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { GlobalLoadingBar as DSGlobalLoadingBar } from '@platform/design-system'
+import { GlobalLoadingBar as DSGlobalLoadingBar } from '@platform/design-system/components/global-loading-bar'
 
 export const GlobalLoadingBar = ({ isPending }: { isPending?: boolean }) => {
   const pathname = usePathname()

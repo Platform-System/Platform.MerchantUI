@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono, Playfair_Display } from "next/font/google";
-import { ThemeProvider } from "@platform/design-system";
+import { ThemeProvider } from "@platform/design-system/ThemeProvider";
 import QueryProvider from "@/core/providers/QueryProvider";
 import AuthProvider from "@/core/providers/AuthProvider";
 import { GlobalLoadingBar } from "@/shared/layout/GlobalLoadingBar";
