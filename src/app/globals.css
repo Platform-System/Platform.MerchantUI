@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../../../Platform.DesignSystemUI/src/index.css";
 
 :root {
   /* Nyxoris Platform - Modern Winter/Cosmic Theme */
@@ -26,6 +27,32 @@
   /* Missing Shadcn Tokens for UI Components */
   --destructive: #CB2B2B; /* Elegant Deep Red */
   --destructive-foreground: #FFFFFF;
+}
+
+/* -----------------------------------------------------------------------
+   DARK MODE — applied when ThemeProvider sets .dark on <html>
+----------------------------------------------------------------------- */
+.dark {
+  --background: #030712; /* Slate 950 */
+  --foreground: #F8FAFC; /* Slate 50 */
+  --card: #0f172a;
+  --popover: #0f172a;
+
+  --store-surface-rgb: 15 23 42;       /* Slate 900 */
+  --store-surface-strong-rgb: 7 10 19; /* Near-black */
+  --store-border-rgb: 255 255 255;     /* White borders at low opacity */
+  --store-muted-rgb: 148 163 184;      /* Slate 400 */
+  --store-ink-rgb: 248 250 252;        /* Slate 50 — text becomes light */
+
+  --store-accent-soft-alpha: 0.15;
+  --store-accent-soft-hover-alpha: 0.22;
+  --store-accent-glow-alpha: 0.3;
+  --store-accent-glow-subtle-alpha: 0.12;
+  --store-accent-shadow-alpha: 0.35;
+  --store-accent-shadow-strong-alpha: 0.5;
+
+  --destructive: #f87171; /* Red-400 — brighter on dark bg */
+  --destructive-foreground: #0f172a;
 }
 
 @theme {
@@ -74,11 +101,15 @@
 /* Permanent Dark Mode Configuration */
 
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-plus-jakarta), var(--font-playfair), sans-serif;
-  overflow-y: auto;
 }
 
 .store-theme {
@@ -102,14 +133,12 @@ body {
   display: none;
 }
 
-* {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Scrollbar — from @platform/design-system, light-mode override */
+:root {
+  --scrollbar-thumb: rgba(15, 23, 42, 0.12);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.25);
 }
 
-*::-webkit-scrollbar {
-  display: none;
-}
 
 @layer components {
   .glass-panel {
@@ -343,3 +372,4 @@ body {
     transform: scale(1);
   }
 }
+
