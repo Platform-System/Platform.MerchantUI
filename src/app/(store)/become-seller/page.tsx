@@ -5,27 +5,22 @@ import { Button } from "@platform/design-system/components/button"
 import { Input } from "@platform/design-system/components/input"
 import { Textarea } from "@platform/design-system/components/textarea"
 import { ShieldCheck, Rocket, Percent, CheckCircle2, Loader2 } from "lucide-react"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { createStore } from "@/features/seller/queries/seller-queries"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
-import { fetchMyStore, storeManageQueryKeys } from "@/features/store/queries/store-manage-queries"
 import { Link } from "@/i18n/navigation"
 
 export default function BecomeSellerPage() {
   const t = useTranslations("BecomeSeller")
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [alreadyHasStore, setAlreadyHasStore] = React.useState(false)
   const [formData, setFormData] = React.useState({
     name: "",
     tagline: "",
     description: "",
     location: "",
     responseTime: t("defaultResponseTime"),
-  })
-  const { data: myStore, isLoading: isCheckingStore } = useQuery({
-    queryKey: storeManageQueryKeys.me,
-    queryFn: fetchMyStore,
-    staleTime: 60 * 1000,
   })
 
   const mutation = useMutation({
@@ -34,6 +29,12 @@ export default function BecomeSellerPage() {
       if (result.success) {
         setIsSubmitted(true)
         toast.success(t("toastSuccess"))
+        return
+      }
+
+      if (result.message?.toLowerCase().includes("already belongs to a store")) {
+        setAlreadyHasStore(true)
+        toast.error(t("alreadyHasStoreToast"))
       } else {
         toast.error(result.message || t("toastError"))
       }
@@ -46,7 +47,13 @@ export default function BecomeSellerPage() {
         typeof (error as { response?: { data?: { message?: unknown } } }).response?.data?.message === "string"
           ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
           : t("fetchError")
-      toast.error(message)
+
+      if (typeof message === "string" && message.toLowerCase().includes("already belongs to a store")) {
+        setAlreadyHasStore(true)
+        toast.error(t("alreadyHasStoreToast"))
+      } else {
+        toast.error(message)
+      }
     }
   })
 
@@ -102,20 +109,13 @@ export default function BecomeSellerPage() {
 
         {/* Form */}
         <div className="ds-glass-panel !border-0 rounded-3xl p-8 shadow-2xl">
-          {isCheckingStore ? (
-            <div className="flex min-h-[320px] items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            </div>
-          ) : myStore ? (
+          {alreadyHasStore ? (
             <div className="text-center py-12 flex flex-col items-center gap-4">
               <CheckCircle2 className="store-accent-text h-16 w-16" />
               <h3 className="mt-2 font-serif text-2xl font-bold text-foreground">{t("existingStoreTitle")}</h3>
               <p className="text-muted-foreground max-w-md">
-                {t("existingStoreDesc", { name: myStore.profile.name })}
+                {t("existingStoreDescNoName")}
               </p>
-              <div className="rounded-full border border-[rgb(var(--store-border-rgb)/0.8)] px-4 py-2 text-sm font-medium text-foreground">
-                {t("existingStoreStatus", { status: myStore.profile.status || "Draft" })}
-              </div>
               <Button asChild className="store-accent-button store-accent-button-strong mt-4 rounded-xl">
                 <Link href="/account">{t("manageStore")}</Link>
               </Button>

@@ -482,9 +482,11 @@
     "viewSellers": "Xem danh sách nhà bán hàng",
     "existingStoreTitle": "Tài khoản này đã có gian hàng",
     "existingStoreDesc": "Bạn đang sở hữu gian hàng {name}. Hãy vào trang tài khoản để tiếp tục cập nhật hồ sơ, chính sách hoặc gửi yêu cầu kích hoạt.",
+    "existingStoreDescNoName": "Tài khoản này đã có gian hàng. Hãy vào trang tài khoản để tiếp tục cập nhật hồ sơ, chính sách hoặc gửi yêu cầu kích hoạt.",
     "existingStoreStatus": "Trạng thái hiện tại: {status}",
     "manageStore": "Quản lý gian hàng",
     "toastSuccess": "Đăng ký gian hàng thành công!",
+    "alreadyHasStoreToast": "Tài khoản này đã có gian hàng. Mở trang quản lý để tiếp tục nhé.",
     "toastError": "Đã có lỗi xảy ra.",
     "fetchError": "Không thể gửi yêu cầu. Vui lòng thử lại."
   },
