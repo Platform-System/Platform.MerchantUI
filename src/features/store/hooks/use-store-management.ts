@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { AxiosError } from "axios"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import {
@@ -74,31 +75,35 @@ export function useStoreManagement() {
   React.useEffect(() => {
     if (!myStore) return
 
-    setProfileForm({
-      name: myStore.profile.name || "",
-      tagline: myStore.profile.tagline || "",
-      description: myStore.profile.description || "",
-      location: myStore.profile.location || "",
-      responseTime: myStore.profile.responseTime || "",
-    })
+    const timer = window.setTimeout(() => {
+      setProfileForm({
+        name: myStore.profile.name || "",
+        tagline: myStore.profile.tagline || "",
+        description: myStore.profile.description || "",
+        location: myStore.profile.location || "",
+        responseTime: myStore.profile.responseTime || "",
+      })
 
-    setPolicyForm({
-      shippingPolicy: myStore.policy?.shippingPolicy || "",
-      returnPolicy: myStore.policy?.returnPolicy || "",
-      warrantyPolicy: myStore.policy?.warrantyPolicy || "",
-    })
+      setPolicyForm({
+        shippingPolicy: myStore.policy?.shippingPolicy || "",
+        returnPolicy: myStore.policy?.returnPolicy || "",
+        warrantyPolicy: myStore.policy?.warrantyPolicy || "",
+      })
 
-    setAvatarForm((current) => ({
-      ...current,
-      url: myStore.profile.avatar?.url || "",
-      altText: myStore.profile.name ? `${myStore.profile.name} avatar` : "",
-    }))
+      setAvatarForm((current) => ({
+        ...current,
+        url: myStore.profile.avatar?.url || "",
+        altText: myStore.profile.name ? `${myStore.profile.name} avatar` : "",
+      }))
 
-    setCoverForm((current) => ({
-      ...current,
-      url: myStore.profile.cover?.url || "",
-      altText: myStore.profile.name ? `${myStore.profile.name} cover` : "",
-    }))
+      setCoverForm((current) => ({
+        ...current,
+        url: myStore.profile.cover?.url || "",
+        altText: myStore.profile.name ? `${myStore.profile.name} cover` : "",
+      }))
+    }, 0)
+
+    return () => window.clearTimeout(timer)
   }, [myStore])
 
   const refreshStore = async () => {
@@ -115,8 +120,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -130,8 +135,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -145,8 +150,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -164,8 +169,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -179,8 +184,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -194,8 +199,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -209,8 +214,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -228,8 +233,8 @@ export function useStoreManagement() {
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 

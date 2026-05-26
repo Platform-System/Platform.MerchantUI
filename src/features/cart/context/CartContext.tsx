@@ -15,7 +15,23 @@ interface CartItemVariantUpdate {
   size?: string
 }
 
-const EMPTY_PRODUCTS: any[] = []
+interface ProductSummary {
+  id: string
+  image?: string
+}
+
+interface BackendCartItem {
+  productId: string
+  name: string
+  price: number
+  quantity: number
+}
+
+interface BackendCartResponse {
+  items?: BackendCartItem[] | null
+}
+
+const EMPTY_PRODUCTS: ProductSummary[] = []
 
 export function useCart() {
   const t = useTranslations("Cart")
@@ -51,9 +67,9 @@ export function useCart() {
   // Query backend cart - only enable if hydrated and user is authenticated
   const { data: backendCart, refetch: refetchCart } = useQuery({
     queryKey: ["backendCart"],
-    queryFn: async () => {
+    queryFn: async (): Promise<BackendCartResponse | null> => {
       try {
-        const response = await apiClient.get<Result<any>>("/api/ordering/carts")
+        const response = await apiClient.get<Result<BackendCartResponse>>("/api/ordering/carts")
         if (response.data && response.data.success && response.data.data) {
           return response.data.data
         }
@@ -69,8 +85,8 @@ export function useCart() {
   // Sync backend cart with Zustand store when backend cart loads
   useEffect(() => {
     if (backendCart && backendCart.items && isHydrated) {
-      const mappedItems: CartItem[] = backendCart.items.map((item: any) => {
-        const prod = products.find((p: any) => p.id === item.productId)
+      const mappedItems: CartItem[] = backendCart.items.map((item) => {
+        const prod = products.find((p) => p.id === item.productId)
         return {
           id: item.productId,
           name: item.name,

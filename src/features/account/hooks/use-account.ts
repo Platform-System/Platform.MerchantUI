@@ -1,5 +1,6 @@
 import React from "react"
 import { useQuery } from "@tanstack/react-query"
+import type { AxiosError } from "axios"
 import { StoreOrder, StoreProfile } from "@/types/store"
 import { DEFAULT_PROFILE } from "../constants"
 import { useWishlist } from "@/features/wishlist"
@@ -7,23 +8,66 @@ import { useCart } from "@/features/cart"
 import { apiClient } from "@/shared/api/api-client"
 import { Result } from "@/types/api"
 
+interface AccountProfileResponse {
+  userName?: string | null
+  email?: string | null
+}
+
+interface OrderAddressResponse {
+  recipientName?: string | null
+  phoneNumber?: string | null
+  city?: string | null
+  district?: string | null
+  ward?: string | null
+  streetAddress?: string | null
+}
+
+interface OrderShipmentResponse {
+  note?: string | null
+  method?: string | null
+  fee?: number | null
+}
+
+interface OrderItemResponse {
+  productId: string
+  name: string
+  price: number
+  quantity: number
+}
+
+interface OrderSummaryResponse {
+  id: string
+  orderCode?: string | null
+  status: number
+  expiredAt?: string | null
+  totalAmount: number
+  address?: OrderAddressResponse | null
+  shipment?: OrderShipmentResponse | null
+  items?: OrderItemResponse[] | null
+}
+
+interface OrdersListResponse {
+  items?: OrderSummaryResponse[] | null
+}
+
 export function useAccount() {
   const [activeTab, setActiveTab] = React.useState("profile")
   const [profile, setProfile] = React.useState<StoreProfile>(DEFAULT_PROFILE)
 
   const { data: profileData } = useQuery({
     queryKey: ["profile"],
-    queryFn: async () => {
+    queryFn: async (): Promise<AccountProfileResponse | null> => {
       try {
-        const response = await apiClient.get<Result<any>>("/api/identity/users/me")
+        const response = await apiClient.get<Result<AccountProfileResponse>>("/api/identity/users/me")
         if (response.data && response.data.success && response.data.data) {
           return response.data.data
         }
-      } catch (error: any) {
-        if (error?.response?.status === 404) {
+      } catch (error) {
+        const apiError = error as AxiosError
+        if (apiError.response?.status === 404) {
           return null
         }
-        throw error
+        throw apiError
       }
       return null
     },
@@ -33,8 +77,8 @@ export function useAccount() {
 
   const { data: ordersData = [] } = useQuery({
     queryKey: ["orders"],
-    queryFn: async () => {
-      const response = await apiClient.get<Result<any>>("/api/ordering/orders")
+    queryFn: async (): Promise<OrderSummaryResponse[]> => {
+      const response = await apiClient.get<Result<OrdersListResponse>>("/api/ordering/orders")
       if (response.data && response.data.success && response.data.data?.items) {
         return response.data.data.items
       }
@@ -46,12 +90,18 @@ export function useAccount() {
 
   React.useEffect(() => {
     if (profileData) {
-      setProfile({
+      const nextProfile: StoreProfile = {
         name: profileData.userName || profileData.email || DEFAULT_PROFILE.name,
         email: profileData.email || DEFAULT_PROFILE.email,
         avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${profileData.userName || "user"}`,
         joinedDate: "October 2024",
-      })
+      }
+
+      const timer = window.setTimeout(() => {
+        setProfile(nextProfile)
+      }, 0)
+
+      return () => window.clearTimeout(timer)
     }
   }, [profileData])
 
@@ -80,7 +130,7 @@ export function useAccount() {
   }
 
   const orders = React.useMemo(() => {
-    return ordersData.map((order: any) => {
+    return ordersData.map((order) => {
       let status: StoreOrder["status"] = "pending"
       // Map OrderStatus enum to StoreOrder['status']
       // Pending = 1, Paid = 2, Failed = 3, Cancelled = 4
@@ -115,7 +165,7 @@ export function useAccount() {
         deliveryNote: order.shipment?.note || "",
         deliveryMethod: order.shipment?.method === "express" ? "express" : "standard",
         paymentMethod: "payment",
-        items: (order.items || []).map((item: any) => ({
+        items: (order.items || []).map((item) => ({
           id: item.productId,
           name: item.name,
           image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200",

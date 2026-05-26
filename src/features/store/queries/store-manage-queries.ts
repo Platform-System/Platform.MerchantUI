@@ -1,4 +1,5 @@
 import { apiClient } from "@/shared/api/api-client"
+import type { AxiosError } from "axios"
 import type { Result } from "@/types/api"
 import type { StoreDetailsResponse } from "@/shared/lib/storefront-normalizers"
 
@@ -47,11 +48,12 @@ export async function fetchMyStore(): Promise<StoreDetailsResponse | null> {
       return response.data.data
     }
     return null
-  } catch (error: any) {
-    if (error?.response?.status === 404) {
+  } catch (error) {
+    const apiError = error as AxiosError
+    if (apiError.response?.status === 404) {
       return null
     }
-    throw error
+    throw apiError
   }
 }
 

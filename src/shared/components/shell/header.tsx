@@ -30,9 +30,6 @@ import {
   LogOut,
   LogIn,
   Settings,
-  Sun,
-  Moon,
-  Monitor
 } from "lucide-react"
 import { useAuth } from "@/core/providers/AuthProvider"
 import { SearchModal } from "@/features/search/components/search-modal"

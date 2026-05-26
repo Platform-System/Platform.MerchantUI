@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import type { AxiosError } from "axios"
 import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import {
@@ -34,10 +35,14 @@ export function useStoreProductManagement(defaultAuthor?: string, enabled = fals
 
   React.useEffect(() => {
     if (!editingProductId && defaultAuthor && !productForm.author) {
-      setProductForm((current) => ({
-        ...current,
-        author: defaultAuthor,
-      }))
+      const timer = window.setTimeout(() => {
+        setProductForm((current) => ({
+          ...current,
+          author: defaultAuthor,
+        }))
+      }, 0)
+
+      return () => window.clearTimeout(timer)
     }
   }, [defaultAuthor, editingProductId, productForm.author])
 
@@ -91,8 +96,8 @@ export function useStoreProductManagement(defaultAuthor?: string, enabled = fals
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -108,8 +113,8 @@ export function useStoreProductManagement(defaultAuthor?: string, enabled = fals
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -126,8 +131,8 @@ export function useStoreProductManagement(defaultAuthor?: string, enabled = fals
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 
@@ -141,8 +146,8 @@ export function useStoreProductManagement(defaultAuthor?: string, enabled = fals
         toast.error(result.message || t("requestFailed"))
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.response?.data?.message || t("requestFailed"))
+    onError: (error: AxiosError<{ message?: string }>) => {
+      toast.error(error.response?.data?.message || t("requestFailed"))
     },
   })
 

@@ -5,7 +5,6 @@ import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, Play, Sparkles, BadgeCheck } from "lucide-react"
-import { Button } from "@platform/design-system/components/button"
 
 export function HeroSection() {
   const containerRef = useRef<HTMLElement>(null)

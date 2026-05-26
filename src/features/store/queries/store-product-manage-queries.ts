@@ -1,4 +1,5 @@
 import { apiClient, publicApiClient } from "@/shared/api/api-client"
+import type { AxiosError } from "axios"
 import type { PagedResult, Result } from "@/types/api"
 import type { CatalogProductResponse } from "@/shared/lib/storefront-normalizers"
 
@@ -52,11 +53,12 @@ export async function fetchMyPendingProducts(): Promise<CatalogProductResponse[]
     })
 
     return response.data?.data?.items || []
-  } catch (error: any) {
-    if (error?.response?.status === 404) {
+  } catch (error) {
+    const apiError = error as AxiosError
+    if (apiError.response?.status === 404) {
       return []
     }
-    throw error
+    throw apiError
   }
 }
 
@@ -70,11 +72,12 @@ export async function fetchOwnerReviewProducts(): Promise<CatalogProductResponse
     })
 
     return response.data?.data?.items || []
-  } catch (error: any) {
-    if (error?.response?.status === 404) {
+  } catch (error) {
+    const apiError = error as AxiosError
+    if (apiError.response?.status === 404) {
       return []
     }
-    throw error
+    throw apiError
   }
 }
 

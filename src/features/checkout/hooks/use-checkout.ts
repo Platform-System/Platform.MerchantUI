@@ -1,4 +1,5 @@
 import React from "react"
+import type { AxiosError } from "axios"
 import { useCart } from "@/features/cart"
 import { toast } from "sonner"
 import { StoreOrder } from "@/types/store"
@@ -10,6 +11,39 @@ import {
 } from "../constants"
 import { apiClient } from "@/shared/api/api-client"
 import { Result } from "@/types/api"
+
+interface CheckoutOrderAddressResponse {
+  recipientName?: string | null
+  phoneNumber?: string | null
+  city?: string | null
+  district?: string | null
+  ward?: string | null
+  streetAddress?: string | null
+}
+
+interface CheckoutOrderShipmentResponse {
+  note?: string | null
+  method?: string | null
+  fee?: number | null
+}
+
+interface CheckoutOrderItemResponse {
+  productId: string
+  name: string
+  price: number
+  quantity: number
+}
+
+interface CheckoutOrderResponse {
+  id: string
+  orderCode?: string | null
+  status: number
+  expiredAt?: string | null
+  totalAmount: number
+  address?: CheckoutOrderAddressResponse | null
+  shipment?: CheckoutOrderShipmentResponse | null
+  items?: CheckoutOrderItemResponse[] | null
+}
 
 export function useCheckout() {
   const { cartItems, cartTotal, clearCart } = useCart()
@@ -79,7 +113,7 @@ export function useCheckout() {
     }
 
     try {
-      const response = await apiClient.post<Result<any>>("/api/ordering/carts/checkout", requestPayload)
+      const response = await apiClient.post<Result<CheckoutOrderResponse>>("/api/ordering/carts/checkout", requestPayload)
       if (response.data && response.data.success && response.data.data) {
         const order = response.data.data
 
@@ -117,7 +151,7 @@ export function useCheckout() {
           deliveryNote: order.shipment?.note || formData.deliveryNote.trim(),
           deliveryMethod: order.shipment?.method === "express" ? "express" : "standard",
           paymentMethod: "payment",
-          items: (order.items || []).map((item: any) => ({
+          items: (order.items || []).map((item) => ({
             id: item.productId,
             name: item.name,
             image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200",
@@ -145,9 +179,10 @@ export function useCheckout() {
           description: errorMsg,
         })
       }
-    } catch (err: any) {
-      console.error("Failed to place order:", err)
-      const errorMsg = err.response?.data?.message || err.message || "Đã xảy ra lỗi khi đặt hàng."
+    } catch (err) {
+      const apiError = err as AxiosError<{ message?: string }>
+      console.error("Failed to place order:", apiError)
+      const errorMsg = apiError.response?.data?.message || apiError.message || "Đã xảy ra lỗi khi đặt hàng."
       setFormError(errorMsg)
       toast.error("Lỗi kết nối", {
         description: errorMsg,

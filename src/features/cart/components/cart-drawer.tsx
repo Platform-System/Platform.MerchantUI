@@ -1,8 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X, Plus, Minus, Trash2, ShoppingBag, Truck } from "lucide-react"
+import { Plus, Minus, Trash2, ShoppingBag, Truck } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import {
@@ -173,8 +172,8 @@ export function CartDrawer() {
                 <h2 className="text-xs text-foreground">{t("title")} ({cartCount})</h2>
               </div>
               <div className="flex items-center gap-3">
-                {cartItems.length > 0 && (
-                  <AlertDialog>
+              {cartItems.length > 0 && (
+                <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button
                         variant="ghost"
