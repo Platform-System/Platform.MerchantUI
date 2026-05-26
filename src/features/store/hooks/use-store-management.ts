@@ -5,6 +5,7 @@ import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import {
   acceptStoreInvitation,
+  fetchMyStoreMembers,
   fetchMyStore,
   inviteStoreMember,
   setMyStoreImage,
@@ -61,14 +62,16 @@ export function useStoreManagement() {
 
   const [acceptInviteStoreId, setAcceptInviteStoreId] = React.useState("")
 
-  const [publishPermissionForm, setPublishPermissionForm] = React.useState({
-    userId: "",
-    canPublishProductDirectly: false,
-  })
-
   const { data: myStore, isLoading, isFetching } = useQuery({
     queryKey: storeManageQueryKeys.me,
     queryFn: fetchMyStore,
+    staleTime: 60 * 1000,
+  })
+
+  const { data: members = [], isLoading: isLoadingMembers } = useQuery({
+    queryKey: storeManageQueryKeys.meMembers,
+    queryFn: fetchMyStoreMembers,
+    enabled: Boolean(myStore?.profile.id),
     staleTime: 60 * 1000,
   })
 
@@ -107,7 +110,10 @@ export function useStoreManagement() {
   }, [myStore])
 
   const refreshStore = async () => {
-    await queryClient.invalidateQueries({ queryKey: storeManageQueryKeys.me })
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: storeManageQueryKeys.me }),
+      queryClient.invalidateQueries({ queryKey: storeManageQueryKeys.meMembers }),
+    ])
   }
 
   const updateProfileMutation = useMutation({
@@ -157,7 +163,7 @@ export function useStoreManagement() {
 
   const inviteMemberMutation = useMutation({
     mutationFn: ({ storeId, payload }: { storeId: string; payload: typeof inviteForm }) => inviteStoreMember(storeId, payload),
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (result.success) {
         toast.success(t("inviteSent"))
         setInviteForm({
@@ -165,6 +171,7 @@ export function useStoreManagement() {
           role: 1,
           canPublishProductDirectly: false,
         })
+        await queryClient.invalidateQueries({ queryKey: storeManageQueryKeys.meMembers })
       } else {
         toast.error(result.message || t("requestFailed"))
       }
@@ -220,15 +227,12 @@ export function useStoreManagement() {
   })
 
   const publishPermissionMutation = useMutation({
-    mutationFn: ({ userId, canPublishProductDirectly }: typeof publishPermissionForm) =>
+    mutationFn: ({ userId, canPublishProductDirectly }: { userId: string; canPublishProductDirectly: boolean }) =>
       updateStoreMemberPublishPermission(userId, { canPublishProductDirectly }),
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (result.success) {
         toast.success(t("publishPermissionSaved"))
-        setPublishPermissionForm({
-          userId: "",
-          canPublishProductDirectly: false,
-        })
+        await queryClient.invalidateQueries({ queryKey: storeManageQueryKeys.meMembers })
       } else {
         toast.error(result.message || t("requestFailed"))
       }
@@ -259,8 +263,8 @@ export function useStoreManagement() {
     setCoverForm,
     acceptInviteStoreId,
     setAcceptInviteStoreId,
-    publishPermissionForm,
-    setPublishPermissionForm,
+    members,
+    isLoadingMembers,
     saveProfile: () => updateProfileMutation.mutate(profileForm),
     savePolicy: () => updatePolicyMutation.mutate(policyForm),
     requestActivation: () => {
@@ -290,14 +294,11 @@ export function useStoreManagement() {
       }
     },
     isAcceptingInvitation: acceptInviteMutation.isPending,
-    savePublishPermission: () => {
-      if (publishPermissionForm.userId.trim()) {
-        publishPermissionMutation.mutate({
-          userId: publishPermissionForm.userId.trim(),
-          canPublishProductDirectly: publishPermissionForm.canPublishProductDirectly,
-        })
-      }
-    },
+    savePublishPermission: (userId: string, canPublishProductDirectly: boolean) =>
+      publishPermissionMutation.mutate({
+        userId,
+        canPublishProductDirectly,
+      }),
     isSavingPublishPermission: publishPermissionMutation.isPending,
     normalizedStatus,
     isActiveStore,

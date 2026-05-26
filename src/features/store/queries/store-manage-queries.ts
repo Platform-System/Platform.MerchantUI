@@ -37,8 +37,18 @@ export interface UpdatePublishPermissionRequest {
   canPublishProductDirectly: boolean
 }
 
+export interface StoreMemberResponse {
+  storeId: string
+  userId: string
+  role: string
+  status: string
+  canPublishProductDirectly: boolean
+  joinedAt: string
+}
+
 export const storeManageQueryKeys = {
   me: ["store-manage", "me"] as const,
+  meMembers: ["store-manage", "me-members"] as const,
 }
 
 interface StoreLookupResult extends Result<StoreDetailsResponse> {
@@ -81,6 +91,15 @@ export async function updateMyStoreProfile(request: UpdateStoreProfileRequest) {
 export async function updateMyStorePolicy(request: UpdateStorePolicyRequest) {
   const response = await apiClient.put<Result<unknown>>("/api/store/manage/stores/me/policy", request)
   return response.data
+}
+
+export async function fetchMyStoreMembers(): Promise<StoreMemberResponse[]> {
+  const response = await apiClient.get<Result<StoreMemberResponse[]>>("/api/store/manage/stores/me/members")
+  if (response.data?.success && response.data.data) {
+    return response.data.data
+  }
+
+  return []
 }
 
 export async function requestMyStoreActivation(storeId: string) {

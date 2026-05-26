@@ -48,8 +48,8 @@ export function AccountScreen() {
     setCoverForm,
     acceptInviteStoreId,
     setAcceptInviteStoreId,
-    publishPermissionForm,
-    setPublishPermissionForm,
+    members,
+    isLoadingMembers,
     saveProfile,
     savePolicy,
     requestActivation,
@@ -105,7 +105,21 @@ export function AccountScreen() {
         ? ts("statusPendingActive")
         : normalizedStatus === "suspended"
           ? ts("statusSuspended")
-          : ts("statusDraft")
+        : ts("statusDraft")
+
+  const getMemberRoleLabel = (role: string) => {
+    const normalizedRole = role.toLowerCase()
+    if (normalizedRole === "owner") return ts("roleOwner")
+    if (normalizedRole === "manager") return ts("roleManager")
+    return ts("roleStaff")
+  }
+
+  const getMemberStatusLabel = (status: string) => {
+    const normalizedMemberStatus = status.toLowerCase()
+    if (normalizedMemberStatus === "active") return ts("memberStatusActive")
+    if (normalizedMemberStatus === "invited") return ts("memberStatusInvited")
+    return ts("memberStatusRemoved")
+  }
 
   const getTranslatedStatus = (status: StoreOrder["status"]) => {
     switch (status) {
@@ -747,38 +761,64 @@ export function AccountScreen() {
                         </Button>
 
                         <div className="space-y-3 rounded-xl border border-[rgb(var(--store-border-rgb)/0.5)] p-4">
-                          <p className="text-sm font-medium text-foreground">{ts("publishPermissionSection")}</p>
-                          <Input
-                            className="h-11 rounded-xl"
-                            placeholder={ts("memberUserId")}
-                            value={publishPermissionForm.userId}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                              setPublishPermissionForm((current) => ({ ...current, userId: event.target.value }))
-                            }
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setPublishPermissionForm((current) => ({
-                                ...current,
-                                canPublishProductDirectly: !current.canPublishProductDirectly,
-                              }))
-                            }
-                            className="flex items-center gap-3 rounded-xl border border-[rgb(var(--store-border-rgb)/0.7)] px-4 py-3 text-sm text-foreground"
-                          >
-                            <span
-                              className={`h-4 w-4 rounded border ${publishPermissionForm.canPublishProductDirectly ? "bg-[rgb(var(--store-accent-rgb))] border-[rgb(var(--store-accent-rgb))]" : "border-[rgb(var(--store-border-rgb))]"}`}
-                            />
-                            {ts("directPublishPermission")}
-                          </button>
-                          <Button
-                            variant="outline"
-                            className="rounded-xl"
-                            onClick={savePublishPermission}
-                            disabled={isSavingPublishPermission || !publishPermissionForm.userId.trim() || !isActiveStore}
-                          >
-                            {isSavingPublishPermission ? ts("saving") : ts("savePublishPermission")}
-                          </Button>
+                          <div>
+                            <p className="text-sm font-medium text-foreground">{ts("publishPermissionSection")}</p>
+                            <p className="text-xs text-muted-foreground">{ts("membersListDesc")}</p>
+                          </div>
+
+                          {isLoadingMembers ? (
+                            <div className="flex min-h-[120px] items-center justify-center">
+                              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                            </div>
+                          ) : members.length === 0 ? (
+                            <div className="rounded-xl border border-dashed border-[rgb(var(--store-border-rgb)/0.7)] p-4 text-sm text-muted-foreground">
+                              {ts("noMembersYet")}
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {members.map((member) => (
+                                <div
+                                  key={member.userId}
+                                  className="rounded-xl border border-[rgb(var(--store-border-rgb)/0.6)] p-4"
+                                >
+                                  <div className="flex flex-col gap-3">
+                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                      <div className="space-y-1">
+                                        <p className="font-medium text-foreground">{member.userId}</p>
+                                        <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                                          <span className="rounded-full border border-[rgb(var(--store-border-rgb)/0.7)] px-2 py-1">
+                                            {getMemberRoleLabel(member.role)}
+                                          </span>
+                                          <span className="rounded-full border border-[rgb(var(--store-border-rgb)/0.7)] px-2 py-1">
+                                            {getMemberStatusLabel(member.status)}
+                                          </span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                          {ts("joinedAt", { date: new Date(member.joinedAt).toLocaleDateString("vi-VN") })}
+                                        </p>
+                                      </div>
+                                      <span className="rounded-full bg-[rgb(var(--store-accent-rgb)/0.08)] px-3 py-1 text-xs font-medium text-foreground">
+                                        {member.canPublishProductDirectly ? ts("publishDirectlyEnabled") : ts("publishDirectlyDisabled")}
+                                      </span>
+                                    </div>
+
+                                    <Button
+                                      variant="outline"
+                                      className="rounded-xl"
+                                      onClick={() => savePublishPermission(member.userId, !member.canPublishProductDirectly)}
+                                      disabled={isSavingPublishPermission || !isActiveStore || member.status.toLowerCase() !== "active"}
+                                    >
+                                      {isSavingPublishPermission
+                                        ? ts("saving")
+                                        : member.canPublishProductDirectly
+                                          ? ts("disablePublishPermission")
+                                          : ts("savePublishPermission")}
+                                    </Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
 
                         <div className="rounded-xl border border-dashed border-[rgb(var(--store-border-rgb)/0.7)] p-4 text-sm text-muted-foreground">
