@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @source "../../../Platform.DesignUI/src/**/*.tsx";
 @source "../../../node_modules/@platform-system/design-ui/src/**/*.tsx";
+@source "../../node_modules/@platform-system/design-ui/src/**/*.tsx";
 @import "@platform-system/design-ui/index.css";
 
 html,
