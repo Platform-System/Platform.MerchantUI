@@ -21,14 +21,11 @@ export function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-transparent"
+      className="relative min-h-screen overflow-hidden bg-background"
       style={{ position: "relative" }}
     >
       {/* Background Elements */}
       <div className="absolute inset-0">
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-br from-[rgb(var(--store-ink-rgb)/0.22)] via-[rgb(var(--store-accent-rgb)/0.08)] to-transparent" />
-
         {/* Animated Grid Pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"

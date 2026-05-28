@@ -32,8 +32,8 @@ export function CategoriesSection() {
             Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-muted/30 animate-pulse">
                 <div className="absolute inset-x-0 bottom-0 p-4 space-y-2">
-                  <div className="h-4 w-3/4 bg-white/10 rounded" />
-                  <div className="h-3 w-1/2 bg-white/10 rounded" />
+                  <div className="h-4 w-3/4 bg-muted rounded" />
+                  <div className="h-3 w-1/2 bg-muted rounded" />
                 </div>
               </div>
             ))

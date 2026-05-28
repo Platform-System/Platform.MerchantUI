@@ -25,7 +25,7 @@ export function FeaturedProductsSection() {
   const currentProducts = tabs.find((t) => t.id === activeTab)?.products ?? []
 
   return (
-    <section className="relative py-24 bg-muted/30" style={{ position: "relative" }}>
+    <section className="relative py-24 bg-background" style={{ position: "relative" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Tiêu đề section */}
         <motion.div

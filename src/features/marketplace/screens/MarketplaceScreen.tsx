@@ -151,9 +151,8 @@ function MarketplaceScreenContent() {
   )
 
   return (
-    <div className="min-h-screen bg-transparent">
+    <div className="min-h-screen bg-background">
       <section className="relative overflow-hidden pt-32 pb-8">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[rgb(var(--store-surface-strong-rgb)/0.4)] via-transparent to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -408,7 +407,7 @@ function MarketplaceScreenContent() {
 
 export function MarketplaceScreen() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-transparent pt-32 pb-8 flex items-center justify-center"><div className="store-loading-spinner h-8 w-8" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-background pt-32 pb-8 flex items-center justify-center"><div className="store-loading-spinner h-8 w-8" /></div>}>
       <MarketplaceScreenContent />
     </Suspense>
   )

@@ -40,26 +40,8 @@ export function SellerCtaSection() {
     staleTime: 10 * 60 * 1000,
   })
   return (
-    <section className="relative overflow-hidden bg-zinc-950 py-24 text-white">
-      {/* Các lớp nền phụ trợ */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="bg-zinc-800 absolute top-0 right-0 h-[600px] w-[600px] rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.05, 0.1, 0.05],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="bg-zinc-900 absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full blur-3xl"
-        />
-      </div>
+    <section className="relative overflow-hidden bg-background py-24 text-foreground">
+
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Phần tiêu đề */}
@@ -70,13 +52,13 @@ export function SellerCtaSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-zinc-400 text-sm font-medium uppercase tracking-widest">
+          <span className="text-muted-foreground text-sm font-medium uppercase tracking-widest">
             {t("eyebrow")}
           </span>
-          <h2 className="mt-3 mb-4 text-balance font-serif text-3xl font-semibold text-white sm:text-4xl lg:text-5xl">
+          <h2 className="mt-3 mb-4 text-balance font-serif text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
             {t("title", { brand: tCommon("brandName") })}
           </h2>
-          <p className="mx-auto max-w-2xl text-white/72">
+          <p className="mx-auto max-w-2xl text-muted-foreground">
             {t("description")}
           </p>
         </motion.div>
@@ -98,10 +80,10 @@ export function SellerCtaSection() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="text-white font-serif text-3xl sm:text-4xl font-semibold mb-2">
+              <div className="text-foreground font-serif text-3xl sm:text-4xl font-semibold mb-2">
                 {stat.value}
               </div>
-              <div className="text-sm text-white/65">{stat.label}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -115,13 +97,13 @@ export function SellerCtaSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 * index }}
               viewport={{ once: true }}
-              className="group rounded-2xl border border-white/10 bg-white/6 p-6 shadow-[0_16px_36px_rgb(0_0_0/0.14)] transition-all hover:bg-white/10"
+              className="group rounded-2xl bg-secondary/50 p-6 shadow-[0_16px_36px_rgb(0_0_0/0.05)] transition-all hover:bg-secondary"
             >
-              <div className="w-fit rounded-xl p-3 mb-4 bg-zinc-800 text-zinc-100 transition-colors group-hover:bg-zinc-700">
+              <div className="w-fit rounded-xl p-3 mb-4 bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                 <benefit.icon className="h-6 w-6" />
               </div>
-              <h3 className="mb-2 font-semibold text-white">{benefit.title}</h3>
-              <p className="text-sm text-white/65">{benefit.description}</p>
+              <h3 className="mb-2 font-semibold text-foreground">{benefit.title}</h3>
+              <p className="text-sm text-muted-foreground">{benefit.description}</p>
             </motion.div>
           ))}
         </div>
@@ -144,7 +126,7 @@ export function SellerCtaSection() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <p className="mt-4 text-sm text-white/58">
+          <p className="mt-4 text-sm text-muted-foreground/80">
             {t("note")}
           </p>
         </motion.div>

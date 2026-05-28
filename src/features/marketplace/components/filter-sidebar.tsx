@@ -106,7 +106,7 @@ export function FilterSidebar({
       </div>
 
       {/* Filters */}
-      <div className="overflow-y-auto p-6 no-scrollbar max-h-[calc(100vh-240px)] overscroll-contain">
+      <div className="overflow-y-auto p-6 hover-scrollbar max-h-[calc(100vh-240px)] overscroll-contain mb-4 mr-1.5">
         <Accordion type="multiple" defaultValue={["categories", "price", "rating"]} className="w-full">
           {/* Categories */}
           <AccordionItem value="categories" className="border-none">
@@ -230,7 +230,7 @@ export function FilterSidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-              className="ds-glass-card fixed top-[var(--store-header-height,64px)] bottom-0 left-0 z-50 flex w-full max-w-sm flex-col"
+              className="ds-dark-panel fixed top-[var(--store-header-height,64px)] bottom-0 left-0 z-50 flex w-full max-w-sm flex-col"
             >
               {filterContent}
             </motion.div>
@@ -241,12 +241,10 @@ export function FilterSidebar({
   }
 
   return (
-    <div className="ds-glass-card flex max-h-[calc(100vh-120px)] w-full flex-col overflow-hidden rounded-2xl overscroll-contain">
+    <div className="ds-dark-panel flex max-h-[calc(100vh-120px)] w-full flex-col overflow-hidden rounded-2xl overscroll-contain">
       <div className="flex flex-col min-h-0 overscroll-contain">
         {filterContent}
       </div>
     </div>
   )
 }
-
-
