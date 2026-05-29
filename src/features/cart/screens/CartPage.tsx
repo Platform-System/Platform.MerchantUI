@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@platform-system/design-ui/components/select"
+import { InfoPanel } from "@platform-system/design-ui/components/info-panel"
 import { Link } from "@/i18n/navigation"
 import { useCart } from "../context/CartContext"
 import { CART_COLOR_OPTIONS, CART_SIZE_OPTIONS } from "../constants"
@@ -201,9 +202,11 @@ export function CartPage() {
                 <span className="store-total-value text-2xl">${cartTotal.toLocaleString()}</span>
               </div>
 
-              <p className="store-muted-text mt-4 text-sm leading-7">
-                {t("demoNote")}
-              </p>
+              <InfoPanel subtle className="mt-4 rounded-2xl px-4 py-3">
+                <p className="store-muted-text text-sm leading-7">
+                  {t("demoNote")}
+                </p>
+              </InfoPanel>
 
               <div className="mt-6 space-y-3">
                 <Button asChild variant="brand" className="h-12 w-full rounded-full">

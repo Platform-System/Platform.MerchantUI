@@ -6,6 +6,7 @@ import { Search, X, Clock, ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Button } from "@platform-system/design-ui/components/button"
 import { Input } from "@platform-system/design-ui/components/input"
+import { OverlayBackdrop } from "@platform-system/design-ui/components/overlay-backdrop"
 import { Link } from "@/i18n/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { fetchAllProducts, productQueryKeys } from "@/features/product"
@@ -71,9 +72,12 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-[rgb(var(--store-ink-rgb)/0.32)] backdrop-blur-sm"
-            onClick={onClose}
-          />
+          >
+            <OverlayBackdrop
+              className="fixed inset-0 z-50 bg-[rgb(var(--store-ink-rgb)/0.32)]"
+              onClick={onClose}
+            />
+          </motion.div>
 
           {/* Modal */}
           <motion.div

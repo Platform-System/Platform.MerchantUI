@@ -2,6 +2,8 @@ import { useTranslations } from "next-intl"
 import { useState, useLayoutEffect, useMemo } from "react"
 import { Store } from "lucide-react"
 import { FilterBar } from "@platform-system/design-ui/components/filter-bar"
+import { EmptyStatePanel } from "@platform-system/design-ui/components/empty-state-panel"
+import { Spinner } from "@platform-system/design-ui/components/spinner"
 import { SellerCard } from "../components/seller-card"
 import { useQuery } from "@tanstack/react-query"
 import { fetchAllSellers, sellerQueryKeys } from "../queries/seller-queries"
@@ -42,7 +44,7 @@ export function SellersScreen() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center pt-32">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <Spinner className="spinner-accent h-8 w-8" />
       </div>
     )
   }
@@ -93,15 +95,15 @@ export function SellersScreen() {
             ))}
           </div>
         ) : (
-          <div className="ds-glass-panel rounded-2xl py-24 text-center shadow-[0_18px_32px_rgb(0_0_0/0.1)]">
-            <Store className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <h3 className="mb-2 text-xl font-semibold text-foreground">
-              {allSellers.length === 0 ? t("noSellers") : t("noSellersFound")}
-            </h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              {allSellers.length === 0 ? t("noSellersDesc") : t("noSellersFoundDesc")}
-            </p>
-          </div>
+          <EmptyStatePanel
+            icon={<Store className="h-10 w-10" />}
+            title={allSellers.length === 0 ? t("noSellers") : t("noSellersFound")}
+            description={allSellers.length === 0 ? t("noSellersDesc") : t("noSellersFoundDesc")}
+            className="gap-4 flex flex-col items-center"
+            panelClassName="rounded-2xl py-24"
+            descriptionClassName="max-w-md"
+            iconClassName="opacity-60 shadow-none"
+          />
         )}
       </div>
     </div>

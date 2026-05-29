@@ -5,6 +5,7 @@ import { X } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@platform-system/design-ui/components/accordion"
 import { Button } from "@platform-system/design-ui/components/button"
 import { Checkbox } from "@platform-system/design-ui/components/checkbox"
+import { OverlayBackdrop } from "@platform-system/design-ui/components/overlay-backdrop"
 import { RatingStars } from "@platform-system/design-ui/components/rating-stars"
 import { Slider } from "@platform-system/design-ui/components/slider"
 import { cn } from "@platform-system/design-ui/lib/cn"
@@ -222,9 +223,12 @@ export function FilterSidebar({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 top-[var(--store-header-height,64px)] bg-[rgb(var(--store-ink-rgb)/0.28)] backdrop-blur-sm"
-              onClick={onClose}
-            />
+            >
+              <OverlayBackdrop
+                className="fixed inset-0 z-40 top-[var(--store-header-height,64px)] bg-[rgb(var(--store-ink-rgb)/0.28)]"
+                onClick={onClose}
+              />
+            </motion.div>
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}

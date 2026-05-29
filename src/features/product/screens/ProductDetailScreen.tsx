@@ -24,7 +24,9 @@ import {
 import { Button } from "@platform-system/design-ui/components/button"
 import { Calendar } from "@platform-system/design-ui/components/calendar"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@platform-system/design-ui/components/chart"
+import { InfoPanel } from "@platform-system/design-ui/components/info-panel"
 import { RatingStars } from "@platform-system/design-ui/components/rating-stars"
+import { SurfaceIcon } from "@platform-system/design-ui/components/surface-icon"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@platform-system/design-ui/components/tabs"
 import { cn } from "@platform-system/design-ui/lib/cn"
 import { Link } from "@/i18n/navigation"
@@ -345,20 +347,26 @@ export function ProductDetailScreen() {
                 </Button>
               </div>
 
-              <div className="ds-glass-panel grid grid-cols-3 gap-4 rounded-2xl p-4">
+              <InfoPanel className="grid grid-cols-3 gap-4 rounded-2xl p-4">
                 <div className="flex flex-col items-center text-center">
-                  <Truck className="store-accent-text mb-2 h-5 w-5" />
+                  <SurfaceIcon tone="tint" size="sm" className="mb-2 h-10 w-10 rounded-xl">
+                    <Truck className="h-5 w-5" />
+                  </SurfaceIcon>
                   <span className="text-xs font-medium">{t("freeShipping")}</span>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <Shield className="store-accent-text mb-2 h-5 w-5" />
+                  <SurfaceIcon tone="tint" size="sm" className="mb-2 h-10 w-10 rounded-xl">
+                    <Shield className="h-5 w-5" />
+                  </SurfaceIcon>
                   <span className="text-xs font-medium">{t("securePayment")}</span>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <RotateCcw className="store-accent-text mb-2 h-5 w-5" />
+                  <SurfaceIcon tone="tint" size="sm" className="mb-2 h-10 w-10 rounded-xl">
+                    <RotateCcw className="h-5 w-5" />
+                  </SurfaceIcon>
                   <span className="text-xs font-medium">{t("returnPolicy30Days")}</span>
                 </div>
-              </div>
+              </InfoPanel>
             </motion.div>
           </div>
 
@@ -561,24 +569,24 @@ export function ProductDetailScreen() {
 
             <TabsContent value="shipping" className="mt-8">
               <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
-                <div className="px-1 py-2">
-                    <h3 className="mb-4 text-lg font-semibold">{t("shippingPolicy.title")}</h3>
+                <InfoPanel className="rounded-[1.5rem] px-5 py-5 shadow-[0_16px_32px_rgb(0_0_0/0.08)]">
+                  <h3 className="mb-4 text-lg font-semibold">{t("shippingPolicy.title")}</h3>
                   <div className="space-y-4 text-muted-foreground">
                     <p>{t("shippingPolicy.line1")}</p>
                     <p>{t("shippingPolicy.line2")}</p>
                     <p>{t("shippingPolicy.line3")}</p>
                     <p>{t("shippingPolicy.line4")}</p>
                   </div>
-                </div>
-                <div className="px-1 py-2">
-                    <h3 className="mb-4 text-lg font-semibold">{t("returnPolicy.title")}</h3>
+                </InfoPanel>
+                <InfoPanel className="rounded-[1.5rem] px-5 py-5 shadow-[0_16px_32px_rgb(0_0_0/0.08)]">
+                  <h3 className="mb-4 text-lg font-semibold">{t("returnPolicy.title")}</h3>
                   <div className="space-y-4 text-muted-foreground">
                     <p>{t("returnPolicy.line1")}</p>
                     <p>{t("returnPolicy.line2")}</p>
                     <p>{t("returnPolicy.line3")}</p>
                     <p>{t("returnPolicy.line4")}</p>
                   </div>
-                </div>
+                </InfoPanel>
               </div>
             </TabsContent>
 

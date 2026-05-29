@@ -30,6 +30,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@platform-system/desig
 import { ProductCard } from "@/features/product"
 import { FilterBar } from "@platform-system/design-ui/components/filter-bar"
 import { EmptyStatePanel } from "@platform-system/design-ui/components/empty-state-panel"
+import { Spinner } from "@platform-system/design-ui/components/spinner"
 import { useSellerStorefront } from "../hooks/use-seller-storefront"
 import { Link } from "@/i18n/navigation"
 
@@ -60,7 +61,7 @@ export function SellerStorefrontScreen() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center pt-32">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <Spinner className="spinner-accent h-8 w-8" />
       </div>
     )
   }

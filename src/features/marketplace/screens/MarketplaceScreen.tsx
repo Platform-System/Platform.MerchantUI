@@ -20,6 +20,8 @@ import {
   PaginationPrevious,
 } from "@platform-system/design-ui/components/pagination"
 import { Input } from "@platform-system/design-ui/components/input"
+import { EmptyStatePanel } from "@platform-system/design-ui/components/empty-state-panel"
+import { Spinner } from "@platform-system/design-ui/components/spinner"
 import { cn } from "@platform-system/design-ui/lib/cn"
 import { ProductCard } from "@/features/product"
 import { FilterSidebar } from "../components/filter-sidebar"
@@ -322,19 +324,23 @@ function MarketplaceScreenContent() {
                   </AnimatePresence>
                 </div>
               ) : (
-                <div className="flex min-h-[400px] flex-col items-center justify-center rounded-3xl border border-dashed border-[rgb(var(--store-border-rgb))] bg-[rgb(var(--store-surface-strong-rgb)/0.3)] p-12 text-center animate-in fade-in zoom-in duration-500">
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[rgb(var(--store-accent-rgb)/0.1)]">
-                    <Search className="h-8 w-8 text-[rgb(var(--store-accent-rgb))]" />
-                  </div>
-                  <h3 className="mb-2 text-xl font-semibold text-charcoal">Không có sản phẩm nào</h3>
-                  <Button 
-                    variant="outline" 
-                    className="mt-8 rounded-xl border-[rgb(var(--store-border-rgb))] hover:bg-[rgb(var(--store-accent-rgb)/0.05)] hover:text-foreground" 
-                    onClick={clearAllFilters}
-                  >
-                    Xóa tất cả bộ lọc
-                  </Button>
-                </div>
+                <EmptyStatePanel
+                  icon={<Search className="h-8 w-8" />}
+                  title="Không có sản phẩm nào"
+                  description=""
+                  primaryActionNode={
+                    <Button
+                      variant="outline"
+                      className="rounded-xl border-[rgb(var(--store-border-rgb))] hover:bg-[rgb(var(--store-accent-rgb)/0.05)] hover:text-foreground"
+                      onClick={clearAllFilters}
+                    >
+                      Xóa tất cả bộ lọc
+                    </Button>
+                  }
+                  className="gap-4 flex flex-col items-center"
+                  panelClassName="min-h-[400px] justify-center rounded-3xl p-12 animate-in fade-in zoom-in duration-500"
+                  iconClassName="h-16 w-16 bg-[rgb(var(--store-accent-rgb)/0.1)] text-[rgb(var(--store-accent-rgb))] shadow-none border-none"
+                />
               )}
 
               {paginatedProducts.length > 0 && totalPages > 1 && (
@@ -407,7 +413,7 @@ function MarketplaceScreenContent() {
 
 export function MarketplaceScreen() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background pt-32 pb-8 flex items-center justify-center"><div className="store-loading-spinner h-8 w-8" /></div>}>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background pt-32 pb-8"><Spinner className="spinner-accent h-8 w-8" /></div>}>
       <MarketplaceScreenContent />
     </Suspense>
   )

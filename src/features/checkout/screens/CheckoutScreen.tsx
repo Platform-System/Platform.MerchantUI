@@ -5,7 +5,9 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowLeft, CheckCircle2, CreditCard, MapPin, ShieldCheck, Truck } from "lucide-react"
 import { Button } from "@platform-system/design-ui/components/button"
+import { InfoPanel } from "@platform-system/design-ui/components/info-panel"
 import { Input } from "@platform-system/design-ui/components/input"
+import { SurfaceIcon } from "@platform-system/design-ui/components/surface-icon"
 import { Textarea } from "@platform-system/design-ui/components/textarea"
 import { Link } from "@/i18n/navigation"
 import { useCheckout } from "../hooks/use-checkout"
@@ -203,14 +205,16 @@ export function CheckoutScreen() {
               <span className="store-total-value text-2xl">${grandTotal.toLocaleString()}</span>
             </div>
 
-            <div className="store-surface-soft mt-5 rounded-2xl p-4">
+            <InfoPanel subtle className="mt-5 rounded-2xl p-4">
               <div className="flex items-start gap-3">
-                <CheckCircle2 className="store-accent-text mt-0.5 h-5 w-5 shrink-0" />
+                <SurfaceIcon tone="tint" size="sm" className="h-10 w-10 rounded-xl">
+                  <CheckCircle2 className="h-5 w-5" />
+                </SurfaceIcon>
                 <p className="store-muted-text text-sm leading-7">
                   {tc("demoNote")}
                 </p>
               </div>
-            </div>
+            </InfoPanel>
 
             <Button variant="brand" className="mt-6 h-12 w-full rounded-full" onClick={handlePlaceOrder} disabled={isSubmitting}>
               {isSubmitting ? t("processing") : t("confirmOrder")}

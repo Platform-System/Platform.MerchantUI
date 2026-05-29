@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono, Playfair_Display } from "next/font/google";
-import { ThemeProvider } from "@platform-system/design-ui/ThemeProvider";
+import { ThemeProvider } from "@platform-system/design-ui/theme-provider";
+import { BRAND_METADATA } from "@platform-system/design-ui/branding";
 import QueryProvider from "@/core/providers/QueryProvider";
 import AuthProvider from "@/core/providers/AuthProvider";
 import { GlobalLoadingBar } from "@/shared/layout/GlobalLoadingBar";
 import { Toaster } from "sonner";
-import { BRAND_METADATA } from "@platform-system/design-ui";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({

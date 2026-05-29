@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import Keycloak from 'keycloak-js';
+import { Spinner } from '@platform-system/design-ui/components/spinner';
 import { keycloak } from '@/shared/api/keycloak';
 
 interface AuthContextType {
@@ -87,7 +88,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   if (!isInitialized) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="store-loading-spinner h-12 w-12 border-4 border-primary" />
+        <Spinner className="spinner-accent h-12 w-12" />
       </div>
     );
   }
